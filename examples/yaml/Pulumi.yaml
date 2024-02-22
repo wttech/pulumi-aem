@@ -1,16 +1,16 @@
-name: provider-xyz-native
+name: pulumi-provider-aem
 runtime: yaml
 plugins:
   providers:
-    - name: xyz
+    - name: aem
       path: ../../bin
 
 resources:
-  myRandomResource:
-    type: xyz:Random
+  myModel:
+    type: aem:compose:InstanceResourceModel
     properties:
       length: 24
 
 outputs:
   output:
-    value: ${myRandomResource.result}
+    value: ${myModel.result}

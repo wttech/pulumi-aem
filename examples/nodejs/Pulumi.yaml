@@ -1,6 +1,6 @@
-name: provider-xyz-native
+name: pulumi-provider-aem
 runtime: nodejs
 plugins:
   providers:
-    - name: xyz
+    - name: aem
       path: ../../bin
