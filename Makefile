@@ -1,4 +1,4 @@
-PROJECT_NAME := Pulumi AEM Resource Provider
+PROJECT_NAME := Pulumi AEM Compose Provider
 
 PACK             := aem
 MOD              := compose
