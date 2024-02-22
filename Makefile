@@ -43,11 +43,11 @@ dotnet_sdk::
 go_sdk:: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/go
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language go
-	sed -i -e 's/"internal"/"github.com\/wttech\/pulumi-provider-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/init.go
-	sed -i -e 's/"internal"/"github.com\/wttech\/pulumi-provider-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/provider.go
-	sed -i -e 's/"internal"/"github.com\/wttech\/pulumi-provider-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/init.go
-	sed -i -e 's/"internal"/"github.com\/wttech\/pulumi-provider-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/instanceResourceModel.go
-	sed -i -e 's/\/pulumi-aem\/sdk/\/pulumi-provider-aem\/sdk/g' sdk/go/$(PACK)/internal/pulumiUtilities.go
+	sed -e 's/"internal"/"github.com\/wttech\/pulumi-provider-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/init.go > sdk/go/$(PACK)/init.go.tmp && mv sdk/go/$(PACK)/init.go.tmp sdk/go/$(PACK)/init.go
+	sed -e 's/"internal"/"github.com\/wttech\/pulumi-provider-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/provider.go > sdk/go/$(PACK)/provider.go.tmp && mv sdk/go/$(PACK)/provider.go.tmp sdk/go/$(PACK)/provider.go
+	sed -e 's/"internal"/"github.com\/wttech\/pulumi-provider-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/init.go > sdk/go/$(PACK)/$(MOD)/init.go.tmp && mv sdk/go/$(PACK)/$(MOD)/init.go.tmp sdk/go/$(PACK)/$(MOD)/init.go
+	sed -e 's/"internal"/"github.com\/wttech\/pulumi-provider-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/instanceResourceModel.go > sdk/go/$(PACK)/$(MOD)/instanceResourceModel.go.tmp && mv sdk/go/$(PACK)/$(MOD)/instanceResourceModel.go.tmp sdk/go/$(PACK)/$(MOD)/instanceResourceModel.go
+	sed -e 's/\/pulumi-aem\/sdk/\/pulumi-provider-aem\/sdk/g' sdk/go/$(PACK)/internal/pulumiUtilities.go > sdk/go/$(PACK)/internal/pulumiUtilities.go.tmp && mv sdk/go/$(PACK)/internal/pulumiUtilities.go.tmp sdk/go/$(PACK)/internal/pulumiUtilities.go
 
 nodejs_sdk:: VERSION := $(shell pulumictl get version --language javascript)
 nodejs_sdk::
