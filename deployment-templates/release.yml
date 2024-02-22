@@ -5,7 +5,7 @@ on:
       - v*.*.*
       - '!v*.*.*-**'
 env:
-  PROVIDER: "YOUR PROVIDER NAME HERE eg: xyz"
+  PROVIDER: "YOUR PROVIDER NAME HERE eg: aem"
   # THIS GITHUB_TOKEN IS A REQUIREMENT TO BE ABLE TO WRITE TO GH RELEASES
   GITHUB_TOKEN: ${{ YOUR GITHUB TOKEN HERE }}
   # IF YOU NEED TO PUBLISH A NPM PACKAGE THEN ENSURE A NPM_TOKEN SECRET IS SET
@@ -134,8 +134,6 @@ jobs:
           - 1.18.x
         language:
           - nodejs
-          - python
-          - dotnet
           - go
         nodeversion:
           - 14.x

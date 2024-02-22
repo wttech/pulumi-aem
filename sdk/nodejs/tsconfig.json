@@ -13,9 +13,10 @@
         "strict": true
     },
     "files": [
+        "compose/index.ts",
+        "compose/instanceResourceModel.ts",
         "index.ts",
         "provider.ts",
-        "random.ts",
         "utilities.ts"
     ]
 }

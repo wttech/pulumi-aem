@@ -25,14 +25,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	xyz "github.com/pulumi/pulumi-xyz/provider"
+	aem "github.com/wttech/pulumi-provider-aem/provider"
 )
 
-func TestRandomCreate(t *testing.T) {
+func TestInstanceResourceModelCreate(t *testing.T) {
 	prov := provider()
 
 	response, err := prov.Create(p.CreateRequest{
-		Urn: urn("Random"),
+		Urn: urn("InstanceResourceModel"),
 		Properties: resource.PropertyMap{
 			"length": resource.NewNumberProperty(12),
 		},
@@ -47,10 +47,10 @@ func TestRandomCreate(t *testing.T) {
 // urn is a helper function to build an urn for running integration tests.
 func urn(typ string) resource.URN {
 	return resource.NewURN("stack", "proj", "",
-		tokens.Type("test:index:"+typ), "name")
+		tokens.Type("aem:compose:"+typ), "name")
 }
 
 // Create a test server.
 func provider() integration.Server {
-	return integration.NewServer(xyz.Name, semver.MustParse("1.0.0"), xyz.Provider())
+	return integration.NewServer(aem.Name, semver.MustParse("1.0.0"), aem.Provider())
 }
