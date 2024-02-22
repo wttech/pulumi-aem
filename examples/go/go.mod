@@ -5,7 +5,7 @@ go 1.21
 replace github.com/wttech/pulumi-provider-aem/sdk => ../../sdk
 
 require (
-	github.com/pulumi/pulumi/sdk/v3 v3.107.0
+	github.com/pulumi/pulumi/sdk/v3 v3.104.2
 	github.com/wttech/pulumi-provider-aem/sdk v0.0.0-20240207010449-6e972a29045f
 )
 

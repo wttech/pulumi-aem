@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/pulumi/pulumi-go-provider v0.14.0
-	github.com/pulumi/pulumi/sdk/v3 v3.107.0
+	github.com/pulumi/pulumi/sdk/v3 v3.104.2
 )
 
 require (
