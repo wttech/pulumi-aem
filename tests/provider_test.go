@@ -31,12 +31,16 @@ import (
 func TestInstanceResourceModelCreate(t *testing.T) {
 	prov := provider()
 
+	checkResponse, err := prov.Check(p.CheckRequest{
+		Urn:  urn("InstanceResourceModel"),
+		News: resource.PropertyMap{},
+	})
+	require.NoError(t, err)
+
 	response, err := prov.Create(p.CreateRequest{
-		Urn: urn("InstanceResourceModel"),
-		Properties: resource.PropertyMap{
-			"length": resource.NewNumberProperty(12),
-		},
-		Preview: false,
+		Urn:        urn("InstanceResourceModel"),
+		Properties: checkResponse.Inputs,
+		Preview:    false,
 	})
 
 	require.NoError(t, err)

@@ -15,6 +15,7 @@
 package provider
 
 import (
+	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"math/rand"
 	"time"
 
@@ -58,7 +59,7 @@ type InstanceResourceModelArgs struct {
 	// Fields projected into Pulumi must be public and hava a `pulumi:"..."` tag.
 	// The pulumi tag doesn't need to match the field name, but it's generally a
 	// good idea.
-	Length int `pulumi:"length"`
+	Length int `pulumi:"length,optional"`
 }
 
 // Each resource has a state, describing the fields that exist on the created resource.
@@ -88,4 +89,11 @@ func determineResult(length int) string {
 		result[i] = charset[seededRand.Intn(len(charset))]
 	}
 	return string(result)
+}
+
+func (InstanceResourceModel) Check(ctx p.Context, name string, oldInputs, newInputs resource.PropertyMap) (InstanceResourceModelArgs, []p.CheckFailure, error) {
+	if _, ok := newInputs["length"]; !ok {
+		newInputs["length"] = resource.NewNumberProperty(12)
+	}
+	return infer.DefaultCheck[InstanceResourceModelArgs](newInputs)
 }
