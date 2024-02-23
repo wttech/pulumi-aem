@@ -7,7 +7,6 @@ import (
 	"context"
 	"reflect"
 
-	"errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/wttech/pulumi-provider-aem/sdk/go/aem/internal"
 )
@@ -15,7 +14,7 @@ import (
 type InstanceResourceModel struct {
 	pulumi.CustomResourceState
 
-	Length pulumi.IntOutput    `pulumi:"length"`
+	Length pulumi.IntPtrOutput `pulumi:"length"`
 	Result pulumi.StringOutput `pulumi:"result"`
 }
 
@@ -23,12 +22,9 @@ type InstanceResourceModel struct {
 func NewInstanceResourceModel(ctx *pulumi.Context,
 	name string, args *InstanceResourceModelArgs, opts ...pulumi.ResourceOption) (*InstanceResourceModel, error) {
 	if args == nil {
-		return nil, errors.New("missing one or more required arguments")
+		args = &InstanceResourceModelArgs{}
 	}
 
-	if args.Length == nil {
-		return nil, errors.New("invalid value for required argument 'Length'")
-	}
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource InstanceResourceModel
 	err := ctx.RegisterResource("aem:compose:InstanceResourceModel", name, args, &resource, opts...)
@@ -62,12 +58,12 @@ func (InstanceResourceModelState) ElementType() reflect.Type {
 }
 
 type instanceResourceModelArgs struct {
-	Length int `pulumi:"length"`
+	Length *int `pulumi:"length"`
 }
 
 // The set of arguments for constructing a InstanceResourceModel resource.
 type InstanceResourceModelArgs struct {
-	Length pulumi.IntInput
+	Length pulumi.IntPtrInput
 }
 
 func (InstanceResourceModelArgs) ElementType() reflect.Type {
@@ -107,8 +103,8 @@ func (o InstanceResourceModelOutput) ToInstanceResourceModelOutputWithContext(ct
 	return o
 }
 
-func (o InstanceResourceModelOutput) Length() pulumi.IntOutput {
-	return o.ApplyT(func(v *InstanceResourceModel) pulumi.IntOutput { return v.Length }).(pulumi.IntOutput)
+func (o InstanceResourceModelOutput) Length() pulumi.IntPtrOutput {
+	return o.ApplyT(func(v *InstanceResourceModel) pulumi.IntPtrOutput { return v.Length }).(pulumi.IntPtrOutput)
 }
 
 func (o InstanceResourceModelOutput) Result() pulumi.StringOutput {

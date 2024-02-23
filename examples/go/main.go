@@ -7,9 +7,7 @@ import (
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
-		myModel, err := compose.NewInstanceResourceModel(ctx, "myModel", &compose.InstanceResourceModelArgs{
-			Length: pulumi.Int(24),
-		})
+		myModel, err := compose.NewInstanceResourceModel(ctx, "myModel", &compose.InstanceResourceModelArgs{})
 		if err != nil {
 			return err
 		}

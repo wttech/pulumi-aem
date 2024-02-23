@@ -31,7 +31,7 @@ export class InstanceResourceModel extends pulumi.CustomResource {
         return obj['__pulumiType'] === InstanceResourceModel.__pulumiType;
     }
 
-    public readonly length!: pulumi.Output<number>;
+    public readonly length!: pulumi.Output<number | undefined>;
     public /*out*/ readonly result!: pulumi.Output<string>;
 
     /**
@@ -41,13 +41,10 @@ export class InstanceResourceModel extends pulumi.CustomResource {
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args: InstanceResourceModelArgs, opts?: pulumi.CustomResourceOptions) {
+    constructor(name: string, args?: InstanceResourceModelArgs, opts?: pulumi.CustomResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            if ((!args || args.length === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'length'");
-            }
             resourceInputs["length"] = args ? args.length : undefined;
             resourceInputs["result"] = undefined /*out*/;
         } else {
@@ -63,5 +60,5 @@ export class InstanceResourceModel extends pulumi.CustomResource {
  * The set of arguments for constructing a InstanceResourceModel resource.
  */
 export interface InstanceResourceModelArgs {
-    length: pulumi.Input<number>;
+    length?: pulumi.Input<number>;
 }
