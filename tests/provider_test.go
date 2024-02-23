@@ -1,17 +1,3 @@
-// Copyright 2016-2023, Pulumi Corporation.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package tests
 
 import (
@@ -28,10 +14,10 @@ import (
 	aem "github.com/wttech/pulumi-provider-aem/provider"
 )
 
-func TestInstanceResourceModelCreate(t *testing.T) {
+func TestInstanceResourceModelCheck(t *testing.T) {
 	prov := provider()
 
-	checkResponse, err := prov.Check(p.CheckRequest{
+	response, err := prov.Check(p.CheckRequest{
 		Urn: urn("InstanceResourceModel"),
 		News: resource.PropertyMap{
 			"client": resource.NewObjectProperty(resource.PropertyMap{
@@ -44,26 +30,18 @@ func TestInstanceResourceModelCreate(t *testing.T) {
 			}),
 		},
 	})
-	require.NoError(t, err)
-
-	response, err := prov.Create(p.CreateRequest{
-		Urn:        urn("InstanceResourceModel"),
-		Properties: checkResponse.Inputs,
-		Preview:    false,
-	})
 
 	require.NoError(t, err)
-	result := response.Properties["result"].StringValue()
-	assert.Len(t, result, 12)
+	inputs := response.Inputs["system"].V.(resource.PropertyMap)
+	result := inputs["data_dir"].StringValue()
+	assert.Equal(t, result, "/mnt/aemc")
 }
 
-// urn is a helper function to build an urn for running integration tests.
 func urn(typ string) resource.URN {
 	return resource.NewURN("stack", "proj", "",
 		tokens.Type("aem:compose:"+typ), "name")
 }
 
-// Create a test server.
 func provider() integration.Server {
 	return integration.NewServer(aem.Name, semver.MustParse("1.0.0"), aem.Provider())
 }
