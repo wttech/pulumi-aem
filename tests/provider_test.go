@@ -32,8 +32,17 @@ func TestInstanceResourceModelCreate(t *testing.T) {
 	prov := provider()
 
 	checkResponse, err := prov.Check(p.CheckRequest{
-		Urn:  urn("InstanceResourceModel"),
-		News: resource.PropertyMap{},
+		Urn: urn("InstanceResourceModel"),
+		News: resource.PropertyMap{
+			"client": resource.NewObjectProperty(resource.PropertyMap{
+				"type": resource.NewStringProperty("mock"),
+				"settings": resource.NewObjectProperty(resource.PropertyMap{
+					"setting1": resource.NewStringProperty("value1"),
+					"setting2": resource.NewStringProperty("value2"),
+					"setting3": resource.NewStringProperty("value3"),
+				}),
+			}),
+		},
 	})
 	require.NoError(t, err)
 

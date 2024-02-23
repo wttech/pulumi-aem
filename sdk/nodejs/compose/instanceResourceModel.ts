@@ -2,6 +2,8 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
+import * as inputs from "../types/input";
+import * as outputs from "../types/output";
 import * as utilities from "../utilities";
 
 export class InstanceResourceModel extends pulumi.CustomResource {
@@ -31,8 +33,11 @@ export class InstanceResourceModel extends pulumi.CustomResource {
         return obj['__pulumiType'] === InstanceResourceModel.__pulumiType;
     }
 
-    public readonly length!: pulumi.Output<number | undefined>;
-    public /*out*/ readonly result!: pulumi.Output<string>;
+    public readonly client!: pulumi.Output<outputs.compose.ClientModel>;
+    public readonly compose!: pulumi.Output<outputs.compose.ComposeModel | undefined>;
+    public readonly files!: pulumi.Output<{[key: string]: string} | undefined>;
+    public /*out*/ readonly instances!: pulumi.Output<outputs.compose.InstanceModel[]>;
+    public readonly system!: pulumi.Output<outputs.compose.SystemModel | undefined>;
 
     /**
      * Create a InstanceResourceModel resource with the given unique name, arguments, and options.
@@ -41,15 +46,24 @@ export class InstanceResourceModel extends pulumi.CustomResource {
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args?: InstanceResourceModelArgs, opts?: pulumi.CustomResourceOptions) {
+    constructor(name: string, args: InstanceResourceModelArgs, opts?: pulumi.CustomResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            resourceInputs["length"] = args ? args.length : undefined;
-            resourceInputs["result"] = undefined /*out*/;
+            if ((!args || args.client === undefined) && !opts.urn) {
+                throw new Error("Missing required property 'client'");
+            }
+            resourceInputs["client"] = args ? args.client : undefined;
+            resourceInputs["compose"] = args ? args.compose : undefined;
+            resourceInputs["files"] = args ? args.files : undefined;
+            resourceInputs["system"] = args ? args.system : undefined;
+            resourceInputs["instances"] = undefined /*out*/;
         } else {
-            resourceInputs["length"] = undefined /*out*/;
-            resourceInputs["result"] = undefined /*out*/;
+            resourceInputs["client"] = undefined /*out*/;
+            resourceInputs["compose"] = undefined /*out*/;
+            resourceInputs["files"] = undefined /*out*/;
+            resourceInputs["instances"] = undefined /*out*/;
+            resourceInputs["system"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(InstanceResourceModel.__pulumiType, name, resourceInputs, opts);
@@ -60,5 +74,8 @@ export class InstanceResourceModel extends pulumi.CustomResource {
  * The set of arguments for constructing a InstanceResourceModel resource.
  */
 export interface InstanceResourceModelArgs {
-    length?: pulumi.Input<number>;
+    client: pulumi.Input<inputs.compose.ClientModelArgs>;
+    compose?: pulumi.Input<inputs.compose.ComposeModelArgs>;
+    files?: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
+    system?: pulumi.Input<inputs.compose.SystemModelArgs>;
 }

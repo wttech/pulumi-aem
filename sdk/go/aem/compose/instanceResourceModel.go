@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"errors"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 	"github.com/wttech/pulumi-provider-aem/sdk/go/aem/internal"
 )
@@ -14,17 +15,23 @@ import (
 type InstanceResourceModel struct {
 	pulumi.CustomResourceState
 
-	Length pulumi.IntPtrOutput `pulumi:"length"`
-	Result pulumi.StringOutput `pulumi:"result"`
+	Client    ClientModelOutput        `pulumi:"client"`
+	Compose   ComposeModelPtrOutput    `pulumi:"compose"`
+	Files     pulumi.StringMapOutput   `pulumi:"files"`
+	Instances InstanceModelArrayOutput `pulumi:"instances"`
+	System    SystemModelPtrOutput     `pulumi:"system"`
 }
 
 // NewInstanceResourceModel registers a new resource with the given unique name, arguments, and options.
 func NewInstanceResourceModel(ctx *pulumi.Context,
 	name string, args *InstanceResourceModelArgs, opts ...pulumi.ResourceOption) (*InstanceResourceModel, error) {
 	if args == nil {
-		args = &InstanceResourceModelArgs{}
+		return nil, errors.New("missing one or more required arguments")
 	}
 
+	if args.Client == nil {
+		return nil, errors.New("invalid value for required argument 'Client'")
+	}
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource InstanceResourceModel
 	err := ctx.RegisterResource("aem:compose:InstanceResourceModel", name, args, &resource, opts...)
@@ -58,12 +65,18 @@ func (InstanceResourceModelState) ElementType() reflect.Type {
 }
 
 type instanceResourceModelArgs struct {
-	Length *int `pulumi:"length"`
+	Client  ClientModel       `pulumi:"client"`
+	Compose *ComposeModel     `pulumi:"compose"`
+	Files   map[string]string `pulumi:"files"`
+	System  *SystemModel      `pulumi:"system"`
 }
 
 // The set of arguments for constructing a InstanceResourceModel resource.
 type InstanceResourceModelArgs struct {
-	Length pulumi.IntPtrInput
+	Client  ClientModelInput
+	Compose ComposeModelPtrInput
+	Files   pulumi.StringMapInput
+	System  SystemModelPtrInput
 }
 
 func (InstanceResourceModelArgs) ElementType() reflect.Type {
@@ -103,12 +116,24 @@ func (o InstanceResourceModelOutput) ToInstanceResourceModelOutputWithContext(ct
 	return o
 }
 
-func (o InstanceResourceModelOutput) Length() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v *InstanceResourceModel) pulumi.IntPtrOutput { return v.Length }).(pulumi.IntPtrOutput)
+func (o InstanceResourceModelOutput) Client() ClientModelOutput {
+	return o.ApplyT(func(v *InstanceResourceModel) ClientModelOutput { return v.Client }).(ClientModelOutput)
 }
 
-func (o InstanceResourceModelOutput) Result() pulumi.StringOutput {
-	return o.ApplyT(func(v *InstanceResourceModel) pulumi.StringOutput { return v.Result }).(pulumi.StringOutput)
+func (o InstanceResourceModelOutput) Compose() ComposeModelPtrOutput {
+	return o.ApplyT(func(v *InstanceResourceModel) ComposeModelPtrOutput { return v.Compose }).(ComposeModelPtrOutput)
+}
+
+func (o InstanceResourceModelOutput) Files() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *InstanceResourceModel) pulumi.StringMapOutput { return v.Files }).(pulumi.StringMapOutput)
+}
+
+func (o InstanceResourceModelOutput) Instances() InstanceModelArrayOutput {
+	return o.ApplyT(func(v *InstanceResourceModel) InstanceModelArrayOutput { return v.Instances }).(InstanceModelArrayOutput)
+}
+
+func (o InstanceResourceModelOutput) System() SystemModelPtrOutput {
+	return o.ApplyT(func(v *InstanceResourceModel) SystemModelPtrOutput { return v.System }).(SystemModelPtrOutput)
 }
 
 func init() {
