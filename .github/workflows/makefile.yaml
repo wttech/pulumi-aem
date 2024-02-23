@@ -41,14 +41,13 @@ jobs:
       run: |
         make build
     -
+      name: Test
+      id: test
+      run: |
+        make test_provider
+    -
       name: Install
       id: install
       run: |
         set -ex
         make install
-    -
-      name: Generate multi-language examples from yaml IaC program
-      id: examples
-      run: |
-        set -ex
-        make gen_examples
