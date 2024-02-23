@@ -2,18 +2,12 @@ package main
 
 import (
 	"fmt"
-	"github.com/dprzybyl/pulumi-provider-aem/sdk/go/aem/compose"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ebs"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/iam"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"os"
+	"github.com/wttech/pulumi-provider-aem/sdk/go/aem/compose"
 )
-
-func file(path string) pulumi.String {
-	content, _ := os.ReadFile(path)
-	return pulumi.String(content)
-}
 
 func main() {
 	workspace := "aemc"

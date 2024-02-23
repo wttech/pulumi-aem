@@ -1,19 +1,23 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
-	"github.com/dprzybyl/pulumi-provider-aem/sdk/go/aem/compose"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ebs"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/ec2"
 	"github.com/pulumi/pulumi-aws/sdk/v6/go/aws/iam"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"os"
+	"github.com/wttech/pulumi-provider-aem/sdk/go/aem/compose"
 )
 
-func file(path string) pulumi.String {
-	content, _ := os.ReadFile(path)
-	return pulumi.String(content)
-}
+//go:embed aem.yml
+var configYML string
+
+//go:embed ec2-key.cer.pub
+var publicKey string
+
+//go:embed ec2-key.cer
+var privateKey string
 
 func main() {
 	workspace := "aemc"
@@ -24,8 +28,6 @@ func main() {
 	dataDir := "/data"
 	composeDir := fmt.Sprintf("%s/aemc", dataDir)
 	sshUser := "ec2-user"
-	privateKey := "ec2-key.cer"
-	publicKey := "ec2-key.cer.pub"
 
 	tags := pulumi.StringMap{
 		"Workspace": pulumi.String(workspace),
@@ -71,7 +73,7 @@ func main() {
 
 		keyPair, err := ec2.NewKeyPair(ctx, "aem_single", &ec2.KeyPairArgs{
 			KeyName:   pulumi.Sprintf("%s-example-tf", workspace),
-			PublicKey: file(publicKey),
+			PublicKey: pulumi.Sprintf(publicKey),
 			Tags:      tags,
 		})
 		if err != nil {
@@ -119,7 +121,7 @@ func main() {
 					"secure": pulumi.String("false"),
 				},
 				Credentials: pulumi.StringMap{
-					"private_key": file(privateKey),
+					"private_key": pulumi.String(privateKey),
 				},
 			},
 			System: compose.SystemModelArgs{
@@ -139,7 +141,7 @@ func main() {
 				},
 			},
 			Compose: compose.ComposeModelArgs{
-				Config: file("aem.yml"),
+				Config: pulumi.String(configYML),
 				Create: compose.InstanceScriptArgs{
 					Inline: pulumi.StringArray{
 						pulumi.Sprintf("mkdir -p '%s/aem/home/lib'", composeDir),

@@ -1,13 +1,13 @@
-module github.com/dprzybyl/pulumi-provider-aem/examples
+module github.com/wttech/pulumi-provider-aem/examples
 
 go 1.21
 
-replace github.com/dprzybyl/pulumi-provider-aem/sdk => ../../sdk
+replace github.com/wttech/pulumi-provider-aem/sdk => ../../sdk
 
 require (
-	github.com/dprzybyl/pulumi-provider-aem/sdk v0.0.0-20240207010449-6e972a29045f
 	github.com/pulumi/pulumi-aws/sdk/v6 v6.21.0
 	github.com/pulumi/pulumi/sdk/v3 v3.104.2
+	github.com/wttech/pulumi-provider-aem/sdk v0.0.0-20240207010449-6e972a29045f
 )
 
 require (
