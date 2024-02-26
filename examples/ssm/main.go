@@ -107,7 +107,7 @@ sudo dnf install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/late
 				},
 			},
 			System: compose.SystemModelArgs{
-				Data_dir: pulumi.String(dataDir),
+				Data_dir: pulumi.String(composeDir),
 				Bootstrap: compose.InstanceScriptArgs{
 					Inline: pulumi.StringArray{
 						pulumi.Sprintf("sudo mkfs -t ext4 %s", dataDevice),

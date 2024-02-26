@@ -94,6 +94,7 @@ sudo dnf install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/late
 			return err
 		}
 
+		ctx.Export("instanceID", instance.ID())
 		ctx.Export("instanceIp", instance.PublicIp)
 		return nil
 	})

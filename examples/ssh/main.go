@@ -113,7 +113,7 @@ func main() {
 
 		instanceResourceModel, err := compose.NewInstanceResourceModel(ctx, "aem_single", &compose.InstanceResourceModelArgs{
 			Client: compose.ClientModelArgs{
-				Type: pulumi.String("mock"),
+				Type: pulumi.String("ssh"),
 				Settings: pulumi.StringMap{
 					"host":   instance.PublicIp,
 					"port":   pulumi.String("22"),
@@ -125,7 +125,7 @@ func main() {
 				},
 			},
 			System: compose.SystemModelArgs{
-				Data_dir: pulumi.String(dataDir),
+				Data_dir: pulumi.String(composeDir),
 				Bootstrap: compose.InstanceScriptArgs{
 					Inline: pulumi.StringArray{
 						pulumi.Sprintf("sudo mkfs -t ext4 %s", dataDevice),
