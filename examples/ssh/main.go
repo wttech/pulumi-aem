@@ -54,9 +54,9 @@ func main() {
 			return err
 		}
 
-		_, err = iam.NewRolePolicyAttachment(ctx, "ssm", &iam.RolePolicyAttachmentArgs{
+		_, err = iam.NewRolePolicyAttachment(ctx, "s3", &iam.RolePolicyAttachmentArgs{
 			Role:      role.Name,
-			PolicyArn: pulumi.String("arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"),
+			PolicyArn: pulumi.String("arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"),
 		})
 		if err != nil {
 			return err
