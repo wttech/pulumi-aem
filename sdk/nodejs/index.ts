@@ -13,9 +13,11 @@ utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
 // Export sub-modules:
 import * as compose from "./compose";
+import * as types from "./types";
 
 export {
     compose,
+    types,
 };
 pulumi.runtime.registerResourcePackage("aem", {
     version: utilities.getVersion(),

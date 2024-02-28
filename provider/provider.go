@@ -1,37 +1,18 @@
-// Copyright 2016-2023, Pulumi Corporation.
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 package provider
 
 import (
-	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
-	"math/rand"
-	"time"
-
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
+	"github.com/wttech/pulumi-provider-aem/provider/instance"
 )
 
-// Version is initialized by the Go linker to contain the semver of this build.
 var Version string
 
 const Name string = "aem"
 
 func Provider() p.Provider {
-	// We tell the provider what resources it needs to support.
-	// In this case, a single custom resource.
 	return infer.Provider(infer.Options{
 		Resources: []infer.InferredResource{
 			infer.Resource[InstanceResourceModel, InstanceResourceModelArgs, InstanceResourceModelState](),
@@ -42,58 +23,147 @@ func Provider() p.Provider {
 	})
 }
 
-// Each resource has a controlling struct.
-// Resource behavior is determined by implementing methods on the controlling struct.
-// The `Create` method is mandatory, but other methods are optional.
-// - Check: Remap inputs before they are typed.
-// - Diff: Change how instances of a resource are compared.
-// - Update: Mutate a resource in place.
-// - Read: Get the state of a resource from the backing provider.
-// - Delete: Custom logic when the resource is deleted.
-// - Annotate: Describe fields and set defaults for a resource.
-// - WireDependencies: Control how outputs and secrets flows through values.
 type InstanceResourceModel struct{}
 
-// Each resource has an input struct, defining what arguments it accepts.
 type InstanceResourceModelArgs struct {
-	// Fields projected into Pulumi must be public and hava a `pulumi:"..."` tag.
-	// The pulumi tag doesn't need to match the field name, but it's generally a
-	// good idea.
-	Length int `pulumi:"length,optional"`
+	Client  ClientModel       `pulumi:"client"`
+	Files   map[string]string `pulumi:"files,optional"`
+	System  SystemModel       `pulumi:"system,optional"`
+	Compose ComposeModel      `pulumi:"compose,optional"`
 }
 
-// Each resource has a state, describing the fields that exist on the created resource.
+type ClientModel struct {
+	Type          string            `pulumi:"type"`
+	Settings      map[string]string `pulumi:"settings"`
+	Credentials   map[string]string `pulumi:"credentials,optional"`
+	ActionTimeout string            `pulumi:"action_timeout,optional"`
+	StateTimeout  string            `pulumi:"state_timeout,optional"`
+}
+
+type SystemModel struct {
+	DataDir       string            `pulumi:"data_dir,optional"`
+	WorkDir       string            `pulumi:"work_dir,optional"`
+	Env           map[string]string `pulumi:"env,optional"`
+	ServiceConfig string            `pulumi:"service_config,optional"`
+	User          string            `pulumi:"user,optional"`
+	Bootstrap     InstanceScript    `pulumi:"bootstrap,optional"`
+}
+
+type ComposeModel struct {
+	Download  bool           `pulumi:"download,optional"`
+	Version   string         `pulumi:"version,optional"`
+	Config    string         `pulumi:"config,optional"`
+	Create    InstanceScript `pulumi:"create,optional"`
+	Configure InstanceScript `pulumi:"configure,optional"`
+	Delete    InstanceScript `pulumi:"delete,optional"`
+}
+
+type InstanceScript struct {
+	Inline []string `pulumi:"inline,optional"`
+	Script string   `pulumi:"script,optional"`
+}
+
+type InstanceModel struct {
+	ID         string   `pulumi:"id"`
+	URL        string   `pulumi:"url"`
+	AemVersion string   `pulumi:"aem_version"`
+	Dir        string   `pulumi:"dir"`
+	Attributes []string `pulumi:"attributes"`
+	RunModes   []string `pulumi:"run_modes"`
+}
+
 type InstanceResourceModelState struct {
-	// It is generally a good idea to embed args in outputs, but it isn't strictly necessary.
 	InstanceResourceModelArgs
-	// Here we define a required output called result.
-	Result string `pulumi:"result"`
+	Instances []InstanceModel `pulumi:"instances"`
 }
 
-// All resources must implement Create at a minimum.
 func (InstanceResourceModel) Create(ctx p.Context, name string, input InstanceResourceModelArgs, preview bool) (string, InstanceResourceModelState, error) {
 	state := InstanceResourceModelState{InstanceResourceModelArgs: input}
 	if preview {
 		return name, state, nil
 	}
-	state.Result = determineResult(input.Length)
+
+	instanceResource := NewInstanceResource()
+	status, err := instanceResource.CreateOrUpdate(ctx, input)
+	if err != nil {
+		return name, state, err
+	}
+
+	var instances []InstanceModel
+	for _, item := range status.Data.Instances {
+		instances = append(instances, InstanceModel{
+			ID:         item.ID,
+			URL:        item.URL,
+			AemVersion: item.AemVersion,
+			Dir:        item.Dir,
+			Attributes: item.Attributes,
+			RunModes:   item.RunModes,
+		})
+	}
+	state.Instances = instances
+
 	return name, state, nil
 }
 
-func determineResult(length int) string {
-	seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
-	charset := []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
-
-	result := make([]rune, length)
-	for i := range result {
-		result[i] = charset[seededRand.Intn(len(charset))]
+func (InstanceResourceModel) Delete(ctx p.Context, id string, props InstanceResourceModelState) error {
+	instanceResource := NewInstanceResource()
+	if err := instanceResource.Delete(ctx, props.InstanceResourceModelArgs); err != nil {
+		return err
 	}
-	return string(result)
+
+	return nil
 }
 
 func (InstanceResourceModel) Check(ctx p.Context, name string, oldInputs, newInputs resource.PropertyMap) (InstanceResourceModelArgs, []p.CheckFailure, error) {
-	if _, ok := newInputs["length"]; !ok {
-		newInputs["length"] = resource.NewNumberProperty(12)
-	}
+	inputs := determineInputs(newInputs, "client")
+	setDefaultValue(inputs, "credentials", resource.NewObjectProperty(resource.PropertyMap{}))
+	setDefaultValue(inputs, "action_timeout", resource.NewStringProperty("10m"))
+	setDefaultValue(inputs, "state_timeout", resource.NewStringProperty("30s"))
+
+	_ = determineInputs(newInputs, "files")
+
+	inputs = determineInputs(newInputs, "system")
+	setDefaultInlineScripts(inputs, "bootstrap", []string{})
+	setDefaultValue(inputs, "data_dir", resource.NewStringProperty("/mnt/aemc"))
+	setDefaultValue(inputs, "work_dir", resource.NewStringProperty("/tmp/aemc"))
+	setDefaultValue(inputs, "service_config", resource.NewStringProperty(instance.ServiceConf))
+	setDefaultValue(inputs, "user", resource.NewStringProperty(""))
+	setDefaultValue(inputs, "env", resource.NewObjectProperty(resource.PropertyMap{}))
+
+	inputs = determineInputs(newInputs, "compose")
+	setDefaultValue(inputs, "download", resource.NewBoolProperty(true))
+	setDefaultValue(inputs, "version", resource.NewStringProperty("1.6.12"))
+	setDefaultValue(inputs, "config", resource.NewStringProperty(instance.ConfigYML))
+	setDefaultInlineScripts(inputs, "create", instance.CreateScriptInline)
+	setDefaultInlineScripts(inputs, "configure", instance.LaunchScriptInline)
+	setDefaultInlineScripts(inputs, "delete", instance.DeleteScriptInline)
+
 	return infer.DefaultCheck[InstanceResourceModelArgs](newInputs)
+}
+
+func determineInputs(allInputs resource.PropertyMap, key resource.PropertyKey) resource.PropertyMap {
+	if inputs, ok := allInputs[key]; ok {
+		return inputs.V.(resource.PropertyMap)
+	} else {
+		inputs = resource.NewObjectProperty(resource.PropertyMap{})
+		allInputs[key] = inputs
+		return inputs.V.(resource.PropertyMap)
+	}
+}
+
+func setDefaultValue(inputs resource.PropertyMap, key resource.PropertyKey, value resource.PropertyValue) {
+	if _, ok := inputs[key]; !ok {
+		inputs[key] = value
+	}
+}
+
+func setDefaultInlineScripts(allInputs resource.PropertyMap, key resource.PropertyKey, scripts []string) {
+	inputs := determineInputs(allInputs, key)
+	if !inputs.HasValue("inline") && !inputs.HasValue("script") {
+		var wrappedScripts []resource.PropertyValue
+		for _, script := range scripts {
+			wrappedScripts = append(wrappedScripts, resource.NewStringProperty(script))
+		}
+		inputs["inline"] = resource.NewArrayProperty(wrappedScripts)
+	}
 }
