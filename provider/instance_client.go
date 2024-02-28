@@ -3,7 +3,7 @@ package provider
 import (
 	"fmt"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
-	"github.com/wttech/pulumi-provider-aem/provider/utils"
+	"github.com/wttech/pulumi-aem/provider/utils"
 	"golang.org/x/exp/maps"
 	"gopkg.in/yaml.v3"
 	"time"

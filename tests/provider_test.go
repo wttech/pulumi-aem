@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	aem "github.com/wttech/pulumi-provider-aem/provider"
+	aem "github.com/wttech/pulumi-aem/provider"
 )
 
 func TestInstanceResourceModelCheck(t *testing.T) {

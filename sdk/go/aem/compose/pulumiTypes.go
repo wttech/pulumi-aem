@@ -8,7 +8,7 @@ import (
 	"reflect"
 
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/wttech/pulumi-provider-aem/sdk/go/aem/internal"
+	"github.com/wttech/pulumi-aem/sdk/go/aem/internal"
 )
 
 var _ = internal.GetEnvOrDefault

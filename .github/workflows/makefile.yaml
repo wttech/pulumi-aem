@@ -32,8 +32,8 @@ jobs:
       name: Unshallow clone for tags
       id: tags
       run: |
-        sudo chown -R $(whoami) /__w/pulumi-provider-aem/pulumi-provider-aem
-        git config --global --add safe.directory /__w/pulumi-provider-aem/pulumi-provider-aem
+        sudo chown -R $(whoami) /__w/pulumi-aem-native/pulumi-aem-native
+        git config --global --add safe.directory /__w/pulumi-aem-native/pulumi-aem-native
         git fetch --prune --unshallow --tags
     -
       name: Build

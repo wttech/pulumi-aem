@@ -8,5 +8,5 @@ If you need to set up multiple AEM instances on multiple machines, you can use t
 
 Consider reviewing the following examples to find the one that best suits your needs:
 
-1. [AWS EC2 instance with public IP](https://github.com/wttech/pulumi-provider-aem/tree/main/examples/go/ssh)
-2. [AWS EC2 instance with private IP](https://github.com/wttech/pulumi-provider-aem/tree/main/examples/go/ssm)
+1. [AWS EC2 instance with public IP](https://github.com/wttech/pulumi-aem-native/tree/main/examples/go_aws_ssh)
+2. [AWS EC2 instance with private IP](https://github.com/wttech/pulumi-aem-native/tree/main/examples/go_aws_ssm)

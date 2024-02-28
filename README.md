@@ -34,8 +34,8 @@ The easiest way to get started is to review, copy and adapt provided examples:
    * [TypeScript](examples/ts_aws_ssm)
    * [GoLang](examples/go_aws_ssm)
 2. AWS EC2 instance with public IP
-   * [TypeScript](examples/ts_aws_ssm)
-   * [GoLang](examples/go_aws_ssm)
+   * [TypeScript](examples/ts_aws_ssh)
+   * [GoLang](examples/go_aws_ssh)
 3. Bare metal machine
    * [TypeScript](examples/ts_bare)
    * [GoLang](examples/go_bare)

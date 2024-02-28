@@ -3,7 +3,7 @@ package client
 import (
 	"context"
 	"fmt"
-	"github.com/wttech/pulumi-provider-aem/provider/utils"
+	"github.com/wttech/pulumi-aem/provider/utils"
 	"os"
 	"path/filepath"
 	"strings"

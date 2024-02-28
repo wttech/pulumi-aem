@@ -1,5 +1,5 @@
 {
-	"name": "pulumi-provider-aem",
+	"name": "pulumi-aem",
 	"devDependencies": {
 		"@types/node": "^14"
 	},
