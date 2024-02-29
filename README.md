@@ -91,7 +91,7 @@ This will:
    
 ```bash
 $ cd examples/simple
-$ yarn link @pulumi/aem
+$ yarn link @wttech/aem
 $ yarn install
 $ pulumi stack init test
 $ pulumi up

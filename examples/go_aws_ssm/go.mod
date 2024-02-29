@@ -1,4 +1,4 @@
-module github.com/wttech/pulumi-aem/examples/ssm
+module github.com/wttech/pulumi-aem/examples/go_aws_ssm
 
 go 1.21
 

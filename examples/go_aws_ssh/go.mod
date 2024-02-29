@@ -1,4 +1,4 @@
-module github.com/wttech/pulumi-aem/examples
+module github.com/wttech/pulumi-aem/examples/go_aws_ssh
 
 go 1.21
 

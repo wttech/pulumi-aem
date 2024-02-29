@@ -4,7 +4,7 @@ PACK             := aem
 MOD              := compose
 PACKDIR          := sdk
 PROJECT          := github.com/wttech/pulumi-aem
-NODE_MODULE_NAME := @pulumi/aem
+NODE_MODULE_NAME := @wttech/aem
 NUGET_PKG_NAME   := Pulumi.Aem
 
 PROVIDER        := pulumi-resource-${PACK}
@@ -43,17 +43,18 @@ dotnet_sdk::
 go_sdk:: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/go
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language go
-	sed -e 's/"internal"/"github.com\/wttech\/pulumi-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/init.go > sdk/go/$(PACK)/init.go.tmp && mv sdk/go/$(PACK)/init.go.tmp sdk/go/$(PACK)/init.go
-	sed -e 's/"internal"/"github.com\/wttech\/pulumi-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/provider.go > sdk/go/$(PACK)/provider.go.tmp && mv sdk/go/$(PACK)/provider.go.tmp sdk/go/$(PACK)/provider.go
-	sed -e 's/"internal"/"github.com\/wttech\/pulumi-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/init.go > sdk/go/$(PACK)/$(MOD)/init.go.tmp && mv sdk/go/$(PACK)/$(MOD)/init.go.tmp sdk/go/$(PACK)/$(MOD)/init.go
-	sed -e 's/"internal"/"github.com\/wttech\/pulumi-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/instanceResourceModel.go > sdk/go/$(PACK)/$(MOD)/instanceResourceModel.go.tmp && mv sdk/go/$(PACK)/$(MOD)/instanceResourceModel.go.tmp sdk/go/$(PACK)/$(MOD)/instanceResourceModel.go
-	sed -e 's/"internal"/"github.com\/wttech\/pulumi-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/pulumiTypes.go > sdk/go/$(PACK)/$(MOD)/pulumiTypes.go.tmp && mv sdk/go/$(PACK)/$(MOD)/pulumiTypes.go.tmp sdk/go/$(PACK)/$(MOD)/pulumiTypes.go
+	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/*.go
+	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/*.go
+	rm ./sdk/go/$(PACK)/*.go.bak
+	rm ./sdk/go/$(PACK)/$(MOD)/*.go.bak
 
 nodejs_sdk:: VERSION := $(shell pulumictl get version --language javascript)
 nodejs_sdk::
 	rm -rf sdk/nodejs
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language nodejs
 	cd ${PACKDIR}/nodejs/ && \
+		sed -i.bak 's/@pulumi\/aem/@wttech\/aem/g' package.json && \
+		rm ./package.json.bak && \
 		yarn install && \
 		yarn run tsc && \
 		cp ../../README.md ../../LICENSE package.json yarn.lock bin/ && \

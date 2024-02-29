@@ -1,4 +1,4 @@
-import * as aem from "@pulumi/aem";
+import * as aem from "@wttech/aem";
 import * as aws from "@pulumi/aws";
 
 const workspace = "aemc"
