@@ -1,4 +1,4 @@
-name: pulumi-aem
+name: pulumi-aem-native
 runtime: go
 plugins:
   providers:

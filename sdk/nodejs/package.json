@@ -1,5 +1,5 @@
 {
-    "name": "@wttech/aem",
+    "name": "@pulumi/aem",
     "version": "${VERSION}",
     "scripts": {
         "build": "tsc"

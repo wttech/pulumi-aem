@@ -3,7 +3,7 @@ PROJECT_NAME := Pulumi AEM Compose Provider
 PACK             := aem
 MOD              := compose
 PACKDIR          := sdk
-PROJECT          := github.com/wttech/pulumi-aem
+PROJECT          := github.com/wttech/pulumi-aem-native
 NODE_MODULE_NAME := @wttech/aem
 NUGET_PKG_NAME   := Pulumi.Aem
 
@@ -43,8 +43,8 @@ dotnet_sdk::
 go_sdk:: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/go
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language go
-	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/*.go
-	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/*.go
+	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem-native\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/*.go
+	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem-native\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/*.go
 	rm ./sdk/go/$(PACK)/*.go.bak
 	rm ./sdk/go/$(PACK)/$(MOD)/*.go.bak
 
@@ -53,7 +53,7 @@ nodejs_sdk::
 	rm -rf sdk/nodejs
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language nodejs
 	cd ${PACKDIR}/nodejs/ && \
-		sed -i.bak 's/@pulumi\/aem/@wttech\/aem/g' package.json && \
+		sed -i.bak 's/@pulumi\/aem-native/@wttech\/aem-native/g' package.json && \
 		rm ./package.json.bak && \
 		yarn install && \
 		yarn run tsc && \

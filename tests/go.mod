@@ -1,8 +1,8 @@
-module github.com/wttech/pulumi-aem/tests
+module github.com/wttech/pulumi-aem-native/tests
 
 go 1.21
 
-replace github.com/wttech/pulumi-aem/provider => ../provider
+replace github.com/wttech/pulumi-aem-native/provider => ../provider
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
@@ -10,7 +10,7 @@ require (
 	github.com/pulumi/pulumi-go-provider/integration v0.10.0
 	github.com/pulumi/pulumi/sdk/v3 v3.104.2
 	github.com/stretchr/testify v1.8.4
-	github.com/wttech/pulumi-aem/provider v0.0.0-00010101000000-000000000000
+	github.com/wttech/pulumi-aem-native/provider v0.0.0-00010101000000-000000000000
 )
 
 require (
