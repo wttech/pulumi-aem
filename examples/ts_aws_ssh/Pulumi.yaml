@@ -1,0 +1,6 @@
+name: pulumi-aem
+runtime: nodejs
+plugins:
+  providers:
+    - name: aem
+      path: ../../bin
