@@ -3,7 +3,7 @@ package main
 import (
 	p "github.com/pulumi/pulumi-go-provider"
 
-	aem "github.com/wttech/pulumi-aem/provider"
+	aem "github.com/wttech/pulumi-aem-native/provider"
 )
 
 // Serve the provider against Pulumi's Provider protocol.

@@ -3,7 +3,7 @@ PROJECT_NAME := Pulumi AEM Compose Provider
 PACK             := aem
 MOD              := compose
 PACKDIR          := sdk
-PROJECT          := github.com/wttech/pulumi-aem
+PROJECT          := github.com/wttech/pulumi-aem-native
 NODE_MODULE_NAME := @wttech/aem
 NUGET_PKG_NAME   := Pulumi.Aem
 
@@ -43,10 +43,12 @@ dotnet_sdk::
 go_sdk:: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/go
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language go
-	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/*.go
-	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/*.go
+	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem-native\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/*.go
+	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem-native\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/*.go
+	sed -i.bak 's/\/pulumi-aem\/sdk/\/pulumi-aem-native\/sdk/g' sdk/go/$(PACK)/internal/*.go
 	rm ./sdk/go/$(PACK)/*.go.bak
 	rm ./sdk/go/$(PACK)/$(MOD)/*.go.bak
+	rm ./sdk/go/$(PACK)/internal/*.go.bak
 
 nodejs_sdk:: VERSION := $(shell pulumictl get version --language javascript)
 nodejs_sdk::

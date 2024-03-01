@@ -1,4 +1,4 @@
-module github.com/wttech/pulumi-aem/sdk
+module github.com/wttech/pulumi-aem-native/sdk
 
 go 1.21
 
