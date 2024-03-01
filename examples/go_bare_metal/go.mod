@@ -1,6 +1,6 @@
 module github.com/wttech/pulumi-aem-native/examples/go_aws_ssh
 
-go 1.21
+go 1.22
 
 replace github.com/wttech/pulumi-aem-native/sdk => ../../sdk
 

@@ -1,6 +1,6 @@
 module github.com/wttech/pulumi-aem-native/tests
 
-go 1.21
+go 1.22
 
 replace github.com/wttech/pulumi-aem-native/provider => ../provider
 
