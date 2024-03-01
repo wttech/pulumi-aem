@@ -53,7 +53,7 @@ nodejs_sdk::
 	rm -rf sdk/nodejs
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language nodejs
 	cd ${PACKDIR}/nodejs/ && \
-		sed -i.bak 's/@pulumi\/aem-native/@wttech\/aem-native/g' package.json && \
+		sed -i.bak 's/@pulumi\/aem/@wttech\/aem/g' package.json && \
 		rm ./package.json.bak && \
 		yarn install && \
 		yarn run tsc && \
