@@ -23,7 +23,7 @@ The main purpose of this provider is to enable users to:
 
 - Easy configuration and management of AEM instances
 - Support for multiple cloud platforms and bare metal machines
-- Seamless integration with Terraform for infrastructure provisioning
+- Seamless integration with Pulumi for infrastructure provisioning
 - Based on the powerful [AEM Compose](https://github.com/wttech/aemc) tool
 
 ## Quickstart
@@ -37,8 +37,8 @@ The easiest way to get started is to review, copy and adapt provided examples:
    * [TypeScript](examples/ts_aws_ssh)
    * [GoLang](examples/go_aws_ssh)
 3. Bare metal machine
-   * [TypeScript](examples/ts_bare)
-   * [GoLang](examples/go_bare)
+   * [TypeScript](examples/ts_bare_metal)
+   * [GoLang](examples/go_bare_metal)
 
 - - -
 

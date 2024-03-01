@@ -24,7 +24,7 @@ The main purpose of this provider is to enable users to:
 
 - Easy configuration and management of AEM instances
 - Support for multiple cloud platforms and bare metal machines
-- Seamless integration with Terraform for infrastructure provisioning
+- Seamless integration with Pulumi for infrastructure provisioning
 - Based on the powerful [AEM Compose](https://github.com/wttech/aemc) tool
 
 
