@@ -1,0 +1,26 @@
+name: pulumi-aem-native
+runtime: yaml
+plugins:
+  providers:
+    - name: aem
+      path: ../../bin
+
+resources:
+  instanceResourceModel:
+    type: aem:compose:InstanceResourceModel
+    properties:
+      client:
+        type: "ssh"
+        settings:
+          host: "x.x.x.x"
+          port: "22"
+          user: "root"
+          secure: "false"
+        credentials:
+          private_key: "[[private_key]]"
+      files:
+        lib: "/data/aemc/aem/home/lib"
+
+outputs:
+  output:
+    aemInstances: ${instanceResourceModel.instances}
