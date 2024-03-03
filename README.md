@@ -31,13 +31,13 @@ The main purpose of this provider is to enable users to:
 The easiest way to get started is to review, copy and adapt provided examples:
 
 1. AWS EC2 instance with private IP
-   * [TypeScript](examples/ts_aws_ssm)
+   * [Node.js](examples/nodejs_aws_ssm)
    * [GoLang](examples/go_aws_ssm)
 2. AWS EC2 instance with public IP
-   * [TypeScript](examples/ts_aws_ssh)
+   * [Node.js](examples/nodejs_aws_ssh)
    * [GoLang](examples/go_aws_ssh)
 3. Bare metal machine
-   * [TypeScript](examples/ts_bare_metal)
+   * [Node.js](examples/nodejs_bare_metal)
    * [GoLang](examples/go_bare_metal)
 
 - - -
