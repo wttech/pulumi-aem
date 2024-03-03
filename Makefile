@@ -75,8 +75,7 @@ python_sdk::
 		rm ./bin/setup.py.bak && \
 		cd ./bin && python3 setup.py build sdist
 
-gen_examples: gen_go_example \
-		gen_nodejs_example
+gen_examples: gen_go_example gen_nodejs_example
 
 gen_%_example:
 	rm -rf ${WORKING_DIR}/examples/$*
