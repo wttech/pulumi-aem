@@ -32,7 +32,9 @@ func main() {
 			return err
 		}
 
-		ctx.Export("aemInstances", instanceResourceModel.Instances)
+		ctx.Export("output", pulumi.Map{
+			"aemInstances": instanceResourceModel.Instances,
+		})
 		return nil
 	})
 }

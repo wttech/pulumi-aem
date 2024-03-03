@@ -143,8 +143,10 @@ sudo dnf install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/late
 			return err
 		}
 
-		ctx.Export("instanceIp", instance.PublicIp)
-		ctx.Export("aemInstances", instanceResourceModel.Instances)
+		ctx.Export("output", pulumi.Map{
+			"instanceIp":   instance.PublicIp,
+			"aemInstances": instanceResourceModel.Instances,
+		})
 		return nil
 	})
 }

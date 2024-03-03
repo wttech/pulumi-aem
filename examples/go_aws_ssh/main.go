@@ -163,8 +163,10 @@ func main() {
 			return err
 		}
 
-		ctx.Export("instanceIp", instance.PublicIp)
-		ctx.Export("aemInstances", instanceResourceModel.Instances)
+		ctx.Export("output", pulumi.Map{
+			"instanceIp":   instance.PublicIp,
+			"aemInstances": instanceResourceModel.Instances,
+		})
 		return nil
 	})
 }
