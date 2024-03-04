@@ -19,7 +19,15 @@ type InstanceResource struct {
 	clientManager *client.ClientManager
 }
 
-func (r *InstanceResource) CreateOrUpdate(ctx p.Context, model InstanceResourceModelArgs) (*InstanceStatus, error) {
+func (r *InstanceResource) Create(ctx p.Context, model InstanceResourceModelArgs) (*InstanceStatus, error) {
+	return r.createOrUpdate(ctx, model, true)
+}
+
+func (r *InstanceResource) Update(ctx p.Context, model InstanceResourceModelArgs) (*InstanceStatus, error) {
+	return r.createOrUpdate(ctx, model, false)
+}
+
+func (r *InstanceResource) createOrUpdate(ctx p.Context, model InstanceResourceModelArgs, create bool) (*InstanceStatus, error) {
 	ctx.Log(diag.Info, "Started setting up AEM instance resource")
 
 	ic, err := r.client(ctx, model, cast.ToDuration(model.Client.ActionTimeout))
@@ -34,9 +42,11 @@ func (r *InstanceResource) CreateOrUpdate(ctx p.Context, model InstanceResourceM
 		}
 	}(ic)
 
-	if err := ic.bootstrap(); err != nil {
-		ctx.Logf(diag.Error, "Unable to bootstrap AEM instance machine %s", err)
-		return nil, err
+	if create {
+		if err := ic.bootstrap(); err != nil {
+			ctx.Logf(diag.Error, "Unable to bootstrap AEM instance machine %s", err)
+			return nil, err
+		}
 	}
 	if err := ic.copyFiles(); err != nil {
 		ctx.Logf(diag.Error, "Unable to copy AEM instance files %s", err)
@@ -58,9 +68,11 @@ func (r *InstanceResource) CreateOrUpdate(ctx p.Context, model InstanceResourceM
 		ctx.Logf(diag.Error, "Unable to write AEM configuration file %s", err)
 		return nil, err
 	}
-	if err := ic.create(); err != nil {
-		ctx.Logf(diag.Error, "Unable to create AEM instance %s", err)
-		return nil, err
+	if create {
+		if err := ic.create(); err != nil {
+			ctx.Logf(diag.Error, "Unable to create AEM instance %s", err)
+			return nil, err
+		}
 	}
 	if err := ic.launch(); err != nil {
 		ctx.Logf(diag.Error, "Unable to launch AEM instance %s", err)

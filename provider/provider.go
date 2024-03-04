@@ -84,7 +84,7 @@ func (InstanceResourceModel) Create(ctx p.Context, name string, input InstanceRe
 	}
 
 	instanceResource := NewInstanceResource()
-	status, err := instanceResource.CreateOrUpdate(ctx, input)
+	status, err := instanceResource.Create(ctx, input)
 	if err != nil {
 		return name, state, err
 	}
@@ -103,6 +103,33 @@ func (InstanceResourceModel) Create(ctx p.Context, name string, input InstanceRe
 	state.Instances = instances
 
 	return name, state, nil
+}
+
+func (InstanceResourceModel) Update(ctx p.Context, id string, state InstanceResourceModelState, input InstanceResourceModelArgs, preview bool) (InstanceResourceModelState, error) {
+	if preview {
+		return state, nil
+	}
+
+	instanceResource := NewInstanceResource()
+	status, err := instanceResource.Update(ctx, input)
+	if err != nil {
+		return state, err
+	}
+
+	var instances []InstanceModel
+	for _, item := range status.Data.Instances {
+		instances = append(instances, InstanceModel{
+			ID:         item.ID,
+			URL:        item.URL,
+			AemVersion: item.AemVersion,
+			Dir:        item.Dir,
+			Attributes: item.Attributes,
+			RunModes:   item.RunModes,
+		})
+	}
+	state.Instances = instances
+
+	return state, nil
 }
 
 func (InstanceResourceModel) Delete(ctx p.Context, id string, props InstanceResourceModelState) error {

@@ -71,20 +71,18 @@ func (ic *InstanceClient) copyFiles() error {
 }
 
 func (ic *InstanceClient) create() error {
-	return ic.doActionOnce("create", ic.dataDir(), func() error {
-		ic.ctx.Log(diag.Info, "Creating AEM instance(s)")
-		if err := ic.configureService(); err != nil {
-			return err
-		}
-		if err := ic.saveProfileScript(); err != nil {
-			return err
-		}
-		if err := ic.runScript("create", ic.data.Compose.Create, ic.dataDir()); err != nil {
-			return err
-		}
-		ic.ctx.Log(diag.Info, "Created AEM instance(s)")
-		return nil
-	})
+	ic.ctx.Log(diag.Info, "Creating AEM instance(s)")
+	if err := ic.configureService(); err != nil {
+		return err
+	}
+	if err := ic.saveProfileScript(); err != nil {
+		return err
+	}
+	if err := ic.runScript("create", ic.data.Compose.Create, ic.dataDir()); err != nil {
+		return err
+	}
+	ic.ctx.Log(diag.Info, "Created AEM instance(s)")
+	return nil
 }
 
 func (ic *InstanceClient) saveProfileScript() error {
