@@ -7,33 +7,90 @@ import * as outputs from "../types/output";
 
 export namespace compose {
     export interface ClientModelArgs {
+        /**
+         * Used when trying to connect to the AEM instance machine (often right after creating it). Need to be enough long because various types of connections (like AWS SSM or SSH) may need some time to boot up the agent.
+         */
         action_timeout?: pulumi.Input<string>;
+        /**
+         * Credentials for the connection type
+         */
         credentials?: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
+        /**
+         * Settings for the connection type
+         */
         settings: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
+        /**
+         * Used when reading the AEM instance state when determining the plan.
+         */
         state_timeout?: pulumi.Input<string>;
+        /**
+         * Type of connection to use to connect to the machine on which AEM instance will be running.
+         */
         type: pulumi.Input<string>;
     }
 
     export interface ComposeModelArgs {
+        /**
+         * Contents of the AEM Compose YML configuration file.
+         */
         config?: pulumi.Input<string>;
+        /**
+         * Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc.
+         */
         configure?: pulumi.Input<inputs.compose.InstanceScriptArgs>;
+        /**
+         * Script(s) for creating an instance or restoring it from a backup. Typically customized to provide AEM library files (quickstart.jar, license.properties, service packs) from alternative sources (e.g., AWS S3, Azure Blob Storage). Instance recreation is forced if changed.
+         */
         create?: pulumi.Input<inputs.compose.InstanceScriptArgs>;
+        /**
+         * Script(s) for deleting a stopped instance.
+         */
         delete?: pulumi.Input<inputs.compose.InstanceScriptArgs>;
+        /**
+         * Toggle automatic AEM Compose CLI wrapper download. If set to false, assume the wrapper is present in the data directory.
+         */
         download?: pulumi.Input<boolean>;
+        /**
+         * Version of AEM Compose tool to use on remote machine.
+         */
         version?: pulumi.Input<string>;
     }
 
     export interface InstanceScriptArgs {
+        /**
+         * Inline shell commands to be executed
+         */
         inline?: pulumi.Input<pulumi.Input<string>[]>;
+        /**
+         * Multiline shell script to be executed
+         */
         script?: pulumi.Input<string>;
     }
 
     export interface SystemModelArgs {
+        /**
+         * Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.
+         */
         bootstrap?: pulumi.Input<inputs.compose.InstanceScriptArgs>;
+        /**
+         * Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
+         */
         data_dir?: pulumi.Input<string>;
+        /**
+         * Environment variables for AEM instances.
+         */
         env?: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
+        /**
+         * Contents of the AEM system service definition file (systemd).
+         */
         service_config?: pulumi.Input<string>;
+        /**
+         * System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
+         */
         user?: pulumi.Input<string>;
+        /**
+         * Remote root path where provider-related files will be stored.
+         */
         work_dir?: pulumi.Input<string>;
     }
 }

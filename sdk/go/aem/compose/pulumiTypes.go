@@ -14,11 +14,16 @@ import (
 var _ = internal.GetEnvOrDefault
 
 type ClientModel struct {
-	Action_timeout *string           `pulumi:"action_timeout"`
-	Credentials    map[string]string `pulumi:"credentials"`
-	Settings       map[string]string `pulumi:"settings"`
-	State_timeout  *string           `pulumi:"state_timeout"`
-	Type           string            `pulumi:"type"`
+	// Used when trying to connect to the AEM instance machine (often right after creating it). Need to be enough long because various types of connections (like AWS SSM or SSH) may need some time to boot up the agent.
+	Action_timeout *string `pulumi:"action_timeout"`
+	// Credentials for the connection type
+	Credentials map[string]string `pulumi:"credentials"`
+	// Settings for the connection type
+	Settings map[string]string `pulumi:"settings"`
+	// Used when reading the AEM instance state when determining the plan.
+	State_timeout *string `pulumi:"state_timeout"`
+	// Type of connection to use to connect to the machine on which AEM instance will be running.
+	Type string `pulumi:"type"`
 }
 
 // ClientModelInput is an input type that accepts ClientModelArgs and ClientModelOutput values.
@@ -33,11 +38,16 @@ type ClientModelInput interface {
 }
 
 type ClientModelArgs struct {
+	// Used when trying to connect to the AEM instance machine (often right after creating it). Need to be enough long because various types of connections (like AWS SSM or SSH) may need some time to boot up the agent.
 	Action_timeout pulumi.StringPtrInput `pulumi:"action_timeout"`
-	Credentials    pulumi.StringMapInput `pulumi:"credentials"`
-	Settings       pulumi.StringMapInput `pulumi:"settings"`
-	State_timeout  pulumi.StringPtrInput `pulumi:"state_timeout"`
-	Type           pulumi.StringInput    `pulumi:"type"`
+	// Credentials for the connection type
+	Credentials pulumi.StringMapInput `pulumi:"credentials"`
+	// Settings for the connection type
+	Settings pulumi.StringMapInput `pulumi:"settings"`
+	// Used when reading the AEM instance state when determining the plan.
+	State_timeout pulumi.StringPtrInput `pulumi:"state_timeout"`
+	// Type of connection to use to connect to the machine on which AEM instance will be running.
+	Type pulumi.StringInput `pulumi:"type"`
 }
 
 func (ClientModelArgs) ElementType() reflect.Type {
@@ -66,33 +76,44 @@ func (o ClientModelOutput) ToClientModelOutputWithContext(ctx context.Context) C
 	return o
 }
 
+// Used when trying to connect to the AEM instance machine (often right after creating it). Need to be enough long because various types of connections (like AWS SSM or SSH) may need some time to boot up the agent.
 func (o ClientModelOutput) Action_timeout() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ClientModel) *string { return v.Action_timeout }).(pulumi.StringPtrOutput)
 }
 
+// Credentials for the connection type
 func (o ClientModelOutput) Credentials() pulumi.StringMapOutput {
 	return o.ApplyT(func(v ClientModel) map[string]string { return v.Credentials }).(pulumi.StringMapOutput)
 }
 
+// Settings for the connection type
 func (o ClientModelOutput) Settings() pulumi.StringMapOutput {
 	return o.ApplyT(func(v ClientModel) map[string]string { return v.Settings }).(pulumi.StringMapOutput)
 }
 
+// Used when reading the AEM instance state when determining the plan.
 func (o ClientModelOutput) State_timeout() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ClientModel) *string { return v.State_timeout }).(pulumi.StringPtrOutput)
 }
 
+// Type of connection to use to connect to the machine on which AEM instance will be running.
 func (o ClientModelOutput) Type() pulumi.StringOutput {
 	return o.ApplyT(func(v ClientModel) string { return v.Type }).(pulumi.StringOutput)
 }
 
 type ComposeModel struct {
-	Config    *string         `pulumi:"config"`
+	// Contents of the AEM Compose YML configuration file.
+	Config *string `pulumi:"config"`
+	// Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc.
 	Configure *InstanceScript `pulumi:"configure"`
-	Create    *InstanceScript `pulumi:"create"`
-	Delete    *InstanceScript `pulumi:"delete"`
-	Download  *bool           `pulumi:"download"`
-	Version   *string         `pulumi:"version"`
+	// Script(s) for creating an instance or restoring it from a backup. Typically customized to provide AEM library files (quickstart.jar, license.properties, service packs) from alternative sources (e.g., AWS S3, Azure Blob Storage). Instance recreation is forced if changed.
+	Create *InstanceScript `pulumi:"create"`
+	// Script(s) for deleting a stopped instance.
+	Delete *InstanceScript `pulumi:"delete"`
+	// Toggle automatic AEM Compose CLI wrapper download. If set to false, assume the wrapper is present in the data directory.
+	Download *bool `pulumi:"download"`
+	// Version of AEM Compose tool to use on remote machine.
+	Version *string `pulumi:"version"`
 }
 
 // ComposeModelInput is an input type that accepts ComposeModelArgs and ComposeModelOutput values.
@@ -107,12 +128,18 @@ type ComposeModelInput interface {
 }
 
 type ComposeModelArgs struct {
-	Config    pulumi.StringPtrInput  `pulumi:"config"`
+	// Contents of the AEM Compose YML configuration file.
+	Config pulumi.StringPtrInput `pulumi:"config"`
+	// Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc.
 	Configure InstanceScriptPtrInput `pulumi:"configure"`
-	Create    InstanceScriptPtrInput `pulumi:"create"`
-	Delete    InstanceScriptPtrInput `pulumi:"delete"`
-	Download  pulumi.BoolPtrInput    `pulumi:"download"`
-	Version   pulumi.StringPtrInput  `pulumi:"version"`
+	// Script(s) for creating an instance or restoring it from a backup. Typically customized to provide AEM library files (quickstart.jar, license.properties, service packs) from alternative sources (e.g., AWS S3, Azure Blob Storage). Instance recreation is forced if changed.
+	Create InstanceScriptPtrInput `pulumi:"create"`
+	// Script(s) for deleting a stopped instance.
+	Delete InstanceScriptPtrInput `pulumi:"delete"`
+	// Toggle automatic AEM Compose CLI wrapper download. If set to false, assume the wrapper is present in the data directory.
+	Download pulumi.BoolPtrInput `pulumi:"download"`
+	// Version of AEM Compose tool to use on remote machine.
+	Version pulumi.StringPtrInput `pulumi:"version"`
 }
 
 func (ComposeModelArgs) ElementType() reflect.Type {
@@ -192,26 +219,32 @@ func (o ComposeModelOutput) ToComposeModelPtrOutputWithContext(ctx context.Conte
 	}).(ComposeModelPtrOutput)
 }
 
+// Contents of the AEM Compose YML configuration file.
 func (o ComposeModelOutput) Config() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ComposeModel) *string { return v.Config }).(pulumi.StringPtrOutput)
 }
 
+// Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc.
 func (o ComposeModelOutput) Configure() InstanceScriptPtrOutput {
 	return o.ApplyT(func(v ComposeModel) *InstanceScript { return v.Configure }).(InstanceScriptPtrOutput)
 }
 
+// Script(s) for creating an instance or restoring it from a backup. Typically customized to provide AEM library files (quickstart.jar, license.properties, service packs) from alternative sources (e.g., AWS S3, Azure Blob Storage). Instance recreation is forced if changed.
 func (o ComposeModelOutput) Create() InstanceScriptPtrOutput {
 	return o.ApplyT(func(v ComposeModel) *InstanceScript { return v.Create }).(InstanceScriptPtrOutput)
 }
 
+// Script(s) for deleting a stopped instance.
 func (o ComposeModelOutput) Delete() InstanceScriptPtrOutput {
 	return o.ApplyT(func(v ComposeModel) *InstanceScript { return v.Delete }).(InstanceScriptPtrOutput)
 }
 
+// Toggle automatic AEM Compose CLI wrapper download. If set to false, assume the wrapper is present in the data directory.
 func (o ComposeModelOutput) Download() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v ComposeModel) *bool { return v.Download }).(pulumi.BoolPtrOutput)
 }
 
+// Version of AEM Compose tool to use on remote machine.
 func (o ComposeModelOutput) Version() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v ComposeModel) *string { return v.Version }).(pulumi.StringPtrOutput)
 }
@@ -240,6 +273,7 @@ func (o ComposeModelPtrOutput) Elem() ComposeModelOutput {
 	}).(ComposeModelOutput)
 }
 
+// Contents of the AEM Compose YML configuration file.
 func (o ComposeModelPtrOutput) Config() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ComposeModel) *string {
 		if v == nil {
@@ -249,6 +283,7 @@ func (o ComposeModelPtrOutput) Config() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
+// Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc.
 func (o ComposeModelPtrOutput) Configure() InstanceScriptPtrOutput {
 	return o.ApplyT(func(v *ComposeModel) *InstanceScript {
 		if v == nil {
@@ -258,6 +293,7 @@ func (o ComposeModelPtrOutput) Configure() InstanceScriptPtrOutput {
 	}).(InstanceScriptPtrOutput)
 }
 
+// Script(s) for creating an instance or restoring it from a backup. Typically customized to provide AEM library files (quickstart.jar, license.properties, service packs) from alternative sources (e.g., AWS S3, Azure Blob Storage). Instance recreation is forced if changed.
 func (o ComposeModelPtrOutput) Create() InstanceScriptPtrOutput {
 	return o.ApplyT(func(v *ComposeModel) *InstanceScript {
 		if v == nil {
@@ -267,6 +303,7 @@ func (o ComposeModelPtrOutput) Create() InstanceScriptPtrOutput {
 	}).(InstanceScriptPtrOutput)
 }
 
+// Script(s) for deleting a stopped instance.
 func (o ComposeModelPtrOutput) Delete() InstanceScriptPtrOutput {
 	return o.ApplyT(func(v *ComposeModel) *InstanceScript {
 		if v == nil {
@@ -276,6 +313,7 @@ func (o ComposeModelPtrOutput) Delete() InstanceScriptPtrOutput {
 	}).(InstanceScriptPtrOutput)
 }
 
+// Toggle automatic AEM Compose CLI wrapper download. If set to false, assume the wrapper is present in the data directory.
 func (o ComposeModelPtrOutput) Download() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *ComposeModel) *bool {
 		if v == nil {
@@ -285,6 +323,7 @@ func (o ComposeModelPtrOutput) Download() pulumi.BoolPtrOutput {
 	}).(pulumi.BoolPtrOutput)
 }
 
+// Version of AEM Compose tool to use on remote machine.
 func (o ComposeModelPtrOutput) Version() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *ComposeModel) *string {
 		if v == nil {
@@ -295,12 +334,18 @@ func (o ComposeModelPtrOutput) Version() pulumi.StringPtrOutput {
 }
 
 type InstanceModel struct {
-	Aem_version string   `pulumi:"aem_version"`
-	Attributes  []string `pulumi:"attributes"`
-	Dir         string   `pulumi:"dir"`
-	Id          string   `pulumi:"id"`
-	Run_modes   []string `pulumi:"run_modes"`
-	Url         string   `pulumi:"url"`
+	// Version of the AEM instance. Reflects service pack installations.
+	Aem_version string `pulumi:"aem_version"`
+	// A brief description of the state details for a specific AEM instance. Possible states include 'created', 'uncreated', 'running', 'unreachable', 'up-to-date', and 'out-of-date'.
+	Attributes []string `pulumi:"attributes"`
+	// Remote path in which AEM instance is stored.
+	Dir string `pulumi:"dir"`
+	// Unique identifier of AEM instance defined in the configuration.
+	Id string `pulumi:"id"`
+	// A list of run modes for a specific AEM instance.
+	Run_modes []string `pulumi:"run_modes"`
+	// The machine-internal HTTP URL address used for communication with the AEM instance.
+	Url string `pulumi:"url"`
 }
 
 type InstanceModelOutput struct{ *pulumi.OutputState }
@@ -317,26 +362,32 @@ func (o InstanceModelOutput) ToInstanceModelOutputWithContext(ctx context.Contex
 	return o
 }
 
+// Version of the AEM instance. Reflects service pack installations.
 func (o InstanceModelOutput) Aem_version() pulumi.StringOutput {
 	return o.ApplyT(func(v InstanceModel) string { return v.Aem_version }).(pulumi.StringOutput)
 }
 
+// A brief description of the state details for a specific AEM instance. Possible states include 'created', 'uncreated', 'running', 'unreachable', 'up-to-date', and 'out-of-date'.
 func (o InstanceModelOutput) Attributes() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v InstanceModel) []string { return v.Attributes }).(pulumi.StringArrayOutput)
 }
 
+// Remote path in which AEM instance is stored.
 func (o InstanceModelOutput) Dir() pulumi.StringOutput {
 	return o.ApplyT(func(v InstanceModel) string { return v.Dir }).(pulumi.StringOutput)
 }
 
+// Unique identifier of AEM instance defined in the configuration.
 func (o InstanceModelOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v InstanceModel) string { return v.Id }).(pulumi.StringOutput)
 }
 
+// A list of run modes for a specific AEM instance.
 func (o InstanceModelOutput) Run_modes() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v InstanceModel) []string { return v.Run_modes }).(pulumi.StringArrayOutput)
 }
 
+// The machine-internal HTTP URL address used for communication with the AEM instance.
 func (o InstanceModelOutput) Url() pulumi.StringOutput {
 	return o.ApplyT(func(v InstanceModel) string { return v.Url }).(pulumi.StringOutput)
 }
@@ -362,8 +413,10 @@ func (o InstanceModelArrayOutput) Index(i pulumi.IntInput) InstanceModelOutput {
 }
 
 type InstanceScript struct {
+	// Inline shell commands to be executed
 	Inline []string `pulumi:"inline"`
-	Script *string  `pulumi:"script"`
+	// Multiline shell script to be executed
+	Script *string `pulumi:"script"`
 }
 
 // InstanceScriptInput is an input type that accepts InstanceScriptArgs and InstanceScriptOutput values.
@@ -378,8 +431,10 @@ type InstanceScriptInput interface {
 }
 
 type InstanceScriptArgs struct {
+	// Inline shell commands to be executed
 	Inline pulumi.StringArrayInput `pulumi:"inline"`
-	Script pulumi.StringPtrInput   `pulumi:"script"`
+	// Multiline shell script to be executed
+	Script pulumi.StringPtrInput `pulumi:"script"`
 }
 
 func (InstanceScriptArgs) ElementType() reflect.Type {
@@ -459,10 +514,12 @@ func (o InstanceScriptOutput) ToInstanceScriptPtrOutputWithContext(ctx context.C
 	}).(InstanceScriptPtrOutput)
 }
 
+// Inline shell commands to be executed
 func (o InstanceScriptOutput) Inline() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v InstanceScript) []string { return v.Inline }).(pulumi.StringArrayOutput)
 }
 
+// Multiline shell script to be executed
 func (o InstanceScriptOutput) Script() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v InstanceScript) *string { return v.Script }).(pulumi.StringPtrOutput)
 }
@@ -491,6 +548,7 @@ func (o InstanceScriptPtrOutput) Elem() InstanceScriptOutput {
 	}).(InstanceScriptOutput)
 }
 
+// Inline shell commands to be executed
 func (o InstanceScriptPtrOutput) Inline() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *InstanceScript) []string {
 		if v == nil {
@@ -500,6 +558,7 @@ func (o InstanceScriptPtrOutput) Inline() pulumi.StringArrayOutput {
 	}).(pulumi.StringArrayOutput)
 }
 
+// Multiline shell script to be executed
 func (o InstanceScriptPtrOutput) Script() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *InstanceScript) *string {
 		if v == nil {
@@ -510,12 +569,18 @@ func (o InstanceScriptPtrOutput) Script() pulumi.StringPtrOutput {
 }
 
 type SystemModel struct {
-	Bootstrap      *InstanceScript   `pulumi:"bootstrap"`
-	Data_dir       *string           `pulumi:"data_dir"`
-	Env            map[string]string `pulumi:"env"`
-	Service_config *string           `pulumi:"service_config"`
-	User           *string           `pulumi:"user"`
-	Work_dir       *string           `pulumi:"work_dir"`
+	// Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.
+	Bootstrap *InstanceScript `pulumi:"bootstrap"`
+	// Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
+	Data_dir *string `pulumi:"data_dir"`
+	// Environment variables for AEM instances.
+	Env map[string]string `pulumi:"env"`
+	// Contents of the AEM system service definition file (systemd).
+	Service_config *string `pulumi:"service_config"`
+	// System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
+	User *string `pulumi:"user"`
+	// Remote root path where provider-related files will be stored.
+	Work_dir *string `pulumi:"work_dir"`
 }
 
 // SystemModelInput is an input type that accepts SystemModelArgs and SystemModelOutput values.
@@ -530,12 +595,18 @@ type SystemModelInput interface {
 }
 
 type SystemModelArgs struct {
-	Bootstrap      InstanceScriptPtrInput `pulumi:"bootstrap"`
-	Data_dir       pulumi.StringPtrInput  `pulumi:"data_dir"`
-	Env            pulumi.StringMapInput  `pulumi:"env"`
-	Service_config pulumi.StringPtrInput  `pulumi:"service_config"`
-	User           pulumi.StringPtrInput  `pulumi:"user"`
-	Work_dir       pulumi.StringPtrInput  `pulumi:"work_dir"`
+	// Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.
+	Bootstrap InstanceScriptPtrInput `pulumi:"bootstrap"`
+	// Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
+	Data_dir pulumi.StringPtrInput `pulumi:"data_dir"`
+	// Environment variables for AEM instances.
+	Env pulumi.StringMapInput `pulumi:"env"`
+	// Contents of the AEM system service definition file (systemd).
+	Service_config pulumi.StringPtrInput `pulumi:"service_config"`
+	// System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
+	User pulumi.StringPtrInput `pulumi:"user"`
+	// Remote root path where provider-related files will be stored.
+	Work_dir pulumi.StringPtrInput `pulumi:"work_dir"`
 }
 
 func (SystemModelArgs) ElementType() reflect.Type {
@@ -615,26 +686,32 @@ func (o SystemModelOutput) ToSystemModelPtrOutputWithContext(ctx context.Context
 	}).(SystemModelPtrOutput)
 }
 
+// Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.
 func (o SystemModelOutput) Bootstrap() InstanceScriptPtrOutput {
 	return o.ApplyT(func(v SystemModel) *InstanceScript { return v.Bootstrap }).(InstanceScriptPtrOutput)
 }
 
+// Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
 func (o SystemModelOutput) Data_dir() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v SystemModel) *string { return v.Data_dir }).(pulumi.StringPtrOutput)
 }
 
+// Environment variables for AEM instances.
 func (o SystemModelOutput) Env() pulumi.StringMapOutput {
 	return o.ApplyT(func(v SystemModel) map[string]string { return v.Env }).(pulumi.StringMapOutput)
 }
 
+// Contents of the AEM system service definition file (systemd).
 func (o SystemModelOutput) Service_config() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v SystemModel) *string { return v.Service_config }).(pulumi.StringPtrOutput)
 }
 
+// System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
 func (o SystemModelOutput) User() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v SystemModel) *string { return v.User }).(pulumi.StringPtrOutput)
 }
 
+// Remote root path where provider-related files will be stored.
 func (o SystemModelOutput) Work_dir() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v SystemModel) *string { return v.Work_dir }).(pulumi.StringPtrOutput)
 }
@@ -663,6 +740,7 @@ func (o SystemModelPtrOutput) Elem() SystemModelOutput {
 	}).(SystemModelOutput)
 }
 
+// Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.
 func (o SystemModelPtrOutput) Bootstrap() InstanceScriptPtrOutput {
 	return o.ApplyT(func(v *SystemModel) *InstanceScript {
 		if v == nil {
@@ -672,6 +750,7 @@ func (o SystemModelPtrOutput) Bootstrap() InstanceScriptPtrOutput {
 	}).(InstanceScriptPtrOutput)
 }
 
+// Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
 func (o SystemModelPtrOutput) Data_dir() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SystemModel) *string {
 		if v == nil {
@@ -681,6 +760,7 @@ func (o SystemModelPtrOutput) Data_dir() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
+// Environment variables for AEM instances.
 func (o SystemModelPtrOutput) Env() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *SystemModel) map[string]string {
 		if v == nil {
@@ -690,6 +770,7 @@ func (o SystemModelPtrOutput) Env() pulumi.StringMapOutput {
 	}).(pulumi.StringMapOutput)
 }
 
+// Contents of the AEM system service definition file (systemd).
 func (o SystemModelPtrOutput) Service_config() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SystemModel) *string {
 		if v == nil {
@@ -699,6 +780,7 @@ func (o SystemModelPtrOutput) Service_config() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
+// System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
 func (o SystemModelPtrOutput) User() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SystemModel) *string {
 		if v == nil {
@@ -708,6 +790,7 @@ func (o SystemModelPtrOutput) User() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
+// Remote root path where provider-related files will be stored.
 func (o SystemModelPtrOutput) Work_dir() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *SystemModel) *string {
 		if v == nil {

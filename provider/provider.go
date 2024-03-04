@@ -32,12 +32,27 @@ type InstanceResourceModelArgs struct {
 	Compose ComposeModel      `pulumi:"compose,optional"`
 }
 
+func (m *InstanceResourceModelArgs) Annotate(a infer.Annotator) {
+	a.Describe(&m.Client, "Connection settings used to access the machine on which the AEM instance will be running.")
+	a.Describe(&m.Files, "Files or directories to be copied into the machine.")
+	a.Describe(&m.System, "Operating system configuration for the machine on which AEM instance will be running.")
+	a.Describe(&m.Compose, "AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration).")
+}
+
 type ClientModel struct {
 	Type          string            `pulumi:"type"`
 	Settings      map[string]string `pulumi:"settings"`
 	Credentials   map[string]string `pulumi:"credentials,optional"`
 	ActionTimeout string            `pulumi:"action_timeout,optional"`
 	StateTimeout  string            `pulumi:"state_timeout,optional"`
+}
+
+func (m *ClientModel) Annotate(a infer.Annotator) {
+	a.Describe(&m.Type, "Type of connection to use to connect to the machine on which AEM instance will be running.")
+	a.Describe(&m.Settings, "Settings for the connection type")
+	a.Describe(&m.Credentials, "Credentials for the connection type")
+	a.Describe(&m.ActionTimeout, "Used when trying to connect to the AEM instance machine (often right after creating it). Need to be enough long because various types of connections (like AWS SSM or SSH) may need some time to boot up the agent.")
+	a.Describe(&m.StateTimeout, "Used when reading the AEM instance state when determining the plan.")
 }
 
 type SystemModel struct {
@@ -49,6 +64,15 @@ type SystemModel struct {
 	Bootstrap     InstanceScript    `pulumi:"bootstrap,optional"`
 }
 
+func (m *SystemModel) Annotate(a infer.Annotator) {
+	a.Describe(&m.DataDir, "Remote root path in which AEM Compose files and unpacked AEM instances will be stored.")
+	a.Describe(&m.WorkDir, "Remote root path where provider-related files will be stored.")
+	a.Describe(&m.Env, "Environment variables for AEM instances.")
+	a.Describe(&m.ServiceConfig, "Contents of the AEM system service definition file (systemd).")
+	a.Describe(&m.User, "System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.")
+	a.Describe(&m.Bootstrap, "Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.")
+}
+
 type ComposeModel struct {
 	Download  bool           `pulumi:"download,optional"`
 	Version   string         `pulumi:"version,optional"`
@@ -58,9 +82,23 @@ type ComposeModel struct {
 	Delete    InstanceScript `pulumi:"delete,optional"`
 }
 
+func (m *ComposeModel) Annotate(a infer.Annotator) {
+	a.Describe(&m.Download, "Toggle automatic AEM Compose CLI wrapper download. If set to false, assume the wrapper is present in the data directory.")
+	a.Describe(&m.Version, "Version of AEM Compose tool to use on remote machine.")
+	a.Describe(&m.Config, "Contents of the AEM Compose YML configuration file.")
+	a.Describe(&m.Create, "Script(s) for creating an instance or restoring it from a backup. Typically customized to provide AEM library files (quickstart.jar, license.properties, service packs) from alternative sources (e.g., AWS S3, Azure Blob Storage). Instance recreation is forced if changed.")
+	a.Describe(&m.Configure, "Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc.")
+	a.Describe(&m.Delete, "Script(s) for deleting a stopped instance.")
+}
+
 type InstanceScript struct {
 	Inline []string `pulumi:"inline,optional"`
 	Script string   `pulumi:"script,optional"`
+}
+
+func (m *InstanceScript) Annotate(a infer.Annotator) {
+	a.Describe(&m.Inline, "Inline shell commands to be executed")
+	a.Describe(&m.Script, "Multiline shell script to be executed")
 }
 
 type InstanceModel struct {
@@ -72,9 +110,22 @@ type InstanceModel struct {
 	RunModes   []string `pulumi:"run_modes"`
 }
 
+func (m *InstanceModel) Annotate(a infer.Annotator) {
+	a.Describe(&m.ID, "Unique identifier of AEM instance defined in the configuration.")
+	a.Describe(&m.URL, "The machine-internal HTTP URL address used for communication with the AEM instance.")
+	a.Describe(&m.AemVersion, "Version of the AEM instance. Reflects service pack installations.")
+	a.Describe(&m.Dir, "Remote path in which AEM instance is stored.")
+	a.Describe(&m.Attributes, "A brief description of the state details for a specific AEM instance. Possible states include 'created', 'uncreated', 'running', 'unreachable', 'up-to-date', and 'out-of-date'.")
+	a.Describe(&m.RunModes, "A list of run modes for a specific AEM instance.")
+}
+
 type InstanceResourceModelState struct {
 	InstanceResourceModelArgs
 	Instances []InstanceModel `pulumi:"instances"`
+}
+
+func (m *InstanceResourceModelState) Annotate(a infer.Annotator) {
+	a.Describe(&m.Instances, "Current state of the configured AEM instances.")
 }
 
 func (InstanceResourceModel) Create(ctx p.Context, name string, input InstanceResourceModelArgs, preview bool) (string, InstanceResourceModelState, error) {

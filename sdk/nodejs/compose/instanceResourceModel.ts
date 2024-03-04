@@ -33,10 +33,25 @@ export class InstanceResourceModel extends pulumi.CustomResource {
         return obj['__pulumiType'] === InstanceResourceModel.__pulumiType;
     }
 
+    /**
+     * Connection settings used to access the machine on which the AEM instance will be running.
+     */
     public readonly client!: pulumi.Output<outputs.compose.ClientModel>;
+    /**
+     * AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration).
+     */
     public readonly compose!: pulumi.Output<outputs.compose.ComposeModel | undefined>;
+    /**
+     * Files or directories to be copied into the machine.
+     */
     public readonly files!: pulumi.Output<{[key: string]: string} | undefined>;
+    /**
+     * Current state of the configured AEM instances.
+     */
     public /*out*/ readonly instances!: pulumi.Output<outputs.compose.InstanceModel[]>;
+    /**
+     * Operating system configuration for the machine on which AEM instance will be running.
+     */
     public readonly system!: pulumi.Output<outputs.compose.SystemModel | undefined>;
 
     /**
@@ -74,8 +89,20 @@ export class InstanceResourceModel extends pulumi.CustomResource {
  * The set of arguments for constructing a InstanceResourceModel resource.
  */
 export interface InstanceResourceModelArgs {
+    /**
+     * Connection settings used to access the machine on which the AEM instance will be running.
+     */
     client: pulumi.Input<inputs.compose.ClientModelArgs>;
+    /**
+     * AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration).
+     */
     compose?: pulumi.Input<inputs.compose.ComposeModelArgs>;
+    /**
+     * Files or directories to be copied into the machine.
+     */
     files?: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
+    /**
+     * Operating system configuration for the machine on which AEM instance will be running.
+     */
     system?: pulumi.Input<inputs.compose.SystemModelArgs>;
 }

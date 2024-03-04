@@ -7,42 +7,117 @@ import * as outputs from "../types/output";
 
 export namespace compose {
     export interface ClientModel {
+        /**
+         * Used when trying to connect to the AEM instance machine (often right after creating it). Need to be enough long because various types of connections (like AWS SSM or SSH) may need some time to boot up the agent.
+         */
         action_timeout?: string;
+        /**
+         * Credentials for the connection type
+         */
         credentials?: {[key: string]: string};
+        /**
+         * Settings for the connection type
+         */
         settings: {[key: string]: string};
+        /**
+         * Used when reading the AEM instance state when determining the plan.
+         */
         state_timeout?: string;
+        /**
+         * Type of connection to use to connect to the machine on which AEM instance will be running.
+         */
         type: string;
     }
 
     export interface ComposeModel {
+        /**
+         * Contents of the AEM Compose YML configuration file.
+         */
         config?: string;
+        /**
+         * Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc.
+         */
         configure?: outputs.compose.InstanceScript;
+        /**
+         * Script(s) for creating an instance or restoring it from a backup. Typically customized to provide AEM library files (quickstart.jar, license.properties, service packs) from alternative sources (e.g., AWS S3, Azure Blob Storage). Instance recreation is forced if changed.
+         */
         create?: outputs.compose.InstanceScript;
+        /**
+         * Script(s) for deleting a stopped instance.
+         */
         delete?: outputs.compose.InstanceScript;
+        /**
+         * Toggle automatic AEM Compose CLI wrapper download. If set to false, assume the wrapper is present in the data directory.
+         */
         download?: boolean;
+        /**
+         * Version of AEM Compose tool to use on remote machine.
+         */
         version?: string;
     }
 
     export interface InstanceModel {
+        /**
+         * Version of the AEM instance. Reflects service pack installations.
+         */
         aem_version: string;
+        /**
+         * A brief description of the state details for a specific AEM instance. Possible states include 'created', 'uncreated', 'running', 'unreachable', 'up-to-date', and 'out-of-date'.
+         */
         attributes: string[];
+        /**
+         * Remote path in which AEM instance is stored.
+         */
         dir: string;
+        /**
+         * Unique identifier of AEM instance defined in the configuration.
+         */
         id: string;
+        /**
+         * A list of run modes for a specific AEM instance.
+         */
         run_modes: string[];
+        /**
+         * The machine-internal HTTP URL address used for communication with the AEM instance.
+         */
         url: string;
     }
 
     export interface InstanceScript {
+        /**
+         * Inline shell commands to be executed
+         */
         inline?: string[];
+        /**
+         * Multiline shell script to be executed
+         */
         script?: string;
     }
 
     export interface SystemModel {
+        /**
+         * Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.
+         */
         bootstrap?: outputs.compose.InstanceScript;
+        /**
+         * Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
+         */
         data_dir?: string;
+        /**
+         * Environment variables for AEM instances.
+         */
         env?: {[key: string]: string};
+        /**
+         * Contents of the AEM system service definition file (systemd).
+         */
         service_config?: string;
+        /**
+         * System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
+         */
         user?: string;
+        /**
+         * Remote root path where provider-related files will be stored.
+         */
         work_dir?: string;
     }
 

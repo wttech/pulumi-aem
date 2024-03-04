@@ -15,11 +15,16 @@ import (
 type InstanceResourceModel struct {
 	pulumi.CustomResourceState
 
-	Client    ClientModelOutput        `pulumi:"client"`
-	Compose   ComposeModelPtrOutput    `pulumi:"compose"`
-	Files     pulumi.StringMapOutput   `pulumi:"files"`
+	// Connection settings used to access the machine on which the AEM instance will be running.
+	Client ClientModelOutput `pulumi:"client"`
+	// AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration).
+	Compose ComposeModelPtrOutput `pulumi:"compose"`
+	// Files or directories to be copied into the machine.
+	Files pulumi.StringMapOutput `pulumi:"files"`
+	// Current state of the configured AEM instances.
 	Instances InstanceModelArrayOutput `pulumi:"instances"`
-	System    SystemModelPtrOutput     `pulumi:"system"`
+	// Operating system configuration for the machine on which AEM instance will be running.
+	System SystemModelPtrOutput `pulumi:"system"`
 }
 
 // NewInstanceResourceModel registers a new resource with the given unique name, arguments, and options.
@@ -65,18 +70,26 @@ func (InstanceResourceModelState) ElementType() reflect.Type {
 }
 
 type instanceResourceModelArgs struct {
-	Client  ClientModel       `pulumi:"client"`
-	Compose *ComposeModel     `pulumi:"compose"`
-	Files   map[string]string `pulumi:"files"`
-	System  *SystemModel      `pulumi:"system"`
+	// Connection settings used to access the machine on which the AEM instance will be running.
+	Client ClientModel `pulumi:"client"`
+	// AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration).
+	Compose *ComposeModel `pulumi:"compose"`
+	// Files or directories to be copied into the machine.
+	Files map[string]string `pulumi:"files"`
+	// Operating system configuration for the machine on which AEM instance will be running.
+	System *SystemModel `pulumi:"system"`
 }
 
 // The set of arguments for constructing a InstanceResourceModel resource.
 type InstanceResourceModelArgs struct {
-	Client  ClientModelInput
+	// Connection settings used to access the machine on which the AEM instance will be running.
+	Client ClientModelInput
+	// AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration).
 	Compose ComposeModelPtrInput
-	Files   pulumi.StringMapInput
-	System  SystemModelPtrInput
+	// Files or directories to be copied into the machine.
+	Files pulumi.StringMapInput
+	// Operating system configuration for the machine on which AEM instance will be running.
+	System SystemModelPtrInput
 }
 
 func (InstanceResourceModelArgs) ElementType() reflect.Type {
@@ -116,22 +129,27 @@ func (o InstanceResourceModelOutput) ToInstanceResourceModelOutputWithContext(ct
 	return o
 }
 
+// Connection settings used to access the machine on which the AEM instance will be running.
 func (o InstanceResourceModelOutput) Client() ClientModelOutput {
 	return o.ApplyT(func(v *InstanceResourceModel) ClientModelOutput { return v.Client }).(ClientModelOutput)
 }
 
+// AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration).
 func (o InstanceResourceModelOutput) Compose() ComposeModelPtrOutput {
 	return o.ApplyT(func(v *InstanceResourceModel) ComposeModelPtrOutput { return v.Compose }).(ComposeModelPtrOutput)
 }
 
+// Files or directories to be copied into the machine.
 func (o InstanceResourceModelOutput) Files() pulumi.StringMapOutput {
 	return o.ApplyT(func(v *InstanceResourceModel) pulumi.StringMapOutput { return v.Files }).(pulumi.StringMapOutput)
 }
 
+// Current state of the configured AEM instances.
 func (o InstanceResourceModelOutput) Instances() InstanceModelArrayOutput {
 	return o.ApplyT(func(v *InstanceResourceModel) InstanceModelArrayOutput { return v.Instances }).(InstanceModelArrayOutput)
 }
 
+// Operating system configuration for the machine on which AEM instance will be running.
 func (o InstanceResourceModelOutput) System() SystemModelPtrOutput {
 	return o.ApplyT(func(v *InstanceResourceModel) SystemModelPtrOutput { return v.System }).(SystemModelPtrOutput)
 }
