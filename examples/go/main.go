@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/pulumi/pulumi-aem/sdk/go/aem/compose"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+	"github.com/wttech/pulumi-aem-native/sdk/go/aem/compose"
 )
 
 func main() {
@@ -27,7 +27,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		ctx.Export("output", map[string]interface{}{
+		ctx.Export("output", pulumi.Map{
 			"aemInstances": instanceResourceModel.Instances,
 		})
 		return nil
