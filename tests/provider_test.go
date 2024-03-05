@@ -14,11 +14,11 @@ import (
 	aem "github.com/wttech/pulumi-aem-native/provider"
 )
 
-func TestInstanceResourceModelCheck(t *testing.T) {
+func TestInstanceModelCheck(t *testing.T) {
 	prov := provider()
 
 	response, err := prov.Check(p.CheckRequest{
-		Urn: urn("InstanceResourceModel"),
+		Urn: urn("Instance"),
 		News: resource.PropertyMap{
 			"client": resource.NewObjectProperty(resource.PropertyMap{
 				"type": resource.NewStringProperty("mock"),

@@ -6,7 +6,7 @@ import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
 export namespace compose {
-    export interface ClientModel {
+    export interface Client {
         /**
          * Used when trying to connect to the AEM instance machine (often right after creating it). Need to be enough long because various types of connections (like AWS SSM or SSH) may need some time to boot up the agent.
          */
@@ -29,7 +29,7 @@ export namespace compose {
         type: string;
     }
 
-    export interface ComposeModel {
+    export interface Compose {
         /**
          * Contents of the AEM Compose YML configuration file.
          */
@@ -94,7 +94,7 @@ export namespace compose {
         script?: string;
     }
 
-    export interface SystemModel {
+    export interface System {
         /**
          * Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.
          */

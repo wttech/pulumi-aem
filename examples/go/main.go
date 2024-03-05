@@ -7,8 +7,8 @@ import (
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
-		instanceResourceModel, err := compose.NewInstanceResourceModel(ctx, "instanceResourceModel", &compose.InstanceResourceModelArgs{
-			Client: &compose.ClientModelArgs{
+		aemInstance, err := compose.NewInstance(ctx, "aem_instance", &compose.InstanceArgs{
+			Client: &compose.ClientArgs{
 				Type: pulumi.String("ssh"),
 				Settings: pulumi.StringMap{
 					"host":   pulumi.String("x.x.x.x"),
@@ -28,7 +28,7 @@ func main() {
 			return err
 		}
 		ctx.Export("output", pulumi.Map{
-			"aemInstances": instanceResourceModel.Instances,
+			"aemInstances": aemInstance.Instances,
 		})
 		return nil
 	})

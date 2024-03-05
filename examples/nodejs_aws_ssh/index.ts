@@ -75,7 +75,7 @@ const volumeAttachment = new aws.ec2.VolumeAttachment("aem_single_data", {
     instanceId: instance.id,
 });
 
-const instanceResourceModel = new aem.compose.InstanceResourceModel("aem_single", {
+const aemInstance = new aem.compose.Instance("aem_instance", {
     client: {
         type: "ssh",
         settings: {
@@ -126,5 +126,5 @@ const instanceResourceModel = new aem.compose.InstanceResourceModel("aem_single"
 
 export const output = {
     instanceIp: instance.publicIp,
-    aemInstances: instanceResourceModel.instances,
+    aemInstances: aemInstance.instances,
 };

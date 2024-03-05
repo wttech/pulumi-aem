@@ -99,14 +99,14 @@ sudo dnf install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/late
 			return err
 		}
 
-		instanceResourceModel, err := compose.NewInstanceResourceModel(ctx, "aem_single", &compose.InstanceResourceModelArgs{
-			Client: compose.ClientModelArgs{
+		aemInstance, err := compose.NewInstance(ctx, "aem_instance", &compose.InstanceArgs{
+			Client: compose.ClientArgs{
 				Type: pulumi.String("aws-ssm"),
 				Settings: pulumi.StringMap{
 					"instance_id": instance.ID(),
 				},
 			},
-			System: compose.SystemModelArgs{
+			System: compose.SystemArgs{
 				Data_dir: pulumi.String(composeDir),
 				Bootstrap: compose.InstanceScriptArgs{
 					Inline: pulumi.StringArray{
@@ -121,7 +121,7 @@ sudo dnf install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/late
 					},
 				},
 			},
-			Compose: compose.ComposeModelArgs{
+			Compose: compose.ComposeArgs{
 				Create: compose.InstanceScriptArgs{
 					Inline: pulumi.StringArray{
 						pulumi.Sprintf("mkdir -p '%s/aem/home/lib'", composeDir),
@@ -145,7 +145,7 @@ sudo dnf install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/late
 
 		ctx.Export("output", pulumi.Map{
 			"instanceIp":   instance.PublicIp,
-			"aemInstances": instanceResourceModel.Instances,
+			"aemInstances": aemInstance.Instances,
 		})
 		return nil
 	})

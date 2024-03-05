@@ -111,8 +111,8 @@ func main() {
 			return err
 		}
 
-		instanceResourceModel, err := compose.NewInstanceResourceModel(ctx, "aem_single", &compose.InstanceResourceModelArgs{
-			Client: compose.ClientModelArgs{
+		aemInstance, err := compose.NewInstance(ctx, "aem_instance", &compose.InstanceArgs{
+			Client: compose.ClientArgs{
 				Type: pulumi.String("ssh"),
 				Settings: pulumi.StringMap{
 					"host":   instance.PublicIp,
@@ -124,7 +124,7 @@ func main() {
 					"private_key": pulumi.String(privateKey),
 				},
 			},
-			System: compose.SystemModelArgs{
+			System: compose.SystemArgs{
 				Data_dir: pulumi.String(composeDir),
 				Bootstrap: compose.InstanceScriptArgs{
 					Inline: pulumi.StringArray{
@@ -140,7 +140,7 @@ func main() {
 					},
 				},
 			},
-			Compose: compose.ComposeModelArgs{
+			Compose: compose.ComposeArgs{
 				Config: pulumi.String(configYML),
 				Create: compose.InstanceScriptArgs{
 					Inline: pulumi.StringArray{
@@ -165,7 +165,7 @@ func main() {
 
 		ctx.Export("output", pulumi.Map{
 			"instanceIp":   instance.PublicIp,
-			"aemInstances": instanceResourceModel.Instances,
+			"aemInstances": aemInstance.Instances,
 		})
 		return nil
 	})

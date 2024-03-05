@@ -1,7 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as aem from "@pulumi/aem";
+import * as aem from "@wttech/aem";
 
-const instanceResourceModel = new aem.compose.InstanceResourceModel("instanceResourceModel", {
+const aemInstance = new aem.compose.Instance("aem_instance", {
     client: {
         type: "ssh",
         settings: {
@@ -19,5 +19,5 @@ const instanceResourceModel = new aem.compose.InstanceResourceModel("instanceRes
     },
 });
 export const output = {
-    aemInstances: instanceResourceModel.instances,
+    aemInstances: aemInstance.instances,
 };

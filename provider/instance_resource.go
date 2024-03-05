@@ -19,15 +19,15 @@ type InstanceResource struct {
 	clientManager *client.ClientManager
 }
 
-func (r *InstanceResource) Create(ctx p.Context, model InstanceResourceModelArgs) (*InstanceStatus, error) {
+func (r *InstanceResource) Create(ctx p.Context, model InstanceArgs) (*InstanceStatus, error) {
 	return r.createOrUpdate(ctx, model, true)
 }
 
-func (r *InstanceResource) Update(ctx p.Context, model InstanceResourceModelArgs) (*InstanceStatus, error) {
+func (r *InstanceResource) Update(ctx p.Context, model InstanceArgs) (*InstanceStatus, error) {
 	return r.createOrUpdate(ctx, model, false)
 }
 
-func (r *InstanceResource) createOrUpdate(ctx p.Context, model InstanceResourceModelArgs, create bool) (*InstanceStatus, error) {
+func (r *InstanceResource) createOrUpdate(ctx p.Context, model InstanceArgs, create bool) (*InstanceStatus, error) {
 	ctx.Log(diag.Info, "Started setting up AEM instance resource")
 
 	ic, err := r.client(ctx, model, cast.ToDuration(model.Client.ActionTimeout))
@@ -90,7 +90,7 @@ func (r *InstanceResource) createOrUpdate(ctx p.Context, model InstanceResourceM
 	return &status, nil
 }
 
-func (r *InstanceResource) Delete(ctx p.Context, model InstanceResourceModelArgs) error {
+func (r *InstanceResource) Delete(ctx p.Context, model InstanceArgs) error {
 	ctx.Log(diag.Info, "Started deleting AEM instance resource")
 
 	ic, err := r.client(ctx, model, cast.ToDuration(model.Client.StateTimeout))
@@ -119,7 +119,7 @@ func (r *InstanceResource) Delete(ctx p.Context, model InstanceResourceModelArgs
 	return nil
 }
 
-func (r *InstanceResource) client(ctx p.Context, model InstanceResourceModelArgs, timeout time.Duration) (*InstanceClient, error) {
+func (r *InstanceResource) client(ctx p.Context, model InstanceArgs, timeout time.Duration) (*InstanceClient, error) {
 	typeName := model.Client.Type
 	ctx.Logf(diag.Info, "Connecting to AEM instance machine using %s", typeName)
 
@@ -144,7 +144,7 @@ func (r *InstanceResource) client(ctx p.Context, model InstanceResourceModelArgs
 	return &InstanceClient{cl, ctx, model}, nil
 }
 
-func (r *InstanceResource) clientSettings(model InstanceResourceModelArgs) map[string]string {
+func (r *InstanceResource) clientSettings(model InstanceArgs) map[string]string {
 	settings := model.Client.Settings
 	credentials := model.Client.Credentials
 

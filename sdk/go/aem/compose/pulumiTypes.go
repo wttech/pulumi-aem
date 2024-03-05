@@ -13,7 +13,7 @@ import (
 
 var _ = internal.GetEnvOrDefault
 
-type ClientModel struct {
+type Client struct {
 	// Used when trying to connect to the AEM instance machine (often right after creating it). Need to be enough long because various types of connections (like AWS SSM or SSH) may need some time to boot up the agent.
 	Action_timeout *string `pulumi:"action_timeout"`
 	// Credentials for the connection type
@@ -26,18 +26,18 @@ type ClientModel struct {
 	Type string `pulumi:"type"`
 }
 
-// ClientModelInput is an input type that accepts ClientModelArgs and ClientModelOutput values.
-// You can construct a concrete instance of `ClientModelInput` via:
+// ClientInput is an input type that accepts ClientArgs and ClientOutput values.
+// You can construct a concrete instance of `ClientInput` via:
 //
-//	ClientModelArgs{...}
-type ClientModelInput interface {
+//	ClientArgs{...}
+type ClientInput interface {
 	pulumi.Input
 
-	ToClientModelOutput() ClientModelOutput
-	ToClientModelOutputWithContext(context.Context) ClientModelOutput
+	ToClientOutput() ClientOutput
+	ToClientOutputWithContext(context.Context) ClientOutput
 }
 
-type ClientModelArgs struct {
+type ClientArgs struct {
 	// Used when trying to connect to the AEM instance machine (often right after creating it). Need to be enough long because various types of connections (like AWS SSM or SSH) may need some time to boot up the agent.
 	Action_timeout pulumi.StringPtrInput `pulumi:"action_timeout"`
 	// Credentials for the connection type
@@ -50,58 +50,58 @@ type ClientModelArgs struct {
 	Type pulumi.StringInput `pulumi:"type"`
 }
 
-func (ClientModelArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*ClientModel)(nil)).Elem()
+func (ClientArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*Client)(nil)).Elem()
 }
 
-func (i ClientModelArgs) ToClientModelOutput() ClientModelOutput {
-	return i.ToClientModelOutputWithContext(context.Background())
+func (i ClientArgs) ToClientOutput() ClientOutput {
+	return i.ToClientOutputWithContext(context.Background())
 }
 
-func (i ClientModelArgs) ToClientModelOutputWithContext(ctx context.Context) ClientModelOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(ClientModelOutput)
+func (i ClientArgs) ToClientOutputWithContext(ctx context.Context) ClientOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ClientOutput)
 }
 
-type ClientModelOutput struct{ *pulumi.OutputState }
+type ClientOutput struct{ *pulumi.OutputState }
 
-func (ClientModelOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*ClientModel)(nil)).Elem()
+func (ClientOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*Client)(nil)).Elem()
 }
 
-func (o ClientModelOutput) ToClientModelOutput() ClientModelOutput {
+func (o ClientOutput) ToClientOutput() ClientOutput {
 	return o
 }
 
-func (o ClientModelOutput) ToClientModelOutputWithContext(ctx context.Context) ClientModelOutput {
+func (o ClientOutput) ToClientOutputWithContext(ctx context.Context) ClientOutput {
 	return o
 }
 
 // Used when trying to connect to the AEM instance machine (often right after creating it). Need to be enough long because various types of connections (like AWS SSM or SSH) may need some time to boot up the agent.
-func (o ClientModelOutput) Action_timeout() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ClientModel) *string { return v.Action_timeout }).(pulumi.StringPtrOutput)
+func (o ClientOutput) Action_timeout() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v Client) *string { return v.Action_timeout }).(pulumi.StringPtrOutput)
 }
 
 // Credentials for the connection type
-func (o ClientModelOutput) Credentials() pulumi.StringMapOutput {
-	return o.ApplyT(func(v ClientModel) map[string]string { return v.Credentials }).(pulumi.StringMapOutput)
+func (o ClientOutput) Credentials() pulumi.StringMapOutput {
+	return o.ApplyT(func(v Client) map[string]string { return v.Credentials }).(pulumi.StringMapOutput)
 }
 
 // Settings for the connection type
-func (o ClientModelOutput) Settings() pulumi.StringMapOutput {
-	return o.ApplyT(func(v ClientModel) map[string]string { return v.Settings }).(pulumi.StringMapOutput)
+func (o ClientOutput) Settings() pulumi.StringMapOutput {
+	return o.ApplyT(func(v Client) map[string]string { return v.Settings }).(pulumi.StringMapOutput)
 }
 
 // Used when reading the AEM instance state when determining the plan.
-func (o ClientModelOutput) State_timeout() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ClientModel) *string { return v.State_timeout }).(pulumi.StringPtrOutput)
+func (o ClientOutput) State_timeout() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v Client) *string { return v.State_timeout }).(pulumi.StringPtrOutput)
 }
 
 // Type of connection to use to connect to the machine on which AEM instance will be running.
-func (o ClientModelOutput) Type() pulumi.StringOutput {
-	return o.ApplyT(func(v ClientModel) string { return v.Type }).(pulumi.StringOutput)
+func (o ClientOutput) Type() pulumi.StringOutput {
+	return o.ApplyT(func(v Client) string { return v.Type }).(pulumi.StringOutput)
 }
 
-type ComposeModel struct {
+type Compose struct {
 	// Contents of the AEM Compose YML configuration file.
 	Config *string `pulumi:"config"`
 	// Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc.
@@ -116,18 +116,18 @@ type ComposeModel struct {
 	Version *string `pulumi:"version"`
 }
 
-// ComposeModelInput is an input type that accepts ComposeModelArgs and ComposeModelOutput values.
-// You can construct a concrete instance of `ComposeModelInput` via:
+// ComposeInput is an input type that accepts ComposeArgs and ComposeOutput values.
+// You can construct a concrete instance of `ComposeInput` via:
 //
-//	ComposeModelArgs{...}
-type ComposeModelInput interface {
+//	ComposeArgs{...}
+type ComposeInput interface {
 	pulumi.Input
 
-	ToComposeModelOutput() ComposeModelOutput
-	ToComposeModelOutputWithContext(context.Context) ComposeModelOutput
+	ToComposeOutput() ComposeOutput
+	ToComposeOutputWithContext(context.Context) ComposeOutput
 }
 
-type ComposeModelArgs struct {
+type ComposeArgs struct {
 	// Contents of the AEM Compose YML configuration file.
 	Config pulumi.StringPtrInput `pulumi:"config"`
 	// Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc.
@@ -142,140 +142,140 @@ type ComposeModelArgs struct {
 	Version pulumi.StringPtrInput `pulumi:"version"`
 }
 
-func (ComposeModelArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*ComposeModel)(nil)).Elem()
+func (ComposeArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*Compose)(nil)).Elem()
 }
 
-func (i ComposeModelArgs) ToComposeModelOutput() ComposeModelOutput {
-	return i.ToComposeModelOutputWithContext(context.Background())
+func (i ComposeArgs) ToComposeOutput() ComposeOutput {
+	return i.ToComposeOutputWithContext(context.Background())
 }
 
-func (i ComposeModelArgs) ToComposeModelOutputWithContext(ctx context.Context) ComposeModelOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(ComposeModelOutput)
+func (i ComposeArgs) ToComposeOutputWithContext(ctx context.Context) ComposeOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ComposeOutput)
 }
 
-func (i ComposeModelArgs) ToComposeModelPtrOutput() ComposeModelPtrOutput {
-	return i.ToComposeModelPtrOutputWithContext(context.Background())
+func (i ComposeArgs) ToComposePtrOutput() ComposePtrOutput {
+	return i.ToComposePtrOutputWithContext(context.Background())
 }
 
-func (i ComposeModelArgs) ToComposeModelPtrOutputWithContext(ctx context.Context) ComposeModelPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(ComposeModelOutput).ToComposeModelPtrOutputWithContext(ctx)
+func (i ComposeArgs) ToComposePtrOutputWithContext(ctx context.Context) ComposePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ComposeOutput).ToComposePtrOutputWithContext(ctx)
 }
 
-// ComposeModelPtrInput is an input type that accepts ComposeModelArgs, ComposeModelPtr and ComposeModelPtrOutput values.
-// You can construct a concrete instance of `ComposeModelPtrInput` via:
+// ComposePtrInput is an input type that accepts ComposeArgs, ComposePtr and ComposePtrOutput values.
+// You can construct a concrete instance of `ComposePtrInput` via:
 //
-//	        ComposeModelArgs{...}
+//	        ComposeArgs{...}
 //
 //	or:
 //
 //	        nil
-type ComposeModelPtrInput interface {
+type ComposePtrInput interface {
 	pulumi.Input
 
-	ToComposeModelPtrOutput() ComposeModelPtrOutput
-	ToComposeModelPtrOutputWithContext(context.Context) ComposeModelPtrOutput
+	ToComposePtrOutput() ComposePtrOutput
+	ToComposePtrOutputWithContext(context.Context) ComposePtrOutput
 }
 
-type composeModelPtrType ComposeModelArgs
+type composePtrType ComposeArgs
 
-func ComposeModelPtr(v *ComposeModelArgs) ComposeModelPtrInput {
-	return (*composeModelPtrType)(v)
+func ComposePtr(v *ComposeArgs) ComposePtrInput {
+	return (*composePtrType)(v)
 }
 
-func (*composeModelPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**ComposeModel)(nil)).Elem()
+func (*composePtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**Compose)(nil)).Elem()
 }
 
-func (i *composeModelPtrType) ToComposeModelPtrOutput() ComposeModelPtrOutput {
-	return i.ToComposeModelPtrOutputWithContext(context.Background())
+func (i *composePtrType) ToComposePtrOutput() ComposePtrOutput {
+	return i.ToComposePtrOutputWithContext(context.Background())
 }
 
-func (i *composeModelPtrType) ToComposeModelPtrOutputWithContext(ctx context.Context) ComposeModelPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(ComposeModelPtrOutput)
+func (i *composePtrType) ToComposePtrOutputWithContext(ctx context.Context) ComposePtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ComposePtrOutput)
 }
 
-type ComposeModelOutput struct{ *pulumi.OutputState }
+type ComposeOutput struct{ *pulumi.OutputState }
 
-func (ComposeModelOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*ComposeModel)(nil)).Elem()
+func (ComposeOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*Compose)(nil)).Elem()
 }
 
-func (o ComposeModelOutput) ToComposeModelOutput() ComposeModelOutput {
+func (o ComposeOutput) ToComposeOutput() ComposeOutput {
 	return o
 }
 
-func (o ComposeModelOutput) ToComposeModelOutputWithContext(ctx context.Context) ComposeModelOutput {
+func (o ComposeOutput) ToComposeOutputWithContext(ctx context.Context) ComposeOutput {
 	return o
 }
 
-func (o ComposeModelOutput) ToComposeModelPtrOutput() ComposeModelPtrOutput {
-	return o.ToComposeModelPtrOutputWithContext(context.Background())
+func (o ComposeOutput) ToComposePtrOutput() ComposePtrOutput {
+	return o.ToComposePtrOutputWithContext(context.Background())
 }
 
-func (o ComposeModelOutput) ToComposeModelPtrOutputWithContext(ctx context.Context) ComposeModelPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v ComposeModel) *ComposeModel {
+func (o ComposeOutput) ToComposePtrOutputWithContext(ctx context.Context) ComposePtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v Compose) *Compose {
 		return &v
-	}).(ComposeModelPtrOutput)
+	}).(ComposePtrOutput)
 }
 
 // Contents of the AEM Compose YML configuration file.
-func (o ComposeModelOutput) Config() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ComposeModel) *string { return v.Config }).(pulumi.StringPtrOutput)
+func (o ComposeOutput) Config() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v Compose) *string { return v.Config }).(pulumi.StringPtrOutput)
 }
 
 // Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc.
-func (o ComposeModelOutput) Configure() InstanceScriptPtrOutput {
-	return o.ApplyT(func(v ComposeModel) *InstanceScript { return v.Configure }).(InstanceScriptPtrOutput)
+func (o ComposeOutput) Configure() InstanceScriptPtrOutput {
+	return o.ApplyT(func(v Compose) *InstanceScript { return v.Configure }).(InstanceScriptPtrOutput)
 }
 
 // Script(s) for creating an instance or restoring it from a backup. Typically customized to provide AEM library files (quickstart.jar, license.properties, service packs) from alternative sources (e.g., AWS S3, Azure Blob Storage). Instance recreation is forced if changed.
-func (o ComposeModelOutput) Create() InstanceScriptPtrOutput {
-	return o.ApplyT(func(v ComposeModel) *InstanceScript { return v.Create }).(InstanceScriptPtrOutput)
+func (o ComposeOutput) Create() InstanceScriptPtrOutput {
+	return o.ApplyT(func(v Compose) *InstanceScript { return v.Create }).(InstanceScriptPtrOutput)
 }
 
 // Script(s) for deleting a stopped instance.
-func (o ComposeModelOutput) Delete() InstanceScriptPtrOutput {
-	return o.ApplyT(func(v ComposeModel) *InstanceScript { return v.Delete }).(InstanceScriptPtrOutput)
+func (o ComposeOutput) Delete() InstanceScriptPtrOutput {
+	return o.ApplyT(func(v Compose) *InstanceScript { return v.Delete }).(InstanceScriptPtrOutput)
 }
 
 // Toggle automatic AEM Compose CLI wrapper download. If set to false, assume the wrapper is present in the data directory.
-func (o ComposeModelOutput) Download() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v ComposeModel) *bool { return v.Download }).(pulumi.BoolPtrOutput)
+func (o ComposeOutput) Download() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v Compose) *bool { return v.Download }).(pulumi.BoolPtrOutput)
 }
 
 // Version of AEM Compose tool to use on remote machine.
-func (o ComposeModelOutput) Version() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v ComposeModel) *string { return v.Version }).(pulumi.StringPtrOutput)
+func (o ComposeOutput) Version() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v Compose) *string { return v.Version }).(pulumi.StringPtrOutput)
 }
 
-type ComposeModelPtrOutput struct{ *pulumi.OutputState }
+type ComposePtrOutput struct{ *pulumi.OutputState }
 
-func (ComposeModelPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**ComposeModel)(nil)).Elem()
+func (ComposePtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**Compose)(nil)).Elem()
 }
 
-func (o ComposeModelPtrOutput) ToComposeModelPtrOutput() ComposeModelPtrOutput {
+func (o ComposePtrOutput) ToComposePtrOutput() ComposePtrOutput {
 	return o
 }
 
-func (o ComposeModelPtrOutput) ToComposeModelPtrOutputWithContext(ctx context.Context) ComposeModelPtrOutput {
+func (o ComposePtrOutput) ToComposePtrOutputWithContext(ctx context.Context) ComposePtrOutput {
 	return o
 }
 
-func (o ComposeModelPtrOutput) Elem() ComposeModelOutput {
-	return o.ApplyT(func(v *ComposeModel) ComposeModel {
+func (o ComposePtrOutput) Elem() ComposeOutput {
+	return o.ApplyT(func(v *Compose) Compose {
 		if v != nil {
 			return *v
 		}
-		var ret ComposeModel
+		var ret Compose
 		return ret
-	}).(ComposeModelOutput)
+	}).(ComposeOutput)
 }
 
 // Contents of the AEM Compose YML configuration file.
-func (o ComposeModelPtrOutput) Config() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *ComposeModel) *string {
+func (o ComposePtrOutput) Config() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Compose) *string {
 		if v == nil {
 			return nil
 		}
@@ -284,8 +284,8 @@ func (o ComposeModelPtrOutput) Config() pulumi.StringPtrOutput {
 }
 
 // Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc.
-func (o ComposeModelPtrOutput) Configure() InstanceScriptPtrOutput {
-	return o.ApplyT(func(v *ComposeModel) *InstanceScript {
+func (o ComposePtrOutput) Configure() InstanceScriptPtrOutput {
+	return o.ApplyT(func(v *Compose) *InstanceScript {
 		if v == nil {
 			return nil
 		}
@@ -294,8 +294,8 @@ func (o ComposeModelPtrOutput) Configure() InstanceScriptPtrOutput {
 }
 
 // Script(s) for creating an instance or restoring it from a backup. Typically customized to provide AEM library files (quickstart.jar, license.properties, service packs) from alternative sources (e.g., AWS S3, Azure Blob Storage). Instance recreation is forced if changed.
-func (o ComposeModelPtrOutput) Create() InstanceScriptPtrOutput {
-	return o.ApplyT(func(v *ComposeModel) *InstanceScript {
+func (o ComposePtrOutput) Create() InstanceScriptPtrOutput {
+	return o.ApplyT(func(v *Compose) *InstanceScript {
 		if v == nil {
 			return nil
 		}
@@ -304,8 +304,8 @@ func (o ComposeModelPtrOutput) Create() InstanceScriptPtrOutput {
 }
 
 // Script(s) for deleting a stopped instance.
-func (o ComposeModelPtrOutput) Delete() InstanceScriptPtrOutput {
-	return o.ApplyT(func(v *ComposeModel) *InstanceScript {
+func (o ComposePtrOutput) Delete() InstanceScriptPtrOutput {
+	return o.ApplyT(func(v *Compose) *InstanceScript {
 		if v == nil {
 			return nil
 		}
@@ -314,8 +314,8 @@ func (o ComposeModelPtrOutput) Delete() InstanceScriptPtrOutput {
 }
 
 // Toggle automatic AEM Compose CLI wrapper download. If set to false, assume the wrapper is present in the data directory.
-func (o ComposeModelPtrOutput) Download() pulumi.BoolPtrOutput {
-	return o.ApplyT(func(v *ComposeModel) *bool {
+func (o ComposePtrOutput) Download() pulumi.BoolPtrOutput {
+	return o.ApplyT(func(v *Compose) *bool {
 		if v == nil {
 			return nil
 		}
@@ -324,8 +324,8 @@ func (o ComposeModelPtrOutput) Download() pulumi.BoolPtrOutput {
 }
 
 // Version of AEM Compose tool to use on remote machine.
-func (o ComposeModelPtrOutput) Version() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *ComposeModel) *string {
+func (o ComposePtrOutput) Version() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Compose) *string {
 		if v == nil {
 			return nil
 		}
@@ -568,7 +568,7 @@ func (o InstanceScriptPtrOutput) Script() pulumi.StringPtrOutput {
 	}).(pulumi.StringPtrOutput)
 }
 
-type SystemModel struct {
+type System struct {
 	// Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.
 	Bootstrap *InstanceScript `pulumi:"bootstrap"`
 	// Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
@@ -583,18 +583,18 @@ type SystemModel struct {
 	Work_dir *string `pulumi:"work_dir"`
 }
 
-// SystemModelInput is an input type that accepts SystemModelArgs and SystemModelOutput values.
-// You can construct a concrete instance of `SystemModelInput` via:
+// SystemInput is an input type that accepts SystemArgs and SystemOutput values.
+// You can construct a concrete instance of `SystemInput` via:
 //
-//	SystemModelArgs{...}
-type SystemModelInput interface {
+//	SystemArgs{...}
+type SystemInput interface {
 	pulumi.Input
 
-	ToSystemModelOutput() SystemModelOutput
-	ToSystemModelOutputWithContext(context.Context) SystemModelOutput
+	ToSystemOutput() SystemOutput
+	ToSystemOutputWithContext(context.Context) SystemOutput
 }
 
-type SystemModelArgs struct {
+type SystemArgs struct {
 	// Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.
 	Bootstrap InstanceScriptPtrInput `pulumi:"bootstrap"`
 	// Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
@@ -609,140 +609,140 @@ type SystemModelArgs struct {
 	Work_dir pulumi.StringPtrInput `pulumi:"work_dir"`
 }
 
-func (SystemModelArgs) ElementType() reflect.Type {
-	return reflect.TypeOf((*SystemModel)(nil)).Elem()
+func (SystemArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*System)(nil)).Elem()
 }
 
-func (i SystemModelArgs) ToSystemModelOutput() SystemModelOutput {
-	return i.ToSystemModelOutputWithContext(context.Background())
+func (i SystemArgs) ToSystemOutput() SystemOutput {
+	return i.ToSystemOutputWithContext(context.Background())
 }
 
-func (i SystemModelArgs) ToSystemModelOutputWithContext(ctx context.Context) SystemModelOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(SystemModelOutput)
+func (i SystemArgs) ToSystemOutputWithContext(ctx context.Context) SystemOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SystemOutput)
 }
 
-func (i SystemModelArgs) ToSystemModelPtrOutput() SystemModelPtrOutput {
-	return i.ToSystemModelPtrOutputWithContext(context.Background())
+func (i SystemArgs) ToSystemPtrOutput() SystemPtrOutput {
+	return i.ToSystemPtrOutputWithContext(context.Background())
 }
 
-func (i SystemModelArgs) ToSystemModelPtrOutputWithContext(ctx context.Context) SystemModelPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(SystemModelOutput).ToSystemModelPtrOutputWithContext(ctx)
+func (i SystemArgs) ToSystemPtrOutputWithContext(ctx context.Context) SystemPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SystemOutput).ToSystemPtrOutputWithContext(ctx)
 }
 
-// SystemModelPtrInput is an input type that accepts SystemModelArgs, SystemModelPtr and SystemModelPtrOutput values.
-// You can construct a concrete instance of `SystemModelPtrInput` via:
+// SystemPtrInput is an input type that accepts SystemArgs, SystemPtr and SystemPtrOutput values.
+// You can construct a concrete instance of `SystemPtrInput` via:
 //
-//	        SystemModelArgs{...}
+//	        SystemArgs{...}
 //
 //	or:
 //
 //	        nil
-type SystemModelPtrInput interface {
+type SystemPtrInput interface {
 	pulumi.Input
 
-	ToSystemModelPtrOutput() SystemModelPtrOutput
-	ToSystemModelPtrOutputWithContext(context.Context) SystemModelPtrOutput
+	ToSystemPtrOutput() SystemPtrOutput
+	ToSystemPtrOutputWithContext(context.Context) SystemPtrOutput
 }
 
-type systemModelPtrType SystemModelArgs
+type systemPtrType SystemArgs
 
-func SystemModelPtr(v *SystemModelArgs) SystemModelPtrInput {
-	return (*systemModelPtrType)(v)
+func SystemPtr(v *SystemArgs) SystemPtrInput {
+	return (*systemPtrType)(v)
 }
 
-func (*systemModelPtrType) ElementType() reflect.Type {
-	return reflect.TypeOf((**SystemModel)(nil)).Elem()
+func (*systemPtrType) ElementType() reflect.Type {
+	return reflect.TypeOf((**System)(nil)).Elem()
 }
 
-func (i *systemModelPtrType) ToSystemModelPtrOutput() SystemModelPtrOutput {
-	return i.ToSystemModelPtrOutputWithContext(context.Background())
+func (i *systemPtrType) ToSystemPtrOutput() SystemPtrOutput {
+	return i.ToSystemPtrOutputWithContext(context.Background())
 }
 
-func (i *systemModelPtrType) ToSystemModelPtrOutputWithContext(ctx context.Context) SystemModelPtrOutput {
-	return pulumi.ToOutputWithContext(ctx, i).(SystemModelPtrOutput)
+func (i *systemPtrType) ToSystemPtrOutputWithContext(ctx context.Context) SystemPtrOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(SystemPtrOutput)
 }
 
-type SystemModelOutput struct{ *pulumi.OutputState }
+type SystemOutput struct{ *pulumi.OutputState }
 
-func (SystemModelOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*SystemModel)(nil)).Elem()
+func (SystemOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((*System)(nil)).Elem()
 }
 
-func (o SystemModelOutput) ToSystemModelOutput() SystemModelOutput {
+func (o SystemOutput) ToSystemOutput() SystemOutput {
 	return o
 }
 
-func (o SystemModelOutput) ToSystemModelOutputWithContext(ctx context.Context) SystemModelOutput {
+func (o SystemOutput) ToSystemOutputWithContext(ctx context.Context) SystemOutput {
 	return o
 }
 
-func (o SystemModelOutput) ToSystemModelPtrOutput() SystemModelPtrOutput {
-	return o.ToSystemModelPtrOutputWithContext(context.Background())
+func (o SystemOutput) ToSystemPtrOutput() SystemPtrOutput {
+	return o.ToSystemPtrOutputWithContext(context.Background())
 }
 
-func (o SystemModelOutput) ToSystemModelPtrOutputWithContext(ctx context.Context) SystemModelPtrOutput {
-	return o.ApplyTWithContext(ctx, func(_ context.Context, v SystemModel) *SystemModel {
+func (o SystemOutput) ToSystemPtrOutputWithContext(ctx context.Context) SystemPtrOutput {
+	return o.ApplyTWithContext(ctx, func(_ context.Context, v System) *System {
 		return &v
-	}).(SystemModelPtrOutput)
+	}).(SystemPtrOutput)
 }
 
 // Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.
-func (o SystemModelOutput) Bootstrap() InstanceScriptPtrOutput {
-	return o.ApplyT(func(v SystemModel) *InstanceScript { return v.Bootstrap }).(InstanceScriptPtrOutput)
+func (o SystemOutput) Bootstrap() InstanceScriptPtrOutput {
+	return o.ApplyT(func(v System) *InstanceScript { return v.Bootstrap }).(InstanceScriptPtrOutput)
 }
 
 // Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
-func (o SystemModelOutput) Data_dir() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemModel) *string { return v.Data_dir }).(pulumi.StringPtrOutput)
+func (o SystemOutput) Data_dir() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v System) *string { return v.Data_dir }).(pulumi.StringPtrOutput)
 }
 
 // Environment variables for AEM instances.
-func (o SystemModelOutput) Env() pulumi.StringMapOutput {
-	return o.ApplyT(func(v SystemModel) map[string]string { return v.Env }).(pulumi.StringMapOutput)
+func (o SystemOutput) Env() pulumi.StringMapOutput {
+	return o.ApplyT(func(v System) map[string]string { return v.Env }).(pulumi.StringMapOutput)
 }
 
 // Contents of the AEM system service definition file (systemd).
-func (o SystemModelOutput) Service_config() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemModel) *string { return v.Service_config }).(pulumi.StringPtrOutput)
+func (o SystemOutput) Service_config() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v System) *string { return v.Service_config }).(pulumi.StringPtrOutput)
 }
 
 // System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
-func (o SystemModelOutput) User() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemModel) *string { return v.User }).(pulumi.StringPtrOutput)
+func (o SystemOutput) User() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v System) *string { return v.User }).(pulumi.StringPtrOutput)
 }
 
 // Remote root path where provider-related files will be stored.
-func (o SystemModelOutput) Work_dir() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v SystemModel) *string { return v.Work_dir }).(pulumi.StringPtrOutput)
+func (o SystemOutput) Work_dir() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v System) *string { return v.Work_dir }).(pulumi.StringPtrOutput)
 }
 
-type SystemModelPtrOutput struct{ *pulumi.OutputState }
+type SystemPtrOutput struct{ *pulumi.OutputState }
 
-func (SystemModelPtrOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((**SystemModel)(nil)).Elem()
+func (SystemPtrOutput) ElementType() reflect.Type {
+	return reflect.TypeOf((**System)(nil)).Elem()
 }
 
-func (o SystemModelPtrOutput) ToSystemModelPtrOutput() SystemModelPtrOutput {
+func (o SystemPtrOutput) ToSystemPtrOutput() SystemPtrOutput {
 	return o
 }
 
-func (o SystemModelPtrOutput) ToSystemModelPtrOutputWithContext(ctx context.Context) SystemModelPtrOutput {
+func (o SystemPtrOutput) ToSystemPtrOutputWithContext(ctx context.Context) SystemPtrOutput {
 	return o
 }
 
-func (o SystemModelPtrOutput) Elem() SystemModelOutput {
-	return o.ApplyT(func(v *SystemModel) SystemModel {
+func (o SystemPtrOutput) Elem() SystemOutput {
+	return o.ApplyT(func(v *System) System {
 		if v != nil {
 			return *v
 		}
-		var ret SystemModel
+		var ret System
 		return ret
-	}).(SystemModelOutput)
+	}).(SystemOutput)
 }
 
 // Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.
-func (o SystemModelPtrOutput) Bootstrap() InstanceScriptPtrOutput {
-	return o.ApplyT(func(v *SystemModel) *InstanceScript {
+func (o SystemPtrOutput) Bootstrap() InstanceScriptPtrOutput {
+	return o.ApplyT(func(v *System) *InstanceScript {
 		if v == nil {
 			return nil
 		}
@@ -751,8 +751,8 @@ func (o SystemModelPtrOutput) Bootstrap() InstanceScriptPtrOutput {
 }
 
 // Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
-func (o SystemModelPtrOutput) Data_dir() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SystemModel) *string {
+func (o SystemPtrOutput) Data_dir() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *System) *string {
 		if v == nil {
 			return nil
 		}
@@ -761,8 +761,8 @@ func (o SystemModelPtrOutput) Data_dir() pulumi.StringPtrOutput {
 }
 
 // Environment variables for AEM instances.
-func (o SystemModelPtrOutput) Env() pulumi.StringMapOutput {
-	return o.ApplyT(func(v *SystemModel) map[string]string {
+func (o SystemPtrOutput) Env() pulumi.StringMapOutput {
+	return o.ApplyT(func(v *System) map[string]string {
 		if v == nil {
 			return nil
 		}
@@ -771,8 +771,8 @@ func (o SystemModelPtrOutput) Env() pulumi.StringMapOutput {
 }
 
 // Contents of the AEM system service definition file (systemd).
-func (o SystemModelPtrOutput) Service_config() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SystemModel) *string {
+func (o SystemPtrOutput) Service_config() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *System) *string {
 		if v == nil {
 			return nil
 		}
@@ -781,8 +781,8 @@ func (o SystemModelPtrOutput) Service_config() pulumi.StringPtrOutput {
 }
 
 // System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
-func (o SystemModelPtrOutput) User() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SystemModel) *string {
+func (o SystemPtrOutput) User() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *System) *string {
 		if v == nil {
 			return nil
 		}
@@ -791,8 +791,8 @@ func (o SystemModelPtrOutput) User() pulumi.StringPtrOutput {
 }
 
 // Remote root path where provider-related files will be stored.
-func (o SystemModelPtrOutput) Work_dir() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *SystemModel) *string {
+func (o SystemPtrOutput) Work_dir() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *System) *string {
 		if v == nil {
 			return nil
 		}
@@ -801,20 +801,20 @@ func (o SystemModelPtrOutput) Work_dir() pulumi.StringPtrOutput {
 }
 
 func init() {
-	pulumi.RegisterInputType(reflect.TypeOf((*ClientModelInput)(nil)).Elem(), ClientModelArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*ComposeModelInput)(nil)).Elem(), ComposeModelArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*ComposeModelPtrInput)(nil)).Elem(), ComposeModelArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ClientInput)(nil)).Elem(), ClientArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ComposeInput)(nil)).Elem(), ComposeArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*ComposePtrInput)(nil)).Elem(), ComposeArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstanceScriptInput)(nil)).Elem(), InstanceScriptArgs{})
 	pulumi.RegisterInputType(reflect.TypeOf((*InstanceScriptPtrInput)(nil)).Elem(), InstanceScriptArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*SystemModelInput)(nil)).Elem(), SystemModelArgs{})
-	pulumi.RegisterInputType(reflect.TypeOf((*SystemModelPtrInput)(nil)).Elem(), SystemModelArgs{})
-	pulumi.RegisterOutputType(ClientModelOutput{})
-	pulumi.RegisterOutputType(ComposeModelOutput{})
-	pulumi.RegisterOutputType(ComposeModelPtrOutput{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SystemInput)(nil)).Elem(), SystemArgs{})
+	pulumi.RegisterInputType(reflect.TypeOf((*SystemPtrInput)(nil)).Elem(), SystemArgs{})
+	pulumi.RegisterOutputType(ClientOutput{})
+	pulumi.RegisterOutputType(ComposeOutput{})
+	pulumi.RegisterOutputType(ComposePtrOutput{})
 	pulumi.RegisterOutputType(InstanceModelOutput{})
 	pulumi.RegisterOutputType(InstanceModelArrayOutput{})
 	pulumi.RegisterOutputType(InstanceScriptOutput{})
 	pulumi.RegisterOutputType(InstanceScriptPtrOutput{})
-	pulumi.RegisterOutputType(SystemModelOutput{})
-	pulumi.RegisterOutputType(SystemModelPtrOutput{})
+	pulumi.RegisterOutputType(SystemOutput{})
+	pulumi.RegisterOutputType(SystemPtrOutput{})
 }

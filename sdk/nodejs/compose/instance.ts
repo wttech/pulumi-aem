@@ -6,41 +6,41 @@ import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 import * as utilities from "../utilities";
 
-export class InstanceResourceModel extends pulumi.CustomResource {
+export class Instance extends pulumi.CustomResource {
     /**
-     * Get an existing InstanceResourceModel resource's state with the given name, ID, and optional extra
+     * Get an existing Instance resource's state with the given name, ID, and optional extra
      * properties used to qualify the lookup.
      *
      * @param name The _unique_ name of the resulting resource.
      * @param id The _unique_ provider ID of the resource to lookup.
      * @param opts Optional settings to control the behavior of the CustomResource.
      */
-    public static get(name: string, id: pulumi.Input<pulumi.ID>, opts?: pulumi.CustomResourceOptions): InstanceResourceModel {
-        return new InstanceResourceModel(name, undefined as any, { ...opts, id: id });
+    public static get(name: string, id: pulumi.Input<pulumi.ID>, opts?: pulumi.CustomResourceOptions): Instance {
+        return new Instance(name, undefined as any, { ...opts, id: id });
     }
 
     /** @internal */
-    public static readonly __pulumiType = 'aem:compose:InstanceResourceModel';
+    public static readonly __pulumiType = 'aem:compose:Instance';
 
     /**
-     * Returns true if the given object is an instance of InstanceResourceModel.  This is designed to work even
+     * Returns true if the given object is an instance of Instance.  This is designed to work even
      * when multiple copies of the Pulumi SDK have been loaded into the same process.
      */
-    public static isInstance(obj: any): obj is InstanceResourceModel {
+    public static isInstance(obj: any): obj is Instance {
         if (obj === undefined || obj === null) {
             return false;
         }
-        return obj['__pulumiType'] === InstanceResourceModel.__pulumiType;
+        return obj['__pulumiType'] === Instance.__pulumiType;
     }
 
     /**
      * Connection settings used to access the machine on which the AEM instance will be running.
      */
-    public readonly client!: pulumi.Output<outputs.compose.ClientModel>;
+    public readonly client!: pulumi.Output<outputs.compose.Client>;
     /**
      * AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration).
      */
-    public readonly compose!: pulumi.Output<outputs.compose.ComposeModel | undefined>;
+    public readonly compose!: pulumi.Output<outputs.compose.Compose | undefined>;
     /**
      * Files or directories to be copied into the machine.
      */
@@ -52,16 +52,16 @@ export class InstanceResourceModel extends pulumi.CustomResource {
     /**
      * Operating system configuration for the machine on which AEM instance will be running.
      */
-    public readonly system!: pulumi.Output<outputs.compose.SystemModel | undefined>;
+    public readonly system!: pulumi.Output<outputs.compose.System | undefined>;
 
     /**
-     * Create a InstanceResourceModel resource with the given unique name, arguments, and options.
+     * Create a Instance resource with the given unique name, arguments, and options.
      *
      * @param name The _unique_ name of the resource.
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args: InstanceResourceModelArgs, opts?: pulumi.CustomResourceOptions) {
+    constructor(name: string, args: InstanceArgs, opts?: pulumi.CustomResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
@@ -81,22 +81,22 @@ export class InstanceResourceModel extends pulumi.CustomResource {
             resourceInputs["system"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
-        super(InstanceResourceModel.__pulumiType, name, resourceInputs, opts);
+        super(Instance.__pulumiType, name, resourceInputs, opts);
     }
 }
 
 /**
- * The set of arguments for constructing a InstanceResourceModel resource.
+ * The set of arguments for constructing a Instance resource.
  */
-export interface InstanceResourceModelArgs {
+export interface InstanceArgs {
     /**
      * Connection settings used to access the machine on which the AEM instance will be running.
      */
-    client: pulumi.Input<inputs.compose.ClientModelArgs>;
+    client: pulumi.Input<inputs.compose.ClientArgs>;
     /**
      * AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration).
      */
-    compose?: pulumi.Input<inputs.compose.ComposeModelArgs>;
+    compose?: pulumi.Input<inputs.compose.ComposeArgs>;
     /**
      * Files or directories to be copied into the machine.
      */
@@ -104,5 +104,5 @@ export interface InstanceResourceModelArgs {
     /**
      * Operating system configuration for the machine on which AEM instance will be running.
      */
-    system?: pulumi.Input<inputs.compose.SystemModelArgs>;
+    system?: pulumi.Input<inputs.compose.SystemArgs>;
 }

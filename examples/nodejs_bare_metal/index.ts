@@ -3,7 +3,7 @@ import * as fs from "fs";
 
 const privateKey = fs.readFileSync("ec2-key.cer", "utf8");
 
-const instanceResourceModel = new aem.compose.InstanceResourceModel("aem_single", {
+const aemInstance = new aem.compose.Instance("aem_instance", {
     client: {
         type: "ssh",
         settings: {
@@ -22,5 +22,5 @@ const instanceResourceModel = new aem.compose.InstanceResourceModel("aem_single"
 });
 
 export const output = {
-    aemInstances: instanceResourceModel.instances,
+    aemInstances: aemInstance.instances,
 };

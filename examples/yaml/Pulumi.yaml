@@ -6,8 +6,8 @@ plugins:
       path: ../../bin
 
 resources:
-  instanceResourceModel:
-    type: aem:compose:InstanceResourceModel
+  aemInstance:
+    type: aem:compose:Instance
     properties:
       client:
         type: "ssh"
@@ -23,4 +23,4 @@ resources:
 
 outputs:
   output:
-    aemInstances: ${instanceResourceModel.instances}
+    aemInstances: ${aemInstance.instances}

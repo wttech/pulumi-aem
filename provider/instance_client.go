@@ -13,7 +13,7 @@ const (
 	ServiceName = "aem"
 )
 
-type InstanceClient ClientContext[InstanceResourceModelArgs]
+type InstanceClient ClientContext[InstanceArgs]
 
 func (ic *InstanceClient) Close() error {
 	return ic.cl.Disconnect()

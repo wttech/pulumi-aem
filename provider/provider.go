@@ -15,7 +15,7 @@ const Name string = "aem"
 func Provider() p.Provider {
 	return infer.Provider(infer.Options{
 		Resources: []infer.InferredResource{
-			infer.Resource[InstanceResourceModel, InstanceResourceModelArgs, InstanceResourceModelState](),
+			infer.Resource[Instance, InstanceArgs, InstanceState](),
 		},
 		ModuleMap: map[tokens.ModuleName]tokens.ModuleName{
 			"provider": "compose",
@@ -23,23 +23,23 @@ func Provider() p.Provider {
 	})
 }
 
-type InstanceResourceModel struct{}
+type Instance struct{}
 
-type InstanceResourceModelArgs struct {
-	Client  ClientModel       `pulumi:"client"`
+type InstanceArgs struct {
+	Client  Client            `pulumi:"client"`
 	Files   map[string]string `pulumi:"files,optional"`
-	System  SystemModel       `pulumi:"system,optional"`
-	Compose ComposeModel      `pulumi:"compose,optional"`
+	System  System            `pulumi:"system,optional"`
+	Compose Compose           `pulumi:"compose,optional"`
 }
 
-func (m *InstanceResourceModelArgs) Annotate(a infer.Annotator) {
+func (m *InstanceArgs) Annotate(a infer.Annotator) {
 	a.Describe(&m.Client, "Connection settings used to access the machine on which the AEM instance will be running.")
 	a.Describe(&m.Files, "Files or directories to be copied into the machine.")
 	a.Describe(&m.System, "Operating system configuration for the machine on which AEM instance will be running.")
 	a.Describe(&m.Compose, "AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration).")
 }
 
-type ClientModel struct {
+type Client struct {
 	Type          string            `pulumi:"type"`
 	Settings      map[string]string `pulumi:"settings"`
 	Credentials   map[string]string `pulumi:"credentials,optional"`
@@ -47,7 +47,7 @@ type ClientModel struct {
 	StateTimeout  string            `pulumi:"state_timeout,optional"`
 }
 
-func (m *ClientModel) Annotate(a infer.Annotator) {
+func (m *Client) Annotate(a infer.Annotator) {
 	a.Describe(&m.Type, "Type of connection to use to connect to the machine on which AEM instance will be running.")
 	a.Describe(&m.Settings, "Settings for the connection type")
 	a.Describe(&m.Credentials, "Credentials for the connection type")
@@ -55,7 +55,7 @@ func (m *ClientModel) Annotate(a infer.Annotator) {
 	a.Describe(&m.StateTimeout, "Used when reading the AEM instance state when determining the plan.")
 }
 
-type SystemModel struct {
+type System struct {
 	DataDir       string            `pulumi:"data_dir,optional"`
 	WorkDir       string            `pulumi:"work_dir,optional"`
 	Env           map[string]string `pulumi:"env,optional"`
@@ -64,7 +64,7 @@ type SystemModel struct {
 	Bootstrap     InstanceScript    `pulumi:"bootstrap,optional"`
 }
 
-func (m *SystemModel) Annotate(a infer.Annotator) {
+func (m *System) Annotate(a infer.Annotator) {
 	a.Describe(&m.DataDir, "Remote root path in which AEM Compose files and unpacked AEM instances will be stored.")
 	a.Describe(&m.WorkDir, "Remote root path where provider-related files will be stored.")
 	a.Describe(&m.Env, "Environment variables for AEM instances.")
@@ -73,7 +73,7 @@ func (m *SystemModel) Annotate(a infer.Annotator) {
 	a.Describe(&m.Bootstrap, "Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.")
 }
 
-type ComposeModel struct {
+type Compose struct {
 	Download  bool           `pulumi:"download,optional"`
 	Version   string         `pulumi:"version,optional"`
 	Config    string         `pulumi:"config,optional"`
@@ -82,7 +82,7 @@ type ComposeModel struct {
 	Delete    InstanceScript `pulumi:"delete,optional"`
 }
 
-func (m *ComposeModel) Annotate(a infer.Annotator) {
+func (m *Compose) Annotate(a infer.Annotator) {
 	a.Describe(&m.Download, "Toggle automatic AEM Compose CLI wrapper download. If set to false, assume the wrapper is present in the data directory.")
 	a.Describe(&m.Version, "Version of AEM Compose tool to use on remote machine.")
 	a.Describe(&m.Config, "Contents of the AEM Compose YML configuration file.")
@@ -119,17 +119,17 @@ func (m *InstanceModel) Annotate(a infer.Annotator) {
 	a.Describe(&m.RunModes, "A list of run modes for a specific AEM instance.")
 }
 
-type InstanceResourceModelState struct {
-	InstanceResourceModelArgs
+type InstanceState struct {
+	InstanceArgs
 	Instances []InstanceModel `pulumi:"instances"`
 }
 
-func (m *InstanceResourceModelState) Annotate(a infer.Annotator) {
+func (m *InstanceState) Annotate(a infer.Annotator) {
 	a.Describe(&m.Instances, "Current state of the configured AEM instances.")
 }
 
-func (InstanceResourceModel) Create(ctx p.Context, name string, input InstanceResourceModelArgs, preview bool) (string, InstanceResourceModelState, error) {
-	state := InstanceResourceModelState{InstanceResourceModelArgs: input}
+func (Instance) Create(ctx p.Context, name string, input InstanceArgs, preview bool) (string, InstanceState, error) {
+	state := InstanceState{InstanceArgs: input}
 	if preview {
 		return name, state, nil
 	}
@@ -156,12 +156,12 @@ func (InstanceResourceModel) Create(ctx p.Context, name string, input InstanceRe
 	return name, state, nil
 }
 
-func (InstanceResourceModel) Update(ctx p.Context, id string, oldState InstanceResourceModelState, input InstanceResourceModelArgs, preview bool) (InstanceResourceModelState, error) {
+func (Instance) Update(ctx p.Context, id string, oldState InstanceState, input InstanceArgs, preview bool) (InstanceState, error) {
 	if preview {
 		return oldState, nil
 	}
 
-	state := InstanceResourceModelState{InstanceResourceModelArgs: input}
+	state := InstanceState{InstanceArgs: input}
 	instanceResource := NewInstanceResource()
 	status, err := instanceResource.Update(ctx, input)
 	if err != nil {
@@ -184,16 +184,16 @@ func (InstanceResourceModel) Update(ctx p.Context, id string, oldState InstanceR
 	return state, nil
 }
 
-func (InstanceResourceModel) Delete(ctx p.Context, id string, props InstanceResourceModelState) error {
+func (Instance) Delete(ctx p.Context, id string, props InstanceState) error {
 	instanceResource := NewInstanceResource()
-	if err := instanceResource.Delete(ctx, props.InstanceResourceModelArgs); err != nil {
+	if err := instanceResource.Delete(ctx, props.InstanceArgs); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (InstanceResourceModel) Check(ctx p.Context, name string, oldInputs, newInputs resource.PropertyMap) (InstanceResourceModelArgs, []p.CheckFailure, error) {
+func (Instance) Check(ctx p.Context, name string, oldInputs, newInputs resource.PropertyMap) (InstanceArgs, []p.CheckFailure, error) {
 	inputs := determineInputs(newInputs, "client")
 	setDefaultValue(inputs, "credentials", resource.NewObjectProperty(resource.PropertyMap{}))
 	setDefaultValue(inputs, "action_timeout", resource.NewStringProperty("10m"))
@@ -217,7 +217,7 @@ func (InstanceResourceModel) Check(ctx p.Context, name string, oldInputs, newInp
 	setDefaultInlineScripts(inputs, "configure", instance.LaunchScriptInline)
 	setDefaultInlineScripts(inputs, "delete", instance.DeleteScriptInline)
 
-	return infer.DefaultCheck[InstanceResourceModelArgs](newInputs)
+	return infer.DefaultCheck[InstanceArgs](newInputs)
 }
 
 func determineInputs(allInputs resource.PropertyMap, key resource.PropertyKey) resource.PropertyMap {

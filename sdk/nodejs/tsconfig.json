@@ -14,7 +14,7 @@
     },
     "files": [
         "compose/index.ts",
-        "compose/instanceResourceModel.ts",
+        "compose/instance.ts",
         "index.ts",
         "provider.ts",
         "types/index.ts",

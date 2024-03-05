@@ -5,18 +5,18 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "../utilities";
 
 // Export members:
-export { InstanceResourceModelArgs } from "./instanceResourceModel";
-export type InstanceResourceModel = import("./instanceResourceModel").InstanceResourceModel;
-export const InstanceResourceModel: typeof import("./instanceResourceModel").InstanceResourceModel = null as any;
-utilities.lazyLoad(exports, ["InstanceResourceModel"], () => require("./instanceResourceModel"));
+export { InstanceArgs } from "./instance";
+export type Instance = import("./instance").Instance;
+export const Instance: typeof import("./instance").Instance = null as any;
+utilities.lazyLoad(exports, ["Instance"], () => require("./instance"));
 
 
 const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
-            case "aem:compose:InstanceResourceModel":
-                return new InstanceResourceModel(name, <any>undefined, { urn })
+            case "aem:compose:Instance":
+                return new Instance(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }
