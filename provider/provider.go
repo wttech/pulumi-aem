@@ -156,11 +156,12 @@ func (InstanceResourceModel) Create(ctx p.Context, name string, input InstanceRe
 	return name, state, nil
 }
 
-func (InstanceResourceModel) Update(ctx p.Context, id string, state InstanceResourceModelState, input InstanceResourceModelArgs, preview bool) (InstanceResourceModelState, error) {
+func (InstanceResourceModel) Update(ctx p.Context, id string, oldState InstanceResourceModelState, input InstanceResourceModelArgs, preview bool) (InstanceResourceModelState, error) {
 	if preview {
-		return state, nil
+		return oldState, nil
 	}
 
+	state := InstanceResourceModelState{InstanceResourceModelArgs: input}
 	instanceResource := NewInstanceResource()
 	status, err := instanceResource.Update(ctx, input)
 	if err != nil {
