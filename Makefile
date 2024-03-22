@@ -43,7 +43,7 @@ dotnet_sdk::
 go_sdk:: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/go
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language go
-	pulumi package get-schema $(WORKING_DIR)/bin/$(PROVIDER) > bin/schema-$(PACK).json
+	pulumi package get-schema $(WORKING_DIR)/bin/$(PROVIDER) > provider/cmd/pulumi-resource-aem/schema.json
 	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem-native\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/*.go
 	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem-native\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/*.go
 	sed -i.bak 's/\/pulumi-aem\/sdk/\/pulumi-aem-native\/sdk/g' sdk/go/$(PACK)/internal/*.go

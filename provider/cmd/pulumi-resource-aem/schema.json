@@ -1,0 +1,229 @@
+{
+  "name": "aem",
+  "version": "0.0.1-alpha.1711067432+259a1b2e.dirty",
+  "meta": {
+    "moduleFormat": "(.*)"
+  },
+  "config": {},
+  "types": {
+    "aem:compose:Client": {
+      "properties": {
+        "action_timeout": {
+          "type": "string",
+          "description": "Used when trying to connect to the AEM instance machine (often right after creating it). Need to be enough long because various types of connections (like AWS SSM or SSH) may need some time to boot up the agent."
+        },
+        "credentials": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Credentials for the connection type"
+        },
+        "settings": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Settings for the connection type"
+        },
+        "state_timeout": {
+          "type": "string",
+          "description": "Used when reading the AEM instance state when determining the plan."
+        },
+        "type": {
+          "type": "string",
+          "description": "Type of connection to use to connect to the machine on which AEM instance will be running."
+        }
+      },
+      "type": "object",
+      "required": [
+        "settings",
+        "type"
+      ]
+    },
+    "aem:compose:Compose": {
+      "properties": {
+        "config": {
+          "type": "string",
+          "description": "Contents of the AEM Compose YML configuration file."
+        },
+        "configure": {
+          "$ref": "#/types/aem:compose:InstanceScript",
+          "description": "Script(s) for configuring a launched instance. Must be idempotent as it is executed always when changed. Typically used for installing AEM service packs, setting up replication agents, etc."
+        },
+        "create": {
+          "$ref": "#/types/aem:compose:InstanceScript",
+          "description": "Script(s) for creating an instance or restoring it from a backup. Typically customized to provide AEM library files (quickstart.jar, license.properties, service packs) from alternative sources (e.g., AWS S3, Azure Blob Storage). Instance recreation is forced if changed."
+        },
+        "delete": {
+          "$ref": "#/types/aem:compose:InstanceScript",
+          "description": "Script(s) for deleting a stopped instance."
+        },
+        "download": {
+          "type": "boolean",
+          "description": "Toggle automatic AEM Compose CLI wrapper download. If set to false, assume the wrapper is present in the data directory."
+        },
+        "version": {
+          "type": "string",
+          "description": "Version of AEM Compose tool to use on remote machine."
+        }
+      },
+      "type": "object"
+    },
+    "aem:compose:InstanceModel": {
+      "properties": {
+        "aem_version": {
+          "type": "string",
+          "description": "Version of the AEM instance. Reflects service pack installations."
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A brief description of the state details for a specific AEM instance. Possible states include 'created', 'uncreated', 'running', 'unreachable', 'up-to-date', and 'out-of-date'."
+        },
+        "dir": {
+          "type": "string",
+          "description": "Remote path in which AEM instance is stored."
+        },
+        "id": {
+          "type": "string",
+          "description": "Unique identifier of AEM instance defined in the configuration."
+        },
+        "run_modes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "A list of run modes for a specific AEM instance."
+        },
+        "url": {
+          "type": "string",
+          "description": "The machine-internal HTTP URL address used for communication with the AEM instance."
+        }
+      },
+      "type": "object",
+      "required": [
+        "aem_version",
+        "attributes",
+        "dir",
+        "id",
+        "run_modes",
+        "url"
+      ]
+    },
+    "aem:compose:InstanceScript": {
+      "properties": {
+        "inline": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Inline shell commands to be executed"
+        },
+        "script": {
+          "type": "string",
+          "description": "Multiline shell script to be executed"
+        }
+      },
+      "type": "object"
+    },
+    "aem:compose:System": {
+      "properties": {
+        "bootstrap": {
+          "$ref": "#/types/aem:compose:InstanceScript",
+          "description": "Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine."
+        },
+        "data_dir": {
+          "type": "string",
+          "description": "Remote root path in which AEM Compose files and unpacked AEM instances will be stored."
+        },
+        "env": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Environment variables for AEM instances."
+        },
+        "service_config": {
+          "type": "string",
+          "description": "Contents of the AEM system service definition file (systemd)."
+        },
+        "user": {
+          "type": "string",
+          "description": "System user under which AEM instance will be running. By default, the same as the user used to connect to the machine."
+        },
+        "work_dir": {
+          "type": "string",
+          "description": "Remote root path where provider-related files will be stored."
+        }
+      },
+      "type": "object"
+    }
+  },
+  "provider": {
+    "type": "object"
+  },
+  "resources": {
+    "aem:compose:Instance": {
+      "properties": {
+        "client": {
+          "$ref": "#/types/aem:compose:Client",
+          "description": "Connection settings used to access the machine on which the AEM instance will be running."
+        },
+        "compose": {
+          "$ref": "#/types/aem:compose:Compose",
+          "description": "AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration)."
+        },
+        "files": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Files or directories to be copied into the machine."
+        },
+        "instances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/types/aem:compose:InstanceModel"
+          },
+          "description": "Current state of the configured AEM instances."
+        },
+        "system": {
+          "$ref": "#/types/aem:compose:System",
+          "description": "Operating system configuration for the machine on which AEM instance will be running."
+        }
+      },
+      "type": "object",
+      "required": [
+        "client",
+        "instances"
+      ],
+      "inputProperties": {
+        "client": {
+          "$ref": "#/types/aem:compose:Client",
+          "description": "Connection settings used to access the machine on which the AEM instance will be running."
+        },
+        "compose": {
+          "$ref": "#/types/aem:compose:Compose",
+          "description": "AEM Compose CLI configuration. See documentation(https://github.com/wttech/aemc#configuration)."
+        },
+        "files": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "description": "Files or directories to be copied into the machine."
+        },
+        "system": {
+          "$ref": "#/types/aem:compose:System",
+          "description": "Operating system configuration for the machine on which AEM instance will be running."
+        }
+      },
+      "requiredInputs": [
+        "client"
+      ]
+    }
+  }
+}
