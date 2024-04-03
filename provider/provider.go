@@ -3,6 +3,8 @@ package provider
 import (
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
+	"github.com/pulumi/pulumi-go-provider/middleware/schema"
+	nodejsGen "github.com/pulumi/pulumi/pkg/v3/codegen/nodejs"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 	"github.com/wttech/pulumi-aem-native/provider/instance"
@@ -19,6 +21,13 @@ func Provider() p.Provider {
 		},
 		ModuleMap: map[tokens.ModuleName]tokens.ModuleName{
 			"provider": "compose",
+		},
+		Metadata: schema.Metadata{
+			LanguageMap: map[string]any{
+				"nodejs": nodejsGen.NodePackageInfo{
+					PackageName: "@wttech/aem",
+				},
+			},
 		},
 	})
 }
