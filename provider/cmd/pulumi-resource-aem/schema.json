@@ -1,10 +1,13 @@
 {
   "name": "aem",
-  "version": "0.0.1-alpha.1712148811+8fcef128.dirty",
+  "version": "0.0.1-alpha.1712149043+342046a7.dirty",
   "meta": {
     "moduleFormat": "(.*)"
   },
   "language": {
+    "csharp": {
+      "rootNamespace": "WTTech"
+    },
     "go": {
       "importBasePath": "github.com/wttech/pulumi-aem-native/sdk/go/aem"
     },

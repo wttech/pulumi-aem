@@ -36,7 +36,7 @@ gen_schema: provider
 	pulumi package get-schema $(WORKING_DIR)/bin/$(PROVIDER) > provider/cmd/pulumi-resource-aem/schema.json
 
 dotnet_sdk:: DOTNET_VERSION := $(shell pulumictl get version --language dotnet)
-dotnet_sdk::
+dotnet_sdk:: gen_schema
 	rm -rf sdk/dotnet
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language dotnet
 	cd ${PACKDIR}/dotnet/&& \

@@ -4,6 +4,7 @@ import (
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi-go-provider/middleware/schema"
+	dotnetGen "github.com/pulumi/pulumi/pkg/v3/codegen/dotnet"
 	goGen "github.com/pulumi/pulumi/pkg/v3/codegen/go"
 	nodejsGen "github.com/pulumi/pulumi/pkg/v3/codegen/nodejs"
 	pythonGen "github.com/pulumi/pulumi/pkg/v3/codegen/python"
@@ -34,6 +35,9 @@ func Provider() p.Provider {
 				},
 				"python": pythonGen.PackageInfo{
 					PackageName: "wttech_pulumi_aem",
+				},
+				"csharp": dotnetGen.CSharpPackageInfo{
+					RootNamespace: "WTTech",
 				},
 			},
 		},
