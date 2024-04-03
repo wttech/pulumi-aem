@@ -4,6 +4,7 @@ import (
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi-go-provider/middleware/schema"
+	goGen "github.com/pulumi/pulumi/pkg/v3/codegen/go"
 	nodejsGen "github.com/pulumi/pulumi/pkg/v3/codegen/nodejs"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
@@ -26,6 +27,9 @@ func Provider() p.Provider {
 			LanguageMap: map[string]any{
 				"nodejs": nodejsGen.NodePackageInfo{
 					PackageName: "@wttech/aem",
+				},
+				"go": goGen.GoPackageInfo{
+					ImportBasePath: "github.com/wttech/pulumi-aem-native/sdk/go/aem",
 				},
 			},
 		},
