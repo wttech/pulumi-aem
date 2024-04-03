@@ -1,6 +1,6 @@
 {
   "name": "aem",
-  "version": "0.0.1-alpha.1712147710+7b1826e3",
+  "version": "0.0.1-alpha.1712148811+8fcef128.dirty",
   "meta": {
     "moduleFormat": "(.*)"
   },
@@ -10,6 +10,10 @@
     },
     "nodejs": {
       "packageName": "@wttech/aem"
+    },
+    "python": {
+      "packageName": "wttech_pulumi_aem",
+      "pyproject": {}
     }
   },
   "config": {},

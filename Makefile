@@ -65,7 +65,7 @@ nodejs_sdk:: gen_schema
 		rm ./bin/package.json.bak
 
 python_sdk:: PYPI_VERSION := $(shell pulumictl get version --language python)
-python_sdk::
+python_sdk:: gen_schema
 	rm -rf sdk/python
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language python
 	cp README.md ${PACKDIR}/python/
