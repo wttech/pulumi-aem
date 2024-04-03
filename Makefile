@@ -76,6 +76,8 @@ python_sdk:: gen_schema
 		rm ./bin/setup.py.bak && \
 		cd ./bin && python3 setup.py build sdist
 
+gen_sdk: dotnet_sdk nodejs_sdk go_sdk python_sdk
+
 gen_examples: gen_go_example gen_nodejs_example
 
 gen_%_example:

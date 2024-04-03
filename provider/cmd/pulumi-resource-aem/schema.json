@@ -1,21 +1,35 @@
 {
   "name": "aem",
-  "version": "0.0.1-alpha.1712149043+342046a7.dirty",
+  "version": "0.0.1-alpha.1712149335+ec0447a2.dirty",
   "meta": {
     "moduleFormat": "(.*)"
   },
   "language": {
     "csharp": {
+      "packageReferences": {
+        "Pulumi": "[3.56.0,4)"
+      },
       "rootNamespace": "WTTech"
     },
     "go": {
-      "importBasePath": "github.com/wttech/pulumi-aem-native/sdk/go/aem"
+      "importBasePath": "github.com/wttech/pulumi-aem-native/sdk/go/aem",
+      "generateResourceContainerTypes": true
     },
     "nodejs": {
-      "packageName": "@wttech/aem"
+      "packageName": "@wttech/aem",
+      "dependencies": {
+        "@pulumi/pulumi": "^3.56.0"
+      },
+      "devDependencies": {
+        "@types/mime": "^2.0.0",
+        "@types/node": "^10.0.0"
+      }
     },
     "python": {
       "packageName": "wttech_pulumi_aem",
+      "requires": {
+        "pulumi": "\u003e=3.56.0,\u003c4.0.0"
+      },
       "pyproject": {}
     }
   },

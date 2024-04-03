@@ -29,15 +29,29 @@ func Provider() p.Provider {
 			LanguageMap: map[string]any{
 				"nodejs": nodejsGen.NodePackageInfo{
 					PackageName: "@wttech/aem",
+					Dependencies: map[string]string{
+						"@pulumi/pulumi": "^3.56.0", // Includes support for Github & Gitlab releases
+					},
+					DevDependencies: map[string]string{
+						"@types/node": "^10.0.0", // so we can access strongly typed node definitions.
+						"@types/mime": "^2.0.0",
+					},
 				},
 				"go": goGen.GoPackageInfo{
-					ImportBasePath: "github.com/wttech/pulumi-aem-native/sdk/go/aem",
+					ImportBasePath:                 "github.com/wttech/pulumi-aem-native/sdk/go/aem",
+					GenerateResourceContainerTypes: true,
 				},
 				"python": pythonGen.PackageInfo{
 					PackageName: "wttech_pulumi_aem",
+					Requires: map[string]string{
+						"pulumi": ">=3.56.0,<4.0.0",
+					},
 				},
 				"csharp": dotnetGen.CSharpPackageInfo{
 					RootNamespace: "WTTech",
+					PackageReferences: map[string]string{
+						"Pulumi": "[3.56.0,4)",
+					},
 				},
 			},
 		},
