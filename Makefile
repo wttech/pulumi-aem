@@ -32,8 +32,11 @@ provider_debug::
 test_provider::
 	cd tests && go test -short -v -count=1 -cover -timeout 2h -parallel ${TESTPARALLELISM} ./...
 
+gen_schema: provider
+	pulumi package get-schema $(WORKING_DIR)/bin/$(PROVIDER) > provider/cmd/pulumi-resource-aem/schema.json
+
 dotnet_sdk:: DOTNET_VERSION := $(shell pulumictl get version --language dotnet)
-dotnet_sdk::
+dotnet_sdk:: gen_schema
 	rm -rf sdk/dotnet
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language dotnet
 	cd ${PACKDIR}/dotnet/&& \
@@ -43,7 +46,6 @@ dotnet_sdk::
 go_sdk:: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/go
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language go
-	pulumi package get-schema $(WORKING_DIR)/bin/$(PROVIDER) > provider/cmd/pulumi-resource-aem/schema.json
 	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem-native\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/*.go
 	sed -i.bak 's/"internal"/"github.com\/wttech\/pulumi-aem-native\/sdk\/go\/aem\/internal"/g' sdk/go/$(PACK)/$(MOD)/*.go
 	sed -i.bak 's/\/pulumi-aem\/sdk/\/pulumi-aem-native\/sdk/g' sdk/go/$(PACK)/internal/*.go
@@ -52,12 +54,10 @@ go_sdk:: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm ./sdk/go/$(PACK)/internal/*.go.bak
 
 nodejs_sdk:: VERSION := $(shell pulumictl get version --language javascript)
-nodejs_sdk::
+nodejs_sdk:: gen_schema
 	rm -rf sdk/nodejs
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language nodejs
 	cd ${PACKDIR}/nodejs/ && \
-		sed -i.bak 's/@pulumi\/aem/@wttech\/aem/g' package.json && \
-		rm ./package.json.bak && \
 		yarn install && \
 		yarn run tsc && \
 		cp ../../README.md ../../LICENSE package.json yarn.lock bin/ && \
@@ -65,7 +65,7 @@ nodejs_sdk::
 		rm ./bin/package.json.bak
 
 python_sdk:: PYPI_VERSION := $(shell pulumictl get version --language python)
-python_sdk::
+python_sdk:: gen_schema
 	rm -rf sdk/python
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language python
 	cp README.md ${PACKDIR}/python/
@@ -75,6 +75,8 @@ python_sdk::
 		sed -i.bak -e 's/^VERSION = .*/VERSION = "$(PYPI_VERSION)"/g' -e 's/^PLUGIN_VERSION = .*/PLUGIN_VERSION = "$(VERSION)"/g' ./bin/setup.py && \
 		rm ./bin/setup.py.bak && \
 		cd ./bin && python3 setup.py build sdist
+
+gen_sdk: dotnet_sdk nodejs_sdk go_sdk python_sdk
 
 gen_examples: gen_go_example gen_nodejs_example
 
