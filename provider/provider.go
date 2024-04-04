@@ -26,6 +26,7 @@ func Provider() p.Provider {
 			"provider": "compose",
 		},
 		Metadata: schema.Metadata{
+			PluginDownloadURL: "github://api.github.com/wttech/pulumi-aem",
 			LanguageMap: map[string]any{
 				"nodejs": nodejsGen.NodePackageInfo{
 					PackageName: "@wttech/aem",

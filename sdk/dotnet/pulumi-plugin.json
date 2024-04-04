@@ -1,4 +1,5 @@
 {
   "resource": true,
-  "name": "aem"
+  "name": "aem",
+  "server": "github://api.github.com/wttech/pulumi-aem"
 }
