@@ -12,7 +12,7 @@
       "rootNamespace": "WTTech"
     },
     "go": {
-      "importBasePath": "github.com/wttech/pulumi-aem-native/sdk/go/aem",
+      "importBasePath": "github.com/wttech/pulumi-aem/sdk/go/aem",
       "generateResourceContainerTypes": true
     },
     "nodejs": {

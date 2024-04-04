@@ -38,7 +38,7 @@ func Provider() p.Provider {
 					},
 				},
 				"go": goGen.GoPackageInfo{
-					ImportBasePath:                 "github.com/wttech/pulumi-aem-native/sdk/go/aem",
+					ImportBasePath:                 "github.com/wttech/pulumi-aem/sdk/go/aem",
 					GenerateResourceContainerTypes: true,
 				},
 				"python": pythonGen.PackageInfo{
