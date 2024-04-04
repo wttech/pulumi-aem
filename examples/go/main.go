@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/wttech/pulumi-aem-native/sdk/go/aem/compose"
+	"github.com/wttech/pulumi-aem/sdk/go/aem/compose"
 )
 
 func main() {

@@ -4,7 +4,7 @@ import (
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
 	"github.com/spf13/cast"
-	"github.com/wttech/pulumi-aem-native/provider/client"
+	"github.com/wttech/pulumi-aem/provider/client"
 	"golang.org/x/exp/maps"
 	"time"
 )

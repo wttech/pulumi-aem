@@ -5,7 +5,7 @@ import (
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/resource"
 	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
-	"github.com/wttech/pulumi-aem-native/provider/instance"
+	"github.com/wttech/pulumi-aem/provider/instance"
 )
 
 var Version string

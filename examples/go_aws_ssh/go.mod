@@ -1,13 +1,13 @@
-module github.com/wttech/pulumi-aem-native/examples/go_aws_ssh
+module github.com/wttech/pulumi-aem/examples/go_aws_ssh
 
 go 1.21
 
-replace github.com/wttech/pulumi-aem-native/sdk => ../../sdk
+replace github.com/wttech/pulumi-aem/sdk => ../../sdk
 
 require (
 	github.com/pulumi/pulumi-aws/sdk/v6 v6.21.0
 	github.com/pulumi/pulumi/sdk/v3 v3.104.2
-	github.com/wttech/pulumi-aem-native/sdk v0.0.0-20240207010449-6e972a29045f
+	github.com/wttech/pulumi-aem/sdk v0.0.0-20240207010449-6e972a29045f
 )
 
 require (

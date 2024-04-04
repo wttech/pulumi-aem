@@ -1,4 +1,4 @@
-name: pulumi-aem-native
+name: pulumi-aem
 runtime: nodejs
 plugins:
   providers:
