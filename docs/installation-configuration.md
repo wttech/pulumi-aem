@@ -1,7 +1,7 @@
 ---
 title: AEM Installation & Configuration
 meta_desc: Information on how to install the AEM provider.
-layout: installation
+layout: package
 ---
 
 ## Installation
