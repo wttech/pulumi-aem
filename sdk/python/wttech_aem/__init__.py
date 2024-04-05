@@ -9,10 +9,10 @@ from .provider import *
 
 # Make subpackages available:
 if typing.TYPE_CHECKING:
-    import wttech_pulumi_aem.compose as __compose
+    import wttech_aem.compose as __compose
     compose = __compose
 else:
-    compose = _utilities.lazy_import('wttech_pulumi_aem.compose')
+    compose = _utilities.lazy_import('wttech_aem.compose')
 
 _utilities.register(
     resource_modules="""
@@ -20,7 +20,7 @@ _utilities.register(
  {
   "pkg": "aem",
   "mod": "compose",
-  "fqn": "wttech_pulumi_aem.compose",
+  "fqn": "wttech_aem.compose",
   "classes": {
    "aem:compose:Instance": "Instance"
   }
@@ -32,7 +32,7 @@ _utilities.register(
  {
   "pkg": "aem",
   "token": "pulumi:providers:aem",
-  "fqn": "wttech_pulumi_aem",
+  "fqn": "wttech_aem",
   "class": "Provider"
  }
 ]

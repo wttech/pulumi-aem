@@ -27,7 +27,7 @@
       }
     },
     "python": {
-      "packageName": "wttech_pulumi_aem",
+      "packageName": "wttech_aem",
       "requires": {
         "pulumi": "\u003e=3.56.0,\u003c4.0.0"
       },

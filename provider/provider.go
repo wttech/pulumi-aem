@@ -43,7 +43,7 @@ func Provider() p.Provider {
 					GenerateResourceContainerTypes: true,
 				},
 				"python": pythonGen.PackageInfo{
-					PackageName: "wttech_pulumi_aem",
+					PackageName: "wttech_aem",
 					Requires: map[string]string{
 						"pulumi": ">=3.56.0,<4.0.0",
 					},

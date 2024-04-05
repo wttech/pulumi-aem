@@ -18,14 +18,14 @@ def readme():
         return "aem Pulumi Package - Development Version"
 
 
-setup(name='wttech_pulumi_aem',
+setup(name='wttech_aem',
       python_requires='>=3.8',
       version=VERSION,
       long_description=readme(),
       long_description_content_type='text/markdown',
       packages=find_packages(),
       package_data={
-          'wttech_pulumi_aem': [
+          'wttech_aem': [
               'py.typed',
               'pulumi-plugin.json',
           ]

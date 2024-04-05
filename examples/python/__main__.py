@@ -1,5 +1,5 @@
 import pulumi
-import wttech_pulumi_aem as aem
+import wttech_aem as aem
 
 aem_instance = aem.compose.Instance("aemInstance",
     client=aem.compose.ClientArgs(
