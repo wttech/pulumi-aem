@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Pulumi" Version="3.*" />
+		<PackageReference Include="Pulumi.Aws" Version="3.*" />
+		<PackageReference Include="WTTech.Aem" Version="0.0.1-alpha.1712218196+855a07cb.dirty" />
+	</ItemGroup>
+
+</Project>
