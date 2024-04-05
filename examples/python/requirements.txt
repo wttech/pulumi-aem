@@ -1,0 +1,2 @@
+pulumi>=3.0.0,<4.0.0
+wttech_pulumi_aem==0.0.1-alpha.1712218196+855a07cb.dirty

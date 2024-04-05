@@ -1,0 +1,6 @@
+name: pulumi-aem
+runtime: dotnet
+plugins:
+  providers:
+    - name: aem
+      path: ../../bin

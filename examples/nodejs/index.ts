@@ -1,7 +1,7 @@
 import * as pulumi from "@pulumi/pulumi";
 import * as aem from "@wttech/aem";
 
-const aemInstance = new aem.compose.Instance("aem_instance", {
+const aemInstance = new aem.compose.Instance("aemInstance", {
     client: {
         type: "ssh",
         settings: {

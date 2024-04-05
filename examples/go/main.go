@@ -7,7 +7,7 @@ import (
 
 func main() {
 	pulumi.Run(func(ctx *pulumi.Context) error {
-		aemInstance, err := compose.NewInstance(ctx, "aem_instance", &compose.InstanceArgs{
+		aemInstance, err := compose.NewInstance(ctx, "aemInstance", &compose.InstanceArgs{
 			Client: &compose.ClientArgs{
 				Type: pulumi.String("ssh"),
 				Settings: pulumi.StringMap{
@@ -27,7 +27,7 @@ func main() {
 		if err != nil {
 			return err
 		}
-		ctx.Export("output", pulumi.Map{
+		ctx.Export("output", map[string]interface{}{
 			"aemInstances": aemInstance.Instances,
 		})
 		return nil
