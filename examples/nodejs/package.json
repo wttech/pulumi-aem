@@ -6,6 +6,6 @@
 	"dependencies": {
 		"typescript": "^4.0.0",
 		"@pulumi/pulumi": "^3.0.0",
-		"@wttech/aem": "0.0.1-alpha.1712218196+855a07cb.dirty"
+		"@wttech/aem": "0.9.0"
 	}
 }

@@ -1,6 +1,6 @@
 {
   "name": "aem",
-  "version": "0.0.1-alpha.1712218196+855a07cb.dirty",
+  "version": "0.9.0",
   "pluginDownloadURL": "github://api.github.com/wttech/pulumi-aem",
   "meta": {
     "moduleFormat": "(.*)"
