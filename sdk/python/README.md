@@ -31,14 +31,20 @@ The main purpose of this provider is to enable users to:
 The easiest way to get started is to review, copy and adapt provided examples:
 
 1. AWS EC2 instance with private IP
-   * [Node.js](examples/nodejs_aws_ssm)
-   * [GoLang](examples/go_aws_ssm)
+   * [Go](https://github.com/wttech/pulumi-aem/tree/main/examples/go_aws_ssm)
+   * [NodeJS](https://github.com/wttech/pulumi-aem/tree/main/examples/nodejs_aws_ssm)
+   * [Python](https://github.com/wttech/pulumi-aem/tree/main/examples/python_aws_ssm)
+   * [.NET](https://github.com/wttech/pulumi-aem/tree/main/examples/dotnet_aws_ssm)
 2. AWS EC2 instance with public IP
-   * [Node.js](examples/nodejs_aws_ssh)
-   * [GoLang](examples/go_aws_ssh)
+   * [Go](https://github.com/wttech/pulumi-aem/tree/main/examples/go_aws_ssh)
+   * [NodeJS](https://github.com/wttech/pulumi-aem/tree/main/examples/nodejs_aws_ssh)
+   * [Python](https://github.com/wttech/pulumi-aem/tree/main/examples/python_aws_ssh)
+   * [.NET](https://github.com/wttech/pulumi-aem/tree/main/examples/dotnet_aws_ssh)
 3. Bare metal machine
-   * [Node.js](examples/nodejs_bare_metal)
-   * [GoLang](examples/go_bare_metal)
+   * [Go](https://github.com/wttech/pulumi-aem/tree/main/examples/go_bare_metal)
+   * [NodeJS](https://github.com/wttech/pulumi-aem/tree/main/examples/nodejs_bare_metal)
+   * [Python](https://github.com/wttech/pulumi-aem/tree/main/examples/python_bare_metal)
+   * [.NET](https://github.com/wttech/pulumi-aem/tree/main/examples/dotnet_bare_metal)
 
 - - -
 
@@ -59,10 +65,12 @@ Prerequisites for this repository are already satisfied by the [Pulumi Devcontai
 If you are not using VSCode, you will need to ensure the following tools are installed and present in your `$PATH`:
 
 * [`pulumictl`](https://github.com/pulumi/pulumictl#installation)
-* [Go 1.21](https://golang.org/dl/) or 1.latest
+* [Go](https://golang.org/dl/) or 1.latest
 * [NodeJS](https://nodejs.org/en/) 14.x.  We recommend using [nvm](https://github.com/nvm-sh/nvm) to manage NodeJS installations.
 * [Yarn](https://yarnpkg.com/)
 * [TypeScript](https://www.typescriptlang.org/)
+* [Python](https://www.python.org/downloads/) (called as `python3`).  For recent versions of MacOS, the system-installed version is fine.
+* [.NET](https://dotnet.microsoft.com/download)
 
 
 #### Build & test the AEM provider
@@ -79,7 +87,7 @@ If you are not using VSCode, you will need to ensure the following tools are ins
    ```bash
    $ make build install
    ```
-   
+
 This will:
 
 1. Create the SDK codegen binary and place it in a `./bin` folder (gitignored)
@@ -88,7 +96,7 @@ This will:
 4. Install the provider on your machine.
 
 ##### Test against the example
-   
+
 ```bash
 $ cd examples/simple
 $ yarn link @wttech/aem
