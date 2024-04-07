@@ -1,7 +1,7 @@
-![AEM Compose Logo](docs/logo-with-text.png)
-[![WTT Logo](docs/wtt-logo.png)](https://www.wundermanthompson.com/service/technology)
+[![AEM Compose Logo](https://github.com/wttech/pulumi-aem/raw/main/docs/logo-with-text.png)](https://github.com/wttech/aemc)
+[![WTT Logo](https://github.com/wttech/pulumi-aem/raw/main/docs/wtt-logo.png)](https://www.wundermanthompson.com/service/technology)
 
-[![Apache License, Version 2.0, January 2004](docs/apache-license-badge.svg)](http://www.apache.org/licenses/)
+[![Apache License, Version 2.0, January 2004](https://github.com/wttech/pulumi-aem/raw/main/docs/apache-license-badge.svg)](http://www.apache.org/licenses/)
 
 # AEM Compose - Pulumi Native Provider
 

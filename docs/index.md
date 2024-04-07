@@ -3,8 +3,8 @@ page_title: "AEM Provider"
 subcategory: ""
 ---
 
-[![AEM Compose Logo](https://github.com/wttech/aemc/raw/main/docs/logo-with-text.png)](https://github.com/wttech/aemc)
-[![WTT Logo](https://github.com/wttech/aemc/raw/main/docs/wtt-logo.png)](https://www.wundermanthompson.com/service/technology)
+[![AEM Compose Logo](https://github.com/wttech/pulumi-aem/raw/main/docs/logo-with-text.png)](https://github.com/wttech/aemc)
+[![WTT Logo](https://github.com/wttech/pulumi-aem/raw/main/docs/wtt-logo.png)](https://www.wundermanthompson.com/service/technology)
 
 # AEM Provider
 
