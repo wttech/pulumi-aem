@@ -7,7 +7,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/config v1.26.6
 	github.com/aws/aws-sdk-go-v2/service/ssm v1.49.0
 	github.com/melbahja/goph v1.4.0
-	github.com/pulumi/pulumi-go-provider v0.14.0
+	github.com/pulumi/pulumi-go-provider v0.15.0
 	github.com/pulumi/pulumi/pkg/v3 v3.104.2
 	github.com/pulumi/pulumi/sdk/v3 v3.104.2
 	github.com/spf13/cast v1.6.0
@@ -197,7 +197,7 @@ require (
 	google.golang.org/genproto/googleapis/api v0.0.0-20240102182953-50ed04b92917 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240125205218-1f4bbc51befe // indirect
 	google.golang.org/grpc v1.61.1 // indirect
-	google.golang.org/protobuf v1.32.0 // indirect
+	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 	lukechampine.com/frand v1.4.2 // indirect
