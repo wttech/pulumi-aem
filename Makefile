@@ -39,6 +39,9 @@ dotnet_sdk:: DOTNET_VERSION := $(shell pulumictl get version --language dotnet)
 dotnet_sdk:: gen_schema
 	rm -rf sdk/dotnet
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language dotnet
+	cp README.md ${PACKDIR}/dotnet/
+	cp README.md ${PACKDIR}/dotnet/Compose/
+	cp LICENSE ${PACKDIR}/dotnet/
 	cd ${PACKDIR}/dotnet/&& \
 		echo "${DOTNET_VERSION}" >version.txt && \
 		dotnet build /p:Version=${DOTNET_VERSION}
@@ -46,11 +49,15 @@ dotnet_sdk:: gen_schema
 go_sdk:: $(WORKING_DIR)/bin/$(PROVIDER)
 	rm -rf sdk/go
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language go
+	cp README.md ${PACKDIR}/go/
+	cp LICENSE ${PACKDIR}/go/
 
 nodejs_sdk:: VERSION := $(shell pulumictl get version --language javascript)
 nodejs_sdk:: gen_schema
 	rm -rf sdk/nodejs
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language nodejs
+	cp README.md ${PACKDIR}/nodejs/
+	cp LICENSE ${PACKDIR}/nodejs/
 	cd ${PACKDIR}/nodejs/ && \
 		yarn install && \
 		yarn run tsc && \
@@ -63,6 +70,8 @@ python_sdk:: gen_schema
 	rm -rf sdk/python
 	pulumi package gen-sdk $(WORKING_DIR)/bin/$(PROVIDER) --language python
 	cp README.md ${PACKDIR}/python/
+	cp README.md ${PACKDIR}/python/wttech_aem/
+	cp LICENSE ${PACKDIR}/python/
 	cd ${PACKDIR}/python/ && \
 		python3 setup.py clean --all 2>/dev/null && \
 		rm -rf ./bin/ ../python.bin/ && cp -R . ../python.bin && mv ../python.bin ./bin && \

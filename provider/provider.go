@@ -27,6 +27,12 @@ func Provider() p.Provider {
 		},
 		Metadata: schema.Metadata{
 			PluginDownloadURL: "github://api.github.com/wttech/pulumi-aem",
+			Homepage:          "https://github.com/wttech/pulumi-aem",
+			Repository:        "https://github.com/wttech/pulumi-aem",
+			License:           "Apache-2.0",
+			LogoURL:           "https://github.com/wttech/pulumi-aem/raw/main/docs/logo.175.png",
+			Description:       "Easily manage AEM instances in the cloud without a deep dev-ops knowledge",
+			Keywords:          []string{"pulumi", "aem", "aemc", "cloud"},
 			LanguageMap: map[string]any{
 				"nodejs": nodejsGen.NodePackageInfo{
 					PackageName: "@wttech/aem",

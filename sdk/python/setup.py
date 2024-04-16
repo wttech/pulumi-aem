@@ -21,8 +21,15 @@ def readme():
 setup(name='wttech_aem',
       python_requires='>=3.8',
       version=VERSION,
+      description="Easily manage AEM instances in the cloud without a deep dev-ops knowledge",
       long_description=readme(),
       long_description_content_type='text/markdown',
+      keywords='pulumi aem aemc cloud',
+      url='https://github.com/wttech/pulumi-aem',
+      project_urls={
+          'Repository': 'https://github.com/wttech/pulumi-aem'
+      },
+      license='Apache-2.0',
       packages=find_packages(),
       package_data={
           'wttech_aem': [

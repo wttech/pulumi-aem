@@ -1,6 +1,15 @@
 {
     "name": "@wttech/aem",
     "version": "${VERSION}",
+    "keywords": [
+        "pulumi",
+        "aem",
+        "aemc",
+        "cloud"
+    ],
+    "homepage": "https://github.com/wttech/pulumi-aem",
+    "repository": "https://github.com/wttech/pulumi-aem",
+    "license": "Apache-2.0",
     "scripts": {
         "build": "tsc"
     },

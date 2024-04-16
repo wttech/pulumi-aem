@@ -1,6 +1,17 @@
 {
   "name": "aem",
-  "version": "0.9.1-alpha.1712528620+df011eb1.dirty",
+  "version": "0.9.2-alpha.1713273057+b360eb97.dirty",
+  "description": "Easily manage AEM instances in the cloud without a deep dev-ops knowledge",
+  "keywords": [
+    "pulumi",
+    "aem",
+    "aemc",
+    "cloud"
+  ],
+  "homepage": "https://github.com/wttech/pulumi-aem",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/wttech/pulumi-aem",
+  "logoUrl": "https://github.com/wttech/pulumi-aem/raw/main/docs/logo.100.png",
   "pluginDownloadURL": "github://api.github.com/wttech/pulumi-aem",
   "meta": {
     "moduleFormat": "(.*)"
