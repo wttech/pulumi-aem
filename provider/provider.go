@@ -70,8 +70,8 @@ type Instance struct{}
 type InstanceArgs struct {
 	Client  Client            `pulumi:"client"`
 	Files   map[string]string `pulumi:"files,optional"`
-	System  System            `pulumi:"system,optional"`
-	Compose Compose           `pulumi:"compose,optional"`
+	System  *System           `pulumi:"system,optional"`
+	Compose *Compose          `pulumi:"compose,optional"`
 }
 
 func (m *InstanceArgs) Annotate(a infer.Annotator) {
@@ -103,7 +103,7 @@ type System struct {
 	Env           map[string]string `pulumi:"env,optional"`
 	ServiceConfig string            `pulumi:"service_config,optional"`
 	User          string            `pulumi:"user,optional"`
-	Bootstrap     InstanceScript    `pulumi:"bootstrap,optional"`
+	Bootstrap     *InstanceScript   `pulumi:"bootstrap,optional"`
 }
 
 func (m *System) Annotate(a infer.Annotator) {
@@ -116,12 +116,12 @@ func (m *System) Annotate(a infer.Annotator) {
 }
 
 type Compose struct {
-	Download  bool           `pulumi:"download,optional"`
-	Version   string         `pulumi:"version,optional"`
-	Config    string         `pulumi:"config,optional"`
-	Create    InstanceScript `pulumi:"create,optional"`
-	Configure InstanceScript `pulumi:"configure,optional"`
-	Delete    InstanceScript `pulumi:"delete,optional"`
+	Download  bool            `pulumi:"download,optional"`
+	Version   string          `pulumi:"version,optional"`
+	Config    string          `pulumi:"config,optional"`
+	Create    *InstanceScript `pulumi:"create,optional"`
+	Configure *InstanceScript `pulumi:"configure,optional"`
+	Delete    *InstanceScript `pulumi:"delete,optional"`
 }
 
 func (m *Compose) Annotate(a infer.Annotator) {
