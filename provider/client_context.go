@@ -7,6 +7,6 @@ import (
 
 type ClientContext[T interface{}] struct {
 	cl   *client.Client
-	ctx  p.Context
+	log  p.Logger
 	data T
 }
