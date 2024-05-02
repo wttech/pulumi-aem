@@ -1,3 +1,6 @@
 [submodule ".devcontainer"]
 	path = .devcontainer
 	url = https://github.com/pulumi/devcontainer
+[submodule ".github/devcontainer"]
+	path = .github/devcontainer
+	url = https://github.com/pulumi/devcontainer
