@@ -222,7 +222,7 @@ func (ic *InstanceClient) bootstrap() error {
 	})
 }
 
-func (ic *InstanceClient) runScript(name string, script *InstanceScript, dir string) error {
+func (ic *InstanceClient) runScript(name string, script InstanceScript, dir string) error {
 	scriptCmd := script.Script
 	inlineCmds := script.Inline
 
