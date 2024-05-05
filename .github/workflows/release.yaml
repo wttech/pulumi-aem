@@ -32,33 +32,6 @@ jobs:
         uses: jaxxstorm/action-install-gh-release@v1.11.0
         with:
           repo: pulumi/pulumictl
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
-        with:
-          args: -p 3 release --rm-dist
-          version: latest
-    strategy:
-      fail-fast: true
-      matrix:
-        goversion:
-          - 1.20.x
-  publish_sdk:
-    name: Publish SDKs
-    runs-on: ubuntu-latest
-    needs: publish_binary
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v4
-      - name: Unshallow clone for tags
-        run: git fetch --prune --unshallow --tags
-      - name: Install Go
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ matrix.goversion }}
-      - name: Install pulumictl
-        uses: jaxxstorm/action-install-gh-release@v1.11.0
-        with:
-          repo: pulumi/pulumictl
       - name: Install Pulumi CLI
         uses: pulumi/action-install-pulumi-cli@v2.0.0
       - name: Setup Node
@@ -74,6 +47,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: ${{matrix.pythonversion}}
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          args: -p 3 release --rm-dist
+          version: latest
       - name: Generate SDK
         run: make build
       - name: Check worktree clean
@@ -85,6 +63,16 @@ jobs:
               git diff
               exit 1
           fi
+    strategy:
+      fail-fast: true
+      matrix:
+        goversion:
+          - 1.20.x
+  publish_sdk:
+    name: Publish SDKs
+    runs-on: ubuntu-latest
+    needs: publish_binary
+    steps:
       - name: Compress SDK folder
         run: tar -zcf sdk/${{ matrix.language }}.tar.gz -C sdk/${{ matrix.language }} .
       - name: Upload artifacts
