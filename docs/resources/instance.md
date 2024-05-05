@@ -3,8 +3,8 @@ page_title: "AEM Provider - Resource 'aem_instance'"
 subcategory: ""
 ---
 
-[![AEM Compose Logo](https://github.com/wttech/pulumi-aem/raw/main/docs/logo-with-text.png)](https://github.com/wttech/aemc)
-[![WTT Logo](https://github.com/wttech/pulumi-aem/raw/main/docs/wtt-logo.png)](https://www.wundermanthompson.com/service/technology)
+[![AEM Compose Logo](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/logo-with-text.png)](https://github.com/wttech/aemc)
+[![WTT Logo](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/wtt-logo.png)](https://www.wundermanthompson.com/service/technology)
 
 # AEM Provider - Resource 'aem_instance'
 

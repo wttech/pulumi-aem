@@ -30,7 +30,7 @@ func Provider() p.Provider {
 			Homepage:          "https://github.com/wttech/pulumi-aem",
 			Repository:        "https://github.com/wttech/pulumi-aem",
 			License:           "Apache-2.0",
-			LogoURL:           "https://github.com/wttech/pulumi-aem/raw/main/docs/logo.175.png",
+			LogoURL:           "https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/logo.175.png",
 			Description:       "Easily manage AEM instances in the cloud without a deep dev-ops knowledge",
 			Keywords:          []string{"pulumi", "aem", "aemc", "cloud"},
 			LanguageMap: map[string]any{

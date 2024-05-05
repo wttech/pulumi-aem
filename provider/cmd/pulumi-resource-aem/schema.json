@@ -11,7 +11,7 @@
   "homepage": "https://github.com/wttech/pulumi-aem",
   "license": "Apache-2.0",
   "repository": "https://github.com/wttech/pulumi-aem",
-  "logoUrl": "https://github.com/wttech/pulumi-aem/raw/main/docs/logo.175.png",
+  "logoUrl": "https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/logo.175.png",
   "pluginDownloadURL": "github://api.github.com/wttech/pulumi-aem",
   "meta": {
     "moduleFormat": "(.*)"
