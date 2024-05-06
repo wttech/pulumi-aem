@@ -45,11 +45,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.9"
-      - name: Run GoReleaser
-        uses: goreleaser/goreleaser-action@v5
-        with:
-          args: -p 3 release --clean --skip-validate --timeout 60m0s
-          version: latest
+#      - name: Run GoReleaser
+#        uses: goreleaser/goreleaser-action@v5
+#        with:
+#          args: -p 3 release --clean
+#          version: latest
       - name: Checkout Repo
         uses: actions/checkout@v4
       - name: Unshallow clone for tags
