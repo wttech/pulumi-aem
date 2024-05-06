@@ -62,11 +62,8 @@ jobs:
         id: create_tag
         uses: mathieudutour/github-tag-action@v5
         with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: sdk/${{ steps.get_tag.outputs.tag }}
-      - name: Push new tag
-        run: git push origin ${{ steps.create_tag.outputs.new_tag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Compress SDK folder
         run: |
           for language in nodejs python dotnet go; do
