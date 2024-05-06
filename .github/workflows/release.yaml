@@ -59,7 +59,7 @@ jobs:
         uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: sdk/${{ github.event.release.tag_name }}
+          custom_tag: sdk/${{ github.ref_name }}
           tag_prefix: ""
           release_branches: main
       - name: Generate SDK
