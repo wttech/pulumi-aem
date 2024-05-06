@@ -7,14 +7,11 @@ on:
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-  PUBLISH_NPM: true
   NPM_REGISTRY_URL: https://registry.npmjs.org
   NUGET_PUBLISH_KEY: ${{ secrets.NUGET_PUBLISH_KEY }}
   NUGET_FEED_URL: https://api.nuget.org/v3/index.json
-  PUBLISH_NUGET: true
   PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
   PYPI_USERNAME: "__token__"
-  PUBLISH_PYPI: true
 jobs:
   publish_binary:
     name: publish
@@ -58,6 +55,47 @@ jobs:
         run: git fetch --prune --unshallow --tags
       - name: Generate SDK
         run: make build
+      - name: Get current tag
+        id: get_tag
+        run: echo "::set-output name=tag::${GITHUB_REF##*/}"
+      - name: Create new tag
+        id: create_tag
+        uses: mathieudutour/github-tag-action@v5
+        with:
+          custom_tag: sdk/${{ steps.get_tag.outputs.tag }}
+      - name: Push new tag
+        run: git push origin ${{ steps.create_tag.outputs.new_tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Compress SDK folder
+        run: |
+          for language in nodejs python dotnet go; do
+            tar -zcf sdk/${{ matrix.language }}.tar.gz -C sdk/${{ matrix.language }} .
+          done
+      - name: Upload artifacts
+        run: |
+          for language in nodejs python dotnet go; do        
+            uses: actions/upload-artifact@v4
+            with:
+              name: ${{ matrix.language  }}-sdk.tar.gz
+              path: ${{ github.workspace}}/sdk/${{ matrix.language }}.tar.gz
+          done
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: ${{ env.PYPI_USERNAME }}
+          password: ${{ env.PYPI_PASSWORD }}
+          packages-dir: ${{github.workspace}}/sdk/python/bin/dist
+      - name: Publish NPM package
+        uses: JS-DevTools/npm-publish@v3
+        with:
+          access: "public"
+          token: ${{ env.NPM_TOKEN }}
+          package: ${{github.workspace}}/sdk/nodejs/bin/package.json
+      - name: publish nuget package
+        run: |
+          dotnet nuget push ${{github.workspace}}/sdk/dotnet/bin/Debug/*.nupkg -s ${{ env.NUGET_FEED_URL }} -k ${{ env.NUGET_PUBLISH_KEY }}
+          echo "done publishing packages"
     strategy:
       fail-fast: true
       matrix:
@@ -69,56 +107,3 @@ jobs:
           - 21.x
         pythonversion:
           - "3.9"
-  publish_sdk:
-    name: Publish SDKs
-    runs-on: ubuntu-latest
-    needs: publish_binary
-    steps:
-      - if: ${{ matrix.language == 'go' }}
-        name: Get current tag
-        id: get_tag
-        run: echo "::set-output name=tag::${GITHUB_REF##*/}"
-      - if: ${{ matrix.language == 'go' }}
-        name: Create new tag
-        id: create_tag
-        uses: mathieudutour/github-tag-action@v5
-        with:
-          tag: sdk/${{ steps.get_tag.outputs.tag }}
-      - if: ${{ matrix.language == 'go' }}
-        name: Push new tag
-        run: git push origin ${{ steps.create_tag.outputs.new_tag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Compress SDK folder
-        run: tar -zcf sdk/${{ matrix.language }}.tar.gz -C sdk/${{ matrix.language }} .
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.language  }}-sdk.tar.gz
-          path: ${{ github.workspace}}/sdk/${{ matrix.language }}.tar.gz
-      - if: ${{ matrix.language == 'python' && env.PUBLISH_PYPI == 'true' }}
-        name: Publish package to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: ${{ env.PYPI_USERNAME }}
-          password: ${{ env.PYPI_PASSWORD }}
-          packages-dir: ${{github.workspace}}/sdk/python/bin/dist
-      - if: ${{ matrix.language == 'nodejs' && env.PUBLISH_NPM == 'true' }}
-        uses: JS-DevTools/npm-publish@v3
-        with:
-          access: "public"
-          token: ${{ env.NPM_TOKEN }}
-          package: ${{github.workspace}}/sdk/nodejs/bin/package.json
-      - if: ${{ matrix.language == 'dotnet' && env.PUBLISH_NUGET == 'true' }}
-        name: publish nuget package
-        run: |
-          dotnet nuget push ${{github.workspace}}/sdk/dotnet/bin/Debug/*.nupkg -s ${{ env.NUGET_FEED_URL }} -k ${{ env.NUGET_PUBLISH_KEY }}
-          echo "done publishing packages"
-    strategy:
-      fail-fast: true
-      matrix:
-        language:
-          - nodejs
-          - python
-          - dotnet
-          - go
