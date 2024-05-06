@@ -64,19 +64,17 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           custom_tag: sdk/${{ steps.get_tag.outputs.tag }}
+          tag_prefix: ""
       - name: Compress SDK folder
         run: |
           for language in nodejs python dotnet go; do
             tar -zcf sdk/$language.tar.gz -C sdk/$language .
           done
       - name: Upload artifacts
-        run: |
-          for language in nodejs python dotnet go; do        
-            uses: actions/upload-artifact@v4
-            with:
-              name: $language-sdk.tar.gz
-              path: ${{ github.workspace}}/sdk/$language.tar.gz
-          done
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdk-artifacts
+          path: ${{ github.workspace}}/sdk/*.tar.gz
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
