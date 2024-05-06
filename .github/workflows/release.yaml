@@ -70,15 +70,15 @@ jobs:
       - name: Compress SDK folder
         run: |
           for language in nodejs python dotnet go; do
-            tar -zcf sdk/${{ language }}.tar.gz -C sdk/${{ language }} .
+            tar -zcf sdk/$language.tar.gz -C sdk/$language .
           done
       - name: Upload artifacts
         run: |
           for language in nodejs python dotnet go; do        
             uses: actions/upload-artifact@v4
             with:
-              name: ${{ language  }}-sdk.tar.gz
-              path: ${{ github.workspace}}/sdk/${{ language }}.tar.gz
+              name: $language-sdk.tar.gz
+              path: ${{ github.workspace}}/sdk/$language.tar.gz
           done
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
