@@ -48,7 +48,7 @@ jobs:
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v5
         with:
-          args: -p 3 release --clean
+          args: -p 3 release --clean --skip-validate --timeout 60m0s
           version: latest
       - name: Checkout Repo
         uses: actions/checkout@v4

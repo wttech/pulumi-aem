@@ -9,6 +9,7 @@ builds:
     dir: provider
     env:
       - CGO_ENABLED=0
+      - GO111MODULE=on
     goarch:
       - amd64
       - arm64
@@ -23,7 +24,6 @@ builds:
 changelog:
   disable: true
 release:
-  disable: false
-  prerelease: auto
+  disable: true
 snapshot:
   name_template: '{{ .Tag }}-SNAPSHOT'
