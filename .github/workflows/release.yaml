@@ -72,26 +72,25 @@ jobs:
       - name: Upload artifacts
         run: |
           cd ${{github.workspace}}/sdk
-          ls -la
           gh release upload ${{github.ref_name}} *.tar.gz
         env:
           GITHUB_TOKEN: ${{ github.TOKEN }}
         shell: bash
-      - name: Publish package to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          user: ${{ env.PYPI_USERNAME }}
-          password: ${{ env.PYPI_PASSWORD }}
-          packages-dir: ${{github.workspace}}/sdk/python/bin/dist
+      - name: publish nuget package
+        run: |
+          dotnet nuget push ${{github.workspace}}/sdk/dotnet/bin/Debug/*.nupkg -s ${{ env.NUGET_FEED_URL }} -k ${{ env.NUGET_PUBLISH_KEY }}
+          echo "done publishing packages"
       - name: Publish NPM package
         uses: JS-DevTools/npm-publish@v3
         with:
           access: "public"
           token: ${{ env.NPM_TOKEN }}
           package: ${{github.workspace}}/sdk/nodejs/bin/package.json
-      - name: publish nuget package
-        run: |
-          dotnet nuget push ${{github.workspace}}/sdk/dotnet/bin/Debug/*.nupkg -s ${{ env.NUGET_FEED_URL }} -k ${{ env.NUGET_PUBLISH_KEY }}
-          echo "done publishing packages"
+      - name: Publish package to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: ${{ env.PYPI_USERNAME }}
+          password: ${{ env.PYPI_PASSWORD }}
+          packages-dir: ${{github.workspace}}/sdk/python/bin/dist
     strategy:
       fail-fast: true
