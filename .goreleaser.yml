@@ -3,7 +3,7 @@ archives:
     name_template: '{{ .Binary }}-{{ .Tag }}-{{ .Os }}-{{ .Arch }}'
 before:
   hooks:
-    - make build
+    - make provider
 builds:
   - binary: pulumi-resource-aem
     dir: provider
@@ -21,7 +21,7 @@ builds:
       - -X github.com/wttech/pulumi-aem/provider/Version={{.Tag }}
     main: ./cmd/pulumi-resource-aem/
 changelog:
-  skip: true
+  disable: true
 release:
   disable: false
   prerelease: auto
