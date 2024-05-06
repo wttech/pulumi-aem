@@ -15,8 +15,7 @@ jobs:
   publish_binary:
     name: publish
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
+    permissions: write-all
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
