@@ -70,11 +70,13 @@ jobs:
             tar -zcf sdk/$language.tar.gz -C sdk/$language .
           done
       - name: Upload artifacts
-        uses: skx/github-action-publish-binaries@release-0.14
+        run: |
+          cd ${{github.workspace}}/sdk
+          ls -la
+          gh release upload ${{github.ref_name}} *.tar.gz
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          args: ${{github.workspace}}/sdk/*.tar.gz
+          GITHUB_TOKEN: ${{ github.TOKEN }}
+        shell: bash
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
