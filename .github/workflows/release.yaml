@@ -48,7 +48,7 @@ jobs:
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v5
         with:
-          args: -p 3 release --rm-dist
+          args: -p 3 release --clean
           version: latest
       - name: Checkout Repo
         uses: actions/checkout@v4
