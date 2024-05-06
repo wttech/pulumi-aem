@@ -66,14 +66,21 @@ jobs:
           tag_prefix: ""
       - name: Compress SDK folder
         run: |
+          rm -fr ./sdk/dotnet/bin
+          rm -fr ./sdk/dotnet/obj
+          rm -fr ./sdk/nodejs/bin
+          rm -fr ./sdk/nodejs/node_modules
+          rm -fr ./sdk/python/bin
           for language in nodejs python dotnet go; do
             tar -zcf sdk/$language.tar.gz -C sdk/$language .
           done
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: skx/github-action-publish-binaries@release-0.14
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          name: sdk-artifacts
-          path: ${{ github.workspace}}/sdk/*.tar.gz
+          releaseId: ${{ github.event.release.id }}
+          args: "./sdk/*.tar.gz"
       - name: Publish package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
