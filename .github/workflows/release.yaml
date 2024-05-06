@@ -1,8 +1,9 @@
 name: Release
 on:
-  workflow_dispatch:
-  release:
-    types: [published]
+  push:
+    tags:
+      - v*.*.*
+      - '!v*.*.*-**'
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -44,17 +45,15 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.9"
-#      - name: Run GoReleaser
-#        uses: goreleaser/goreleaser-action@v5
-#        with:
-#          args: -p 3 release --clean
-#          version: latest
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          args: -p 3 release --clean
+          version: latest
       - name: Checkout Repo
         uses: actions/checkout@v4
       - name: Unshallow clone for tags
         run: git fetch --prune --unshallow --tags
-      - name: Generate SDK
-        run: make build
       - name: Create new tag
         id: create_tag
         uses: mathieudutour/github-tag-action@v6.2
@@ -63,6 +62,8 @@ jobs:
           custom_tag: sdk/${{ github.event.release.tag_name }}
           tag_prefix: ""
           release_branches: main
+      - name: Generate SDK
+        run: make build
       - name: Compress SDK folder
         run: |
           for language in nodejs python dotnet go; do
