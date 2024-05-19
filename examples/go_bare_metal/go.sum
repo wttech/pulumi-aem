@@ -188,8 +188,8 @@ github.com/uber/jaeger-client-go v2.30.0+incompatible h1:D6wyKGCecFaSRUpo8lCVbaO
 github.com/uber/jaeger-client-go v2.30.0+incompatible/go.mod h1:WVhlPFC8FDjOFMMWRy2pZqQJSXxYSwNYOkTr/Z6d3Kk=
 github.com/uber/jaeger-lib v2.4.1+incompatible h1:td4jdvLcExb4cBISKIpHuGoVXh+dVKhn2Um6rjCsSsg=
 github.com/uber/jaeger-lib v2.4.1+incompatible/go.mod h1:ComeNDZlWwrWnDv8aPp0Ba6+uUTzImX/AauajbLI56U=
-github.com/wttech/pulumi-aem/sdk v0.9.1 h1:WmqKId9nMgQrULEmDqTLi0QKiY1OCFBEKwNAbi+qNPk=
-github.com/wttech/pulumi-aem/sdk v0.9.1/go.mod h1:bLqhv6ocsTED27YdraFgaeBfnSIac0yYT7bfHXobVew=
+github.com/wttech/pulumi-aem/sdk v0.1.1 h1:hpnRJvoigvWlBobDD1U020xr2PKJgFJLRtigPwBRDXo=
+github.com/wttech/pulumi-aem/sdk v0.1.1/go.mod h1:bLqhv6ocsTED27YdraFgaeBfnSIac0yYT7bfHXobVew=
 github.com/xanzy/ssh-agent v0.3.3 h1:+/15pJfg/RsTxqYcX6fHqOXZwwMP+2VyYWJeWM2qQFM=
 github.com/xanzy/ssh-agent v0.3.3/go.mod h1:6dzNDKs0J9rVPHPhaGCukekBHKqfl+L3KghI1Bc68Uw=
 github.com/yuin/goldmark v1.1.27/go.mod h1:3hX8gzYuyVAZsxl0MRgGTJEmQBFcNTphYh9decYSb74=

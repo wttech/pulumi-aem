@@ -8,7 +8,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Pulumi" Version="3.*" />
-		<PackageReference Include="WTTech.Aem" Version="0.9.1-alpha.1712528620+df011eb1.dirty" />
+		<PackageReference Include="WTTech.Aem" Version="0.1.2-alpha.1716160755+bb5916a5.dirty" />
 	</ItemGroup>
 
 </Project>

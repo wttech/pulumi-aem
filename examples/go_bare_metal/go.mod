@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/pulumi/pulumi/sdk/v3 v3.104.2
-	github.com/wttech/pulumi-aem/sdk v0.9.1
+	github.com/wttech/pulumi-aem/sdk v0.1.1
 )
 
 require (

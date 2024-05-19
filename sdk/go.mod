@@ -7,6 +7,16 @@ require (
 	github.com/pulumi/pulumi/sdk/v3 v3.104.2
 )
 
+retract (
+	v0.9.0
+	v0.9.1
+	v0.9.30
+	v0.9.31
+	v0.9.32
+	v0.9.33
+	v0.9.34
+)
+
 require (
 	dario.cat/mergo v1.0.0 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
