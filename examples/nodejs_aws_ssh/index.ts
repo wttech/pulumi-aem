@@ -1,4 +1,5 @@
 import * as aem from "@wttech/aem";
+import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 import * as fs from "fs";
 
@@ -7,8 +8,8 @@ const publicKey = fs.readFileSync("ec2-key.cer.pub","utf8");
 const privateKey = fs.readFileSync("ec2-key.cer","utf8");
 
 const workspace = "aemc"
-const env = "tf-minimal"
-const envType = "aem-single"
+const env = pulumi.getStack()
+const envType = "tf-minimal"
 const host = "aem-single"
 const dataDevice = "/dev/nvme1n1"
 const dataDir = "/data"
@@ -20,11 +21,11 @@ const tags = {
     "Env": env,
     "EnvType": envType,
     "Host": host,
-    "Name": `${workspace}_${envType}_${host}`,
+    "Name": `${workspace}_${env}_${host}`,
 }
 
 const role = new aws.iam.Role("aem_ec2", {
-    name: `${workspace}_aem_ec2`,
+    name: `${workspace}_${env}_aem_ec2`,
     assumeRolePolicy: JSON.stringify({
         "Version": "2012-10-17",
         "Statement": {
@@ -42,13 +43,13 @@ new aws.iam.RolePolicyAttachment("s3", {
 });
 
 const instanceProfile = new aws.iam.InstanceProfile("aem_ec2", {
-    name: `${workspace}_aem_ec2`,
+    name: `${workspace}_${env}_aem_ec2`,
     role: role.name,
     tags: tags,
 });
 
 const keyPair = new aws.ec2.KeyPair("aem_single", {
-    keyName: `${workspace}-example-tf`,
+    keyName: `${workspace}-${env}-example-tf`,
     publicKey: publicKey,
     tags: tags,
 });

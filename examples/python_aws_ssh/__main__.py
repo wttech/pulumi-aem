@@ -4,8 +4,8 @@ import wttech_aem as aem
 import os
 
 workspace = "aemc"
-env = "tf-minimal"
-envType = "aem-single"
+env = pulumi.get_stack()
+envType = "tf-minimal"
 host = "aem-single"
 dataDevice = "/dev/nvme1n1"
 dataDir = "/data"
@@ -26,11 +26,11 @@ tags = {
     "Env": env,
     "EnvType": envType,
     "Host": host,
-    "Name": f"{workspace}_{envType}_{host}",
+    "Name": f"{workspace}_{env}_{host}",
 }
 
 role = aws.iam.Role("aem_ec2",
-                    name=f"{workspace}_aem_ec2",
+                    name=f"{workspace}_{env}_aem_ec2",
                     assume_role_policy="""{
     "Version": "2012-10-17",
     "Statement": {
@@ -48,13 +48,13 @@ aws.iam.RolePolicyAttachment("s3",
                              )
 
 instanceProfile = aws.iam.InstanceProfile("aem_ec2",
-                                          name=f"{workspace}_aem_ec2",
+                                          name=f"{workspace}_{env}_aem_ec2",
                                           role=role.name,
                                           tags=tags,
                                           )
 
 keyPair = aws.ec2.KeyPair("aem_single",
-                          key_name=f"{workspace}-example-tf",
+                          key_name=f"{workspace}-{env}-example-tf",
                           public_key=publicKey,
                           tags=tags,
                           )

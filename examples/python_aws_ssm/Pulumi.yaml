@@ -1,6 +1,2 @@
 name: pulumi-aem
 runtime: python
-plugins:
-  providers:
-    - name: aem
-      path: ../../bin

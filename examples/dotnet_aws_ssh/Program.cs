@@ -14,8 +14,8 @@ return await Deployment.RunAsync(() =>
     var privateKey = File.ReadAllText("ec2-key.cer");
 
     var workspace = "aemc";
-    var env = "tf-minimal";
-    var envType = "aem-single";
+    var env = Deployment.Instance.StackName;
+    var envType = "tf-minimal";
     var host = "aem-single";
     var dataDevice = "/dev/nvme1n1";
     var dataDir = "/data";
@@ -28,12 +28,12 @@ return await Deployment.RunAsync(() =>
         { "Env", env },
         { "EnvType", envType },
         { "Host", host },
-        { "Name", $"{workspace}_{envType}_{host}" },
+        { "Name", $"{workspace}_{env}_{host}" },
     };
 
     var role = new Role("aem_ec2", new RoleArgs
     {
-        Name = $"{workspace}_aem_ec2",
+        Name = $"{workspace}_{env}_aem_ec2",
         AssumeRolePolicy = @"{
     ""Version"": ""2012-10-17"",
     ""Statement"": {
@@ -53,14 +53,14 @@ return await Deployment.RunAsync(() =>
 
     var instanceProfile = new InstanceProfile("aem_ec2", new InstanceProfileArgs
     {
-        Name = $"{workspace}_aem_ec2",
+        Name = $"{workspace}_{env}_aem_ec2",
         Role = role.Name,
         Tags = tags,
     });
 
     var keyPair = new KeyPair("aem_single", new KeyPairArgs
     {
-        KeyName = $"{workspace}-example-tf",
+        KeyName = $"{workspace}-{env}-example-tf",
         PublicKey = publicKey,
         Tags = tags,
     });

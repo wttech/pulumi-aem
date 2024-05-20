@@ -1,6 +1,2 @@
 name: pulumi-aem
 runtime: go
-plugins:
-  providers:
-    - name: aem
-      path: ../../bin

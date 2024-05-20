@@ -20,26 +20,26 @@ var publicKey string
 var privateKey string
 
 func main() {
-	workspace := "aemc"
-	env := "tf-minimal"
-	envType := "aem-single"
-	host := "aem-single"
-	dataDevice := "/dev/nvme1n1"
-	dataDir := "/data"
-	composeDir := fmt.Sprintf("%s/aemc", dataDir)
-	sshUser := "ec2-user"
-
-	tags := pulumi.StringMap{
-		"Workspace": pulumi.String(workspace),
-		"Env":       pulumi.String(env),
-		"EnvType":   pulumi.String(envType),
-		"Host":      pulumi.String(host),
-		"Name":      pulumi.Sprintf("%s_%s_%s", workspace, envType, host),
-	}
-
 	pulumi.Run(func(ctx *pulumi.Context) error {
+		workspace := "aemc"
+		env := ctx.Stack()
+		envType := "tf-minimal"
+		host := "aem-single"
+		dataDevice := "/dev/nvme1n1"
+		dataDir := "/data"
+		composeDir := fmt.Sprintf("%s/aemc", dataDir)
+		sshUser := "ec2-user"
+
+		tags := pulumi.StringMap{
+			"Workspace": pulumi.String(workspace),
+			"Env":       pulumi.String(env),
+			"EnvType":   pulumi.String(envType),
+			"Host":      pulumi.String(host),
+			"Name":      pulumi.Sprintf("%s_%s_%s", workspace, env, host),
+		}
+
 		role, err := iam.NewRole(ctx, "aem_ec2", &iam.RoleArgs{
-			Name: pulumi.Sprintf("%s_aem_ec2", workspace),
+			Name: pulumi.Sprintf("%s_%s_aem_ec2", workspace, env),
 			AssumeRolePolicy: pulumi.String(`{
 	"Version": "2012-10-17",
 	"Statement": {
@@ -63,7 +63,7 @@ func main() {
 		}
 
 		instanceProfile, err := iam.NewInstanceProfile(ctx, "aem_ec2", &iam.InstanceProfileArgs{
-			Name: pulumi.Sprintf("%s_aem_ec2", workspace),
+			Name: pulumi.Sprintf("%s_%s_aem_ec2", workspace, env),
 			Role: role.Name,
 			Tags: tags,
 		})
@@ -72,7 +72,7 @@ func main() {
 		}
 
 		keyPair, err := ec2.NewKeyPair(ctx, "aem_single", &ec2.KeyPairArgs{
-			KeyName:   pulumi.Sprintf("%s-example-tf", workspace),
+			KeyName:   pulumi.Sprintf("%s-%s-example-tf", workspace, env),
 			PublicKey: pulumi.Sprintf(publicKey),
 			Tags:      tags,
 		})
