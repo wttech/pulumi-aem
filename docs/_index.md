@@ -16,11 +16,12 @@ It's based on the [AEM Compose](https://github.com/wttech/aemc) tool and aims to
 
 ```typescript
 import * as aem from "@wttech/aem";
+import * as pulumi from "@pulumi/pulumi";
 import * as aws from "@pulumi/aws";
 
 const workspace = "aemc"
-const env = "tf-minimal"
-const envType = "aem-single"
+const env = pulumi.getStack()
+const envType = "tf-minimal"
 const host = "aem-single"
 const dataDevice = "/dev/nvme1n1"
 const dataDir = "/data"
@@ -31,11 +32,11 @@ const tags = {
     "Env": env,
     "EnvType": envType,
     "Host": host,
-    "Name": `${workspace}_${envType}_${host}`,
+    "Name": `${workspace}_${env}_${host}`,
 }
 
 const role = new aws.iam.Role("aem_ec2", {
-    name: `${workspace}_aem_ec2`,
+    name: `${workspace}_${env}_aem_ec2`,
     assumeRolePolicy: JSON.stringify({
         "Version": "2012-10-17",
         "Statement": {
@@ -58,7 +59,7 @@ new aws.iam.RolePolicyAttachment("s3", {
 });
 
 const instanceProfile = new aws.iam.InstanceProfile("aem_ec2", {
-    name: `${workspace}_aem_ec2`,
+    name: `${workspace}_${env}_aem_ec2`,
     role: role.name,
     tags: tags,
 });
@@ -141,8 +142,8 @@ import pulumi_aws as aws
 import wttech_aem as aem
 
 workspace = "aemc"
-env = "tf-minimal"
-envType = "aem-single"
+env = pulumi.get_stack()
+envType = "tf-minimal"
 host = "aem-single"
 dataDevice = "/dev/nvme1n1"
 dataDir = "/data"
@@ -153,11 +154,11 @@ tags = {
     "Env": env,
     "EnvType": envType,
     "Host": host,
-    "Name": f"{workspace}_{envType}_{host}",
+    "Name": f"{workspace}_{env}_{host}",
 }
 
 role = aws.iam.Role("aem_ec2",
-                    name=f"{workspace}_aem_ec2",
+                    name=f"{workspace}_{env}_aem_ec2",
                     assume_role_policy="""{
     "Version": "2012-10-17",
     "Statement": {
@@ -180,7 +181,7 @@ aws.iam.RolePolicyAttachment("s3",
                              )
 
 instanceProfile = aws.iam.InstanceProfile("aem_ec2",
-                                          name=f"{workspace}_aem_ec2",
+                                          name=f"{workspace}_{env}_aem_ec2",
                                           role=role.name,
                                           tags=tags,
                                           )
@@ -271,25 +272,25 @@ import (
 )
 
 func main() {
-    workspace := "aemc"
-    env := "tf-minimal"
-    envType := "aem-single"
-    host := "aem-single"
-    dataDevice := "/dev/nvme1n1"
-    dataDir := "/data"
-    composeDir := fmt.Sprintf("%s/aemc", dataDir)
-
-    tags := pulumi.StringMap{
-        "Workspace": pulumi.String(workspace),
-        "Env":       pulumi.String(env),
-        "EnvType":   pulumi.String(envType),
-        "Host":      pulumi.String(host),
-        "Name":      pulumi.Sprintf("%s_%s_%s", workspace, envType, host),
-    }
-
     pulumi.Run(func(ctx *pulumi.Context) error {
+        workspace := "aemc"
+        env := ctx.Stack()
+        envType := "tf-minimal"
+        host := "aem-single"
+        dataDevice := "/dev/nvme1n1"
+        dataDir := "/data"
+        composeDir := fmt.Sprintf("%s/aemc", dataDir)
+
+        tags := pulumi.StringMap{
+            "Workspace": pulumi.String(workspace),
+            "Env":       pulumi.String(env),
+            "EnvType":   pulumi.String(envType),
+            "Host":      pulumi.String(host),
+            "Name":      pulumi.Sprintf("%s_%s_%s", workspace, env, host),
+        }
+
         role, err := iam.NewRole(ctx, "aem_ec2", &iam.RoleArgs{
-            Name: pulumi.Sprintf("%s_aem_ec2", workspace),
+            Name: pulumi.Sprintf("%s_%s_aem_ec2", workspace, env),
             AssumeRolePolicy: pulumi.String(`{
     "Version": "2012-10-17",
     "Statement": {
@@ -321,7 +322,7 @@ func main() {
         }
 
         instanceProfile, err := iam.NewInstanceProfile(ctx, "aem_ec2", &iam.InstanceProfileArgs{
-            Name: pulumi.Sprintf("%s_aem_ec2", workspace),
+            Name: pulumi.Sprintf("%s_%s_aem_ec2", workspace, env),
             Role: role.Name,
             Tags: tags,
         })
@@ -429,8 +430,8 @@ using Aem = WTTech.Aem;
 return await Deployment.RunAsync(() =>
 {
     var workspace = "aemc";
-    var env = "tf-minimal";
-    var envType = "aem-single";
+    var env = Deployment.Instance.StackName;
+    var envType = "tf-minimal";
     var host = "aem-single";
     var dataDevice = "/dev/nvme1n1";
     var dataDir = "/data";
@@ -442,12 +443,12 @@ return await Deployment.RunAsync(() =>
         { "Env", env },
         { "EnvType", envType },
         { "Host", host },
-        { "Name", $"{workspace}_{envType}_{host}" },
+        { "Name", $"{workspace}_{env}_{host}" },
     };
 
     var role = new Role("aem_ec2", new RoleArgs
     {
-        Name = $"{workspace}_aem_ec2",
+        Name = $"{workspace}_{env}_aem_ec2",
         AssumeRolePolicy = @"{
     ""Version"": ""2012-10-17"",
     ""Statement"": {
@@ -473,7 +474,7 @@ return await Deployment.RunAsync(() =>
 
     var instanceProfile = new InstanceProfile("aem_ec2", new InstanceProfileArgs
     {
-        Name = $"{workspace}_aem_ec2",
+        Name = $"{workspace}_{env}_aem_ec2",
         Role = role.Name,
         Tags = tags,
     });
