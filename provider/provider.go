@@ -1,6 +1,7 @@
 package provider
 
 import (
+	"context"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi-go-provider/middleware/schema"
@@ -170,14 +171,14 @@ func (m *InstanceState) Annotate(a infer.Annotator) {
 	a.Describe(&m.Instances, "Current state of the configured AEM instances.")
 }
 
-func (Instance) Create(ctx p.Context, name string, input InstanceArgs, preview bool) (string, InstanceState, error) {
+func (Instance) Create(ctx context.Context, name string, input InstanceArgs, preview bool) (string, InstanceState, error) {
 	state := InstanceState{InstanceArgs: input}
 	if preview {
 		return name, state, nil
 	}
 
 	instanceResource := NewInstanceResource()
-	status, err := instanceResource.Create(ctx, input)
+	status, err := instanceResource.Create(p.GetLogger(ctx), input)
 	if err != nil {
 		return name, state, err
 	}
@@ -198,14 +199,14 @@ func (Instance) Create(ctx p.Context, name string, input InstanceArgs, preview b
 	return name, state, nil
 }
 
-func (Instance) Update(ctx p.Context, id string, oldState InstanceState, input InstanceArgs, preview bool) (InstanceState, error) {
+func (Instance) Update(ctx context.Context, id string, oldState InstanceState, input InstanceArgs, preview bool) (InstanceState, error) {
 	if preview {
 		return oldState, nil
 	}
 
 	state := InstanceState{InstanceArgs: input}
 	instanceResource := NewInstanceResource()
-	status, err := instanceResource.Update(ctx, input)
+	status, err := instanceResource.Update(p.GetLogger(ctx), input)
 	if err != nil {
 		return state, err
 	}
@@ -226,16 +227,16 @@ func (Instance) Update(ctx p.Context, id string, oldState InstanceState, input I
 	return state, nil
 }
 
-func (Instance) Delete(ctx p.Context, id string, props InstanceState) error {
+func (Instance) Delete(ctx context.Context, id string, props InstanceState) error {
 	instanceResource := NewInstanceResource()
-	if err := instanceResource.Delete(ctx, props.InstanceArgs); err != nil {
+	if err := instanceResource.Delete(p.GetLogger(ctx), props.InstanceArgs); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func (Instance) Check(ctx p.Context, name string, oldInputs, newInputs resource.PropertyMap) (InstanceArgs, []p.CheckFailure, error) {
+func (Instance) Check(ctx context.Context, name string, oldInputs, newInputs resource.PropertyMap) (InstanceArgs, []p.CheckFailure, error) {
 	inputs := determineInputs(newInputs, "client")
 	setDefaultValue(inputs, "credentials", resource.NewObjectProperty(resource.PropertyMap{}))
 	setDefaultValue(inputs, "action_timeout", resource.NewStringProperty("10m"))

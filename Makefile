@@ -23,6 +23,12 @@ ensure::
 	cd sdk && go mod tidy
 	cd tests && go mod tidy
 
+local_ensure::
+	cd provider && go get -u -d && go mod tidy
+	cd sdk/go/aem && go get -u -d
+	cd sdk && go mod tidy
+	cd tests && go get -u -d && go mod tidy
+
 provider::
 	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
 
@@ -121,6 +127,10 @@ devcontainer::
 .PHONY: build
 
 build:: provider gen_sdk
+
+local_build:: local_ensure provider gen_sdk
+
+full_build:: local_ensure provider gen_sdk gen_examples test_provider install
 
 # Required for the codegen action that runs in pulumi/pulumi
 only_build:: build

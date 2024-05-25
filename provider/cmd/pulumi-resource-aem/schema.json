@@ -1,6 +1,6 @@
 {
   "name": "aem",
-  "version": "0.1.2-alpha.1716160755+bb5916a5.dirty",
+  "version": "0.1.2-alpha.1716627495+326b35a4.dirty",
   "description": "Easily manage AEM instances in the cloud without a deep dev-ops knowledge",
   "keywords": [
     "pulumi",
