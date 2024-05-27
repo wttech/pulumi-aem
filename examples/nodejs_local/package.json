@@ -1,0 +1,11 @@
+{
+  "name": "pulumi-aem",
+  "devDependencies": {
+    "@types/node": "^14"
+  },
+  "dependencies": {
+    "typescript": "^4.0.0",
+    "fs": "0.0.1-security",
+    "@wttech/aem": "0.1.1"
+  }
+}

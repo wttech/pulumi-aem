@@ -20,14 +20,6 @@ func (c ClientManager) Make(typeName string, settings map[string]string) (*Clien
 	}, nil
 }
 
-func (c ClientManager) Use(typeName string, settings map[string]string, callback func(c Client) error) error {
-	client, err := c.Make(typeName, settings)
-	if err != nil {
-		return err
-	}
-	return client.Use(callback)
-}
-
 func (c ClientManager) connection(typeName string, settings map[string]string) (Connection, error) {
 	switch typeName {
 	case "ssh":
@@ -48,6 +40,8 @@ func (c ClientManager) connection(typeName string, settings map[string]string) (
 			commandWaitMin:       cast.ToDuration(settings["command_wait_min"]),
 			commandWaitMax:       cast.ToDuration(settings["command_wait_max"]),
 		}, nil
+	case "local":
+		return &LocalConnection{}, nil
 	}
 	return nil, fmt.Errorf("unknown AEM client type: %s", typeName)
 }
