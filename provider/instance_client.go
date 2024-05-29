@@ -2,7 +2,6 @@ package provider
 
 import (
 	"fmt"
-	"github.com/pulumi/pulumi/sdk/v3/go/common/diag"
 	"github.com/wttech/pulumi-aem/provider/utils"
 	"golang.org/x/exp/maps"
 	"gopkg.in/yaml.v3"
@@ -33,7 +32,7 @@ func (ic *InstanceClient) prepareDataDir() error {
 
 func (ic *InstanceClient) installComposeCLI() error {
 	if !ic.data.Compose.Download {
-		ic.ctx.Log(diag.Info, "Skipping AEM Compose CLI wrapper download. It is expected to be alternatively installed under the data directory.")
+		ic.log.Info("Skipping AEM Compose CLI wrapper download. It is expected to be alternatively installed under the data directory.")
 		return nil
 	}
 	exists, err := ic.cl.FileExists(fmt.Sprintf("%s/aemw", ic.dataDir()))
@@ -41,13 +40,13 @@ func (ic *InstanceClient) installComposeCLI() error {
 		return fmt.Errorf("cannot check if AEM Compose CLI wrapper is installed: %w", err)
 	}
 	if !exists {
-		ic.ctx.Log(diag.Info, "Downloading AEM Compose CLI wrapper")
+		ic.log.Info("Downloading AEM Compose CLI wrapper")
 		out, err := ic.cl.RunShellCommand("curl -s 'https://raw.githubusercontent.com/wttech/aemc/main/pkg/project/common/aemw' -o 'aemw'", ic.dataDir())
-		ic.ctx.Log(diag.Info, string(out))
+		ic.log.Info(string(out))
 		if err != nil {
 			return fmt.Errorf("cannot download AEM Compose CLI wrapper: %w", err)
 		}
-		ic.ctx.Log(diag.Info, "Downloaded AEM Compose CLI wrapper")
+		ic.log.Info("Downloaded AEM Compose CLI wrapper")
 	}
 	return nil
 }
@@ -71,7 +70,7 @@ func (ic *InstanceClient) copyFiles() error {
 }
 
 func (ic *InstanceClient) create() error {
-	ic.ctx.Log(diag.Info, "Creating AEM instance(s)")
+	ic.log.Info("Creating AEM instance(s)")
 	if err := ic.configureService(); err != nil {
 		return err
 	}
@@ -81,7 +80,7 @@ func (ic *InstanceClient) create() error {
 	if err := ic.runScript("create", ic.data.Compose.Create, ic.dataDir()); err != nil {
 		return err
 	}
-	ic.ctx.Log(diag.Info, "Created AEM instance(s)")
+	ic.log.Info("Created AEM instance(s)")
 	return nil
 }
 
@@ -140,12 +139,12 @@ func (ic *InstanceClient) runServiceAction(action string) error {
 		return fmt.Errorf("unable to perform AEM system service action '%s': %w", action, err)
 	}
 	outText := string(outBytes)
-	ic.ctx.Log(diag.Info, outText)
+	ic.log.Info(outText)
 	return nil
 }
 
 func (ic *InstanceClient) launch() error {
-	ic.ctx.Log(diag.Info, "Launching AEM instance(s)")
+	ic.log.Info("Launching AEM instance(s)")
 	if err := ic.runServiceAction("start"); err != nil {
 		return err
 	}
@@ -155,31 +154,31 @@ func (ic *InstanceClient) launch() error {
 	if err := ic.runScript("configure", ic.data.Compose.Configure, ic.dataDir()); err != nil {
 		return err
 	}
-	ic.ctx.Log(diag.Info, "Launched AEM instance(s)")
+	ic.log.Info("Launched AEM instance(s)")
 	return nil
 }
 
 func (ic *InstanceClient) applyConfig() error {
-	ic.ctx.Log(diag.Info, "Applying AEM instance configuration")
+	ic.log.Info("Applying AEM instance configuration")
 	outBytes, err := ic.cl.RunShellCommand("sh aemw instance launch", ic.dataDir())
 	if err != nil {
 		return fmt.Errorf("unable to apply AEM instance configuration: %w", err)
 	}
 	outText := string(outBytes)
-	ic.ctx.Log(diag.Info, outText)
-	ic.ctx.Log(diag.Info, "Applied AEM instance configuration")
+	ic.log.Info(outText)
+	ic.log.Info("Applied AEM instance configuration")
 	return nil
 }
 
 func (ic *InstanceClient) terminate() error {
-	ic.ctx.Log(diag.Info, "Terminating AEM instance(s)")
+	ic.log.Info("Terminating AEM instance(s)")
 	if err := ic.runServiceAction("stop"); err != nil {
 		return err
 	}
 	if err := ic.runScript("delete", ic.data.Compose.Delete, ic.dataDir()); err != nil {
 		return err
 	}
-	ic.ctx.Log(diag.Info, "Terminated AEM instance(s)")
+	ic.log.Info("Terminated AEM instance(s)")
 	return nil
 }
 
@@ -242,27 +241,27 @@ func (ic *InstanceClient) runScript(name string, script *InstanceScript, dir str
 
 func (ic *InstanceClient) runScriptInline(name string, inlineCmds []string, dir string) error {
 	for i, cmd := range inlineCmds {
-		ic.ctx.Logf(diag.Info, "Executing command '%s' of script '%s' (%d/%d)", cmd, name, i+1, len(inlineCmds))
+		ic.log.Infof("Executing command '%s' of script '%s' (%d/%d)", cmd, name, i+1, len(inlineCmds))
 		textOut, err := ic.cl.RunShellScript(name, cmd, dir)
 		if err != nil {
 			return fmt.Errorf("unable to execute command '%s' of script '%s' properly: %w", cmd, name, err)
 		}
 		textStr := string(textOut)
-		ic.ctx.Logf(diag.Info, "Executed command '%s' of script '%s' (%d/%d)", cmd, name, i+1, len(inlineCmds))
-		ic.ctx.Log(diag.Info, textStr)
+		ic.log.Infof("Executed command '%s' of script '%s' (%d/%d)", cmd, name, i+1, len(inlineCmds))
+		ic.log.Info(textStr)
 	}
 	return nil
 }
 
 func (ic *InstanceClient) runScriptMultiline(name string, scriptCmd string, dir string) error {
-	ic.ctx.Logf(diag.Info, "Executing instance script '%s'", name)
+	ic.log.Infof("Executing instance script '%s'", name)
 	textOut, err := ic.cl.RunShellScript(name, scriptCmd, dir)
 	if err != nil {
 		return fmt.Errorf("unable to execute script '%s' properly: %w", name, err)
 	}
 	textStr := string(textOut)
-	ic.ctx.Logf(diag.Info, "Executed instance script '%s'", name)
-	ic.ctx.Log(diag.Info, textStr)
+	ic.log.Infof("Executed instance script '%s'", name)
+	ic.log.Info(textStr)
 	return nil
 }
 
@@ -273,7 +272,7 @@ func (ic *InstanceClient) doActionOnce(name string, lockDir string, action func(
 		return fmt.Errorf("cannot read lock file '%s': %w", lock, err)
 	}
 	if exists {
-		ic.ctx.Logf(diag.Info, "Skipping AEM instance action '%s' (lock file already exists '%s')", name, lock)
+		ic.log.Infof("Skipping AEM instance action '%s' (lock file already exists '%s')", name, lock)
 		return nil
 	}
 	if err := action(); err != nil {
