@@ -5,7 +5,7 @@
         "pulumi",
         "aem",
         "aemc",
-        "cloud"
+        "category/cloud"
     ],
     "homepage": "https://github.com/wttech/pulumi-aem",
     "repository": "https://github.com/wttech/pulumi-aem",
