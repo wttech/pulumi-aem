@@ -98,18 +98,20 @@ func (m *Client) Annotate(a infer.Annotator) {
 }
 
 type System struct {
-	DataDir       string            `pulumi:"data_dir,optional"`
-	WorkDir       string            `pulumi:"work_dir,optional"`
-	Env           map[string]string `pulumi:"env,optional"`
-	ServiceConfig string            `pulumi:"service_config,optional"`
-	User          string            `pulumi:"user,optional"`
-	Bootstrap     *InstanceScript   `pulumi:"bootstrap,optional"`
+	DataDir        string            `pulumi:"data_dir,optional"`
+	WorkDir        string            `pulumi:"work_dir,optional"`
+	Env            map[string]string `pulumi:"env,optional"`
+	ServiceEnabled bool              `pulumi:"service_enabled,optional"`
+	ServiceConfig  string            `pulumi:"service_config,optional"`
+	User           string            `pulumi:"user,optional"`
+	Bootstrap      *InstanceScript   `pulumi:"bootstrap,optional"`
 }
 
 func (m *System) Annotate(a infer.Annotator) {
 	a.Describe(&m.DataDir, "Remote root path in which AEM Compose files and unpacked AEM instances will be stored.")
 	a.Describe(&m.WorkDir, "Remote root path where provider-related files will be stored.")
 	a.Describe(&m.Env, "Environment variables for AEM instances.")
+	a.Describe(&m.ServiceEnabled, "Enabled the AEM system service (systemd).")
 	a.Describe(&m.ServiceConfig, "Contents of the AEM system service definition file (systemd).")
 	a.Describe(&m.User, "System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.")
 	a.Describe(&m.Bootstrap, "Script executed once upon instance connection, often for mounting on VM data volumes from attached disks (e.g., AWS EBS, Azure Disk Storage). This script runs only once, even during instance recreation, as changes are typically persistent and system-wide. If re-execution is needed, it is recommended to set up a new machine.")
@@ -247,6 +249,7 @@ func (Instance) Check(ctx p.Context, name string, oldInputs, newInputs resource.
 	setDefaultInlineScripts(inputs, "bootstrap", []string{})
 	setDefaultValue(inputs, "data_dir", resource.NewStringProperty("/mnt/aemc"))
 	setDefaultValue(inputs, "work_dir", resource.NewStringProperty("/tmp/aemc"))
+	setDefaultValue(inputs, "service_enabled", resource.NewBoolProperty(true))
 	setDefaultValue(inputs, "service_config", resource.NewStringProperty(instance.ServiceConf))
 	setDefaultValue(inputs, "user", resource.NewStringProperty(""))
 	setDefaultValue(inputs, "env", resource.NewObjectProperty(resource.PropertyMap{}))

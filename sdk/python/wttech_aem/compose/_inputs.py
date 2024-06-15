@@ -250,6 +250,7 @@ class SystemArgs:
                  data_dir: Optional[pulumi.Input[str]] = None,
                  env: Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]] = None,
                  service_config: Optional[pulumi.Input[str]] = None,
+                 service_enabled: Optional[pulumi.Input[bool]] = None,
                  user: Optional[pulumi.Input[str]] = None,
                  work_dir: Optional[pulumi.Input[str]] = None):
         """
@@ -257,6 +258,7 @@ class SystemArgs:
         :param pulumi.Input[str] data_dir: Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
         :param pulumi.Input[Mapping[str, pulumi.Input[str]]] env: Environment variables for AEM instances.
         :param pulumi.Input[str] service_config: Contents of the AEM system service definition file (systemd).
+        :param pulumi.Input[bool] service_enabled: Enabled the AEM system service (systemd).
         :param pulumi.Input[str] user: System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
         :param pulumi.Input[str] work_dir: Remote root path where provider-related files will be stored.
         """
@@ -268,6 +270,8 @@ class SystemArgs:
             pulumi.set(__self__, "env", env)
         if service_config is not None:
             pulumi.set(__self__, "service_config", service_config)
+        if service_enabled is not None:
+            pulumi.set(__self__, "service_enabled", service_enabled)
         if user is not None:
             pulumi.set(__self__, "user", user)
         if work_dir is not None:
@@ -320,6 +324,18 @@ class SystemArgs:
     @service_config.setter
     def service_config(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "service_config", value)
+
+    @property
+    @pulumi.getter
+    def service_enabled(self) -> Optional[pulumi.Input[bool]]:
+        """
+        Enabled the AEM system service (systemd).
+        """
+        return pulumi.get(self, "service_enabled")
+
+    @service_enabled.setter
+    def service_enabled(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "service_enabled", value)
 
     @property
     @pulumi.getter

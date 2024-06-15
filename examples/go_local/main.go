@@ -24,8 +24,9 @@ func main() {
 				Settings: pulumi.StringMap{},
 			},
 			System: compose.SystemArgs{
-				Data_dir: pulumi.String(composeDir),
-				Work_dir: pulumi.String(workDir),
+				Data_dir:        pulumi.String(composeDir),
+				Work_dir:        pulumi.String(workDir),
+				Service_enabled: pulumi.Bool(false),
 				Bootstrap: compose.InstanceScriptArgs{
 					Inline: pulumi.StringArray{},
 				},
