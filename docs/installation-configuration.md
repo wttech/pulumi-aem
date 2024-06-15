@@ -10,7 +10,7 @@ The AEM provider is available as a package in following Pulumi languages:
 
 * JavaScript/TypeScript: [`@wttech/aem`](https://www.npmjs.com/package/@wttech/aem)
 * Python: [`wttech_aem`](https://pypi.org/project/wttech-aem/)
-* Go: [`github.com/wttech/pulumi-aem/sdk/go/aem`](https://pkg.go.dev/github.com/wttech/pulumi-aem/sdk)
+* Go: [`github.com/wttech/pulumi-aem/sdk/v0/go/aem`](https://pkg.go.dev/github.com/wttech/pulumi-aem/sdk/v0)
 * .NET: [`WTTech.Aem`](https://www.nuget.org/packages/WTTech.Aem)
 
 ## Setup

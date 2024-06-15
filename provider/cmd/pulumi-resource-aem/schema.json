@@ -1,7 +1,7 @@
 {
   "name": "aem",
   "displayName": "Adobe Experience Manager",
-  "version": "0.1.2-alpha.1717632695+85d1fce1",
+  "version": "0.1.2-alpha.1718457163+fe3b80af",
   "description": "Easily manage Adobe Experience Manager (AEM) instances in the cloud without a deep dev-ops knowledge",
   "keywords": [
     "pulumi",
@@ -25,7 +25,7 @@
       "rootNamespace": "WTTech"
     },
     "go": {
-      "importBasePath": "github.com/wttech/pulumi-aem/sdk/go/aem",
+      "importBasePath": "github.com/wttech/pulumi-aem/sdk/v0/go/aem",
       "generateResourceContainerTypes": true
     },
     "nodejs": {
