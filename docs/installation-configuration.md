@@ -25,7 +25,7 @@ Replace the version string with your desired version.
 
 ## Setup
 
-To provision resources with the Pulumi Adobe Experience Manager provider, you need to have correct configuration towards your AWS or other cloud controller.
+To provision resources with the Adobe Experience Manager provider, you need to have correct configuration towards your AWS or other cloud controller.
 
 ### Set environment variables
 

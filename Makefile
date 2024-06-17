@@ -1,4 +1,4 @@
-PROJECT_NAME := Pulumi Adobe Experience Manager Provider
+PROJECT_NAME := Adobe Experience Manager Provider
 
 PACK             := aem
 MOD              := compose
