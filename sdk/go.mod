@@ -8,7 +8,8 @@ require (
 )
 
 retract (
-	[v0.9.0,v0.9.99]
+	[v0.9.0, v0.9.99]
+	v0.0.1
 )
 
 require (
