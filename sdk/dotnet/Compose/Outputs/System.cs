@@ -35,6 +35,10 @@ namespace WTTech.Aem.Compose.Outputs
         /// </summary>
         public readonly bool? Service_enabled;
         /// <summary>
+        /// Name of the AEM system service (systemd).
+        /// </summary>
+        public readonly string? Service_name;
+        /// <summary>
         /// System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
         /// </summary>
         public readonly string? User;
@@ -55,6 +59,8 @@ namespace WTTech.Aem.Compose.Outputs
 
             bool? service_enabled,
 
+            string? service_name,
+
             string? user,
 
             string? work_dir)
@@ -64,6 +70,7 @@ namespace WTTech.Aem.Compose.Outputs
             Env = env;
             Service_config = service_config;
             Service_enabled = service_enabled;
+            Service_name = service_name;
             User = user;
             Work_dir = work_dir;
         }

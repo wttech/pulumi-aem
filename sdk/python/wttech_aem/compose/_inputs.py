@@ -251,6 +251,7 @@ class SystemArgs:
                  env: Optional[pulumi.Input[Mapping[str, pulumi.Input[str]]]] = None,
                  service_config: Optional[pulumi.Input[str]] = None,
                  service_enabled: Optional[pulumi.Input[bool]] = None,
+                 service_name: Optional[pulumi.Input[str]] = None,
                  user: Optional[pulumi.Input[str]] = None,
                  work_dir: Optional[pulumi.Input[str]] = None):
         """
@@ -259,6 +260,7 @@ class SystemArgs:
         :param pulumi.Input[Mapping[str, pulumi.Input[str]]] env: Environment variables for AEM instances.
         :param pulumi.Input[str] service_config: Contents of the AEM system service definition file (systemd).
         :param pulumi.Input[bool] service_enabled: Enabled the AEM system service (systemd).
+        :param pulumi.Input[str] service_name: Name of the AEM system service (systemd).
         :param pulumi.Input[str] user: System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
         :param pulumi.Input[str] work_dir: Remote root path where provider-related files will be stored.
         """
@@ -272,6 +274,8 @@ class SystemArgs:
             pulumi.set(__self__, "service_config", service_config)
         if service_enabled is not None:
             pulumi.set(__self__, "service_enabled", service_enabled)
+        if service_name is not None:
+            pulumi.set(__self__, "service_name", service_name)
         if user is not None:
             pulumi.set(__self__, "user", user)
         if work_dir is not None:
@@ -336,6 +340,18 @@ class SystemArgs:
     @service_enabled.setter
     def service_enabled(self, value: Optional[pulumi.Input[bool]]):
         pulumi.set(self, "service_enabled", value)
+
+    @property
+    @pulumi.getter
+    def service_name(self) -> Optional[pulumi.Input[str]]:
+        """
+        Name of the AEM system service (systemd).
+        """
+        return pulumi.get(self, "service_name")
+
+    @service_name.setter
+    def service_name(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "service_name", value)
 
     @property
     @pulumi.getter

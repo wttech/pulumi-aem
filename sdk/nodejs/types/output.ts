@@ -116,6 +116,10 @@ export namespace compose {
          */
         service_enabled?: boolean;
         /**
+         * Name of the AEM system service (systemd).
+         */
+        service_name?: string;
+        /**
          * System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
          */
         user?: string;

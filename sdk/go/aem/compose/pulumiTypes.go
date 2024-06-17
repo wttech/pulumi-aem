@@ -579,6 +579,8 @@ type System struct {
 	Service_config *string `pulumi:"service_config"`
 	// Enabled the AEM system service (systemd).
 	Service_enabled *bool `pulumi:"service_enabled"`
+	// Name of the AEM system service (systemd).
+	Service_name *string `pulumi:"service_name"`
 	// System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
 	User *string `pulumi:"user"`
 	// Remote root path where provider-related files will be stored.
@@ -607,6 +609,8 @@ type SystemArgs struct {
 	Service_config pulumi.StringPtrInput `pulumi:"service_config"`
 	// Enabled the AEM system service (systemd).
 	Service_enabled pulumi.BoolPtrInput `pulumi:"service_enabled"`
+	// Name of the AEM system service (systemd).
+	Service_name pulumi.StringPtrInput `pulumi:"service_name"`
 	// System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
 	User pulumi.StringPtrInput `pulumi:"user"`
 	// Remote root path where provider-related files will be stored.
@@ -715,6 +719,11 @@ func (o SystemOutput) Service_enabled() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v System) *bool { return v.Service_enabled }).(pulumi.BoolPtrOutput)
 }
 
+// Name of the AEM system service (systemd).
+func (o SystemOutput) Service_name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v System) *string { return v.Service_name }).(pulumi.StringPtrOutput)
+}
+
 // System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
 func (o SystemOutput) User() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v System) *string { return v.User }).(pulumi.StringPtrOutput)
@@ -797,6 +806,16 @@ func (o SystemPtrOutput) Service_enabled() pulumi.BoolPtrOutput {
 		}
 		return v.Service_enabled
 	}).(pulumi.BoolPtrOutput)
+}
+
+// Name of the AEM system service (systemd).
+func (o SystemPtrOutput) Service_name() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *System) *string {
+		if v == nil {
+			return nil
+		}
+		return v.Service_name
+	}).(pulumi.StringPtrOutput)
 }
 
 // System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.

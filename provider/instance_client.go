@@ -85,8 +85,15 @@ func (ic *InstanceClient) create() error {
 	return nil
 }
 
+func (ic *InstanceClient) serviceName() string {
+	if ic.data.System.ServiceName != "" {
+		return ic.data.System.ServiceName
+	}
+	return ServiceName
+}
+
 func (ic *InstanceClient) saveProfileScript() error {
-	envFile := fmt.Sprintf("/etc/profile.d/%s.sh", ServiceName)
+	envFile := fmt.Sprintf("/etc/profile.d/%s.sh", ic.serviceName())
 
 	systemEnvMap := ic.data.System.Env
 
@@ -104,7 +111,7 @@ func (ic *InstanceClient) saveProfileScript() error {
 }
 
 func (ic *InstanceClient) configureService() error {
-	if !ic.data.System.ServiceEnabled || ic.data.Client.Type == "local" {
+	if !ic.data.System.ServiceEnabled {
 		return nil
 	}
 
@@ -124,7 +131,7 @@ func (ic *InstanceClient) configureService() error {
 	if err != nil {
 		return fmt.Errorf("unable to template AEM system service definition: %w", err)
 	}
-	serviceFile := fmt.Sprintf("/etc/systemd/system/%s.service", ServiceName)
+	serviceFile := fmt.Sprintf("/etc/systemd/system/%s.service", ic.serviceName())
 	if err := ic.cl.FileWrite(serviceFile, serviceTemplated); err != nil {
 		return fmt.Errorf("unable to write AEM system service definition '%s': %w", serviceFile, err)
 	}
@@ -136,14 +143,14 @@ func (ic *InstanceClient) configureService() error {
 }
 
 func (ic *InstanceClient) runServiceAction(action string) error {
-	if !ic.data.System.ServiceEnabled || ic.data.Client.Type == "local" {
+	if !ic.data.System.ServiceEnabled {
 		return nil
 	}
 
 	ic.cl.Sudo = true
 	defer func() { ic.cl.Sudo = false }()
 
-	outBytes, err := ic.cl.RunShellCommand(fmt.Sprintf("systemctl %s %s.service", action, ServiceName), ".")
+	outBytes, err := ic.cl.RunShellCommand(fmt.Sprintf("systemctl %s %s.service", action, ic.serviceName()), ".")
 	if err != nil {
 		return fmt.Errorf("unable to perform AEM system service action '%s': %w", action, err)
 	}

@@ -1,6 +1,6 @@
 {
   "name": "aem",
-  "version": "0.1.2-alpha.1718453175+e73fab23",
+  "version": "0.1.2-alpha.1718453293+5c68305a.dirty",
   "description": "Easily manage AEM instances in the cloud without a deep dev-ops knowledge",
   "keywords": [
     "pulumi",
@@ -194,6 +194,10 @@
         "service_enabled": {
           "type": "boolean",
           "description": "Enabled the AEM system service (systemd)."
+        },
+        "service_name": {
+          "type": "string",
+          "description": "Name of the AEM system service (systemd)."
         },
         "user": {
           "type": "string",
