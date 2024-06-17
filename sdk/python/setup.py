@@ -21,7 +21,7 @@ def readme():
 setup(name='wttech_aem',
       python_requires='>=3.8',
       version=VERSION,
-      description="Easily manage Adobe Experience Manager (AEM) instances in the cloud without a deep dev-ops knowledge",
+      description="Easily manage Adobe Experience Manager instances in the cloud without a deep dev-ops knowledge",
       long_description=readme(),
       long_description_content_type='text/markdown',
       keywords='pulumi aem aemc category/cloud',

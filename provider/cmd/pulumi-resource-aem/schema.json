@@ -1,8 +1,8 @@
 {
   "name": "aem",
   "displayName": "Adobe Experience Manager",
-  "version": "0.1.2-alpha.1717632695+85d1fce1",
-  "description": "Easily manage Adobe Experience Manager (AEM) instances in the cloud without a deep dev-ops knowledge",
+  "version": "0.1.2-alpha.1718635808+2feb6b9e",
+  "description": "Easily manage Adobe Experience Manager instances in the cloud without a deep dev-ops knowledge",
   "keywords": [
     "pulumi",
     "aem",

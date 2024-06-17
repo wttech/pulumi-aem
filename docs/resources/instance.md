@@ -1,12 +1,12 @@
 ---
-page_title: "AEM Provider - Resource 'aem_instance'"
+page_title: "Adobe Experience Manager Provider - Resource 'aem_instance'"
 subcategory: ""
 ---
 
 [![AEM Compose Logo](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/logo-with-text.png)](https://github.com/wttech/aemc)
 [![WTT Logo](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/wtt-logo.png)](https://www.wundermanthompson.com/service/technology)
 
-# AEM Provider - Resource 'aem_instance'
+# Adobe Experience Manager Provider - Resource 'aem_instance'
 
 The instance resource allows you to create and manage AEM instances.
 

@@ -1,14 +1,14 @@
 ---
-page_title: "AEM Provider"
+page_title: "Adobe Experience Manager Provider"
 subcategory: ""
 ---
 
 [![AEM Compose Logo](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/logo-with-text.png)](https://github.com/wttech/aemc)
 [![WTT Logo](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/wtt-logo.png)](https://www.wundermanthompson.com/service/technology)
 
-# AEM Provider
+# Adobe Experience Manager Provider
 
-This provider allows developers and development teams to easily set up [Adobe Experience Manager (AEM)](https://business.adobe.com/products/experience-manager/adobe-experience-manager.html) instances on virtual machines in the cloud (AWS, Azure, GCP, etc.) or bare metal machines.
+This provider allows developers and development teams to easily set up [Adobe Experience Manager](https://business.adobe.com/products/experience-manager/adobe-experience-manager.html) instances on virtual machines in the cloud (AWS, Azure, GCP, etc.) or bare metal machines.
 It's based on the [AEM Compose](https://github.com/wttech/aemc) tool and aims to simplify the process of creating AEM environments without requiring deep DevOps knowledge.
 
 ## Purpose
