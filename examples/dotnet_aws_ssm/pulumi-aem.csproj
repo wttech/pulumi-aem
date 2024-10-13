@@ -9,7 +9,7 @@
 	<ItemGroup>
 		<PackageReference Include="Pulumi" Version="3.*" />
 		<PackageReference Include="Pulumi.Aws" Version="3.*" />
-		<PackageReference Include="WTTech.Aem" Version="0.1.1" />
+		<PackageReference Include="WTTech.Aem" Version="0.1.3" />
 	</ItemGroup>
 
 </Project>
