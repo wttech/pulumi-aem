@@ -22,6 +22,9 @@ ensure::
 	cd provider && go mod tidy
 	cd sdk && go mod tidy
 	cd tests && go mod tidy
+	cd examples/go_aws_ssm && go mod tidy
+	cd examples/go_aws_ssh && go mod tidy
+	cd examples/go_bare_metal && go mod tidy
 
 provider::
 	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
