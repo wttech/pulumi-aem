@@ -153,3 +153,6 @@ install_go_sdk::
 
 install_nodejs_sdk::
 	yarn link --cwd $(WORKING_DIR)/sdk/nodejs/bin
+
+lint_provider:: provider # lint the provider code
+	cd provider && golangci-lint run -c ../.golangci.yml

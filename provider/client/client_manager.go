@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/cast"
 )
 
-func (c ClientManager) Make(typeName string, settings map[string]string) (*Client, error) {
+func (c Manager) Make(typeName string, settings map[string]string) (*Client, error) {
 	connection, err := c.connection(typeName, settings)
 	if err != nil {
 		return nil, err
@@ -20,7 +20,7 @@ func (c ClientManager) Make(typeName string, settings map[string]string) (*Clien
 	}, nil
 }
 
-func (c ClientManager) Use(typeName string, settings map[string]string, callback func(c Client) error) error {
+func (c Manager) Use(typeName string, settings map[string]string, callback func(c Client) error) error {
 	client, err := c.Make(typeName, settings)
 	if err != nil {
 		return err
@@ -28,7 +28,7 @@ func (c ClientManager) Use(typeName string, settings map[string]string, callback
 	return client.Use(callback)
 }
 
-func (c ClientManager) connection(typeName string, settings map[string]string) (Connection, error) {
+func (c Manager) connection(typeName string, settings map[string]string) (Connection, error) {
 	switch typeName {
 	case "ssh":
 		return &SSHConnection{
@@ -52,6 +52,6 @@ func (c ClientManager) connection(typeName string, settings map[string]string) (
 	return nil, fmt.Errorf("unknown AEM client type: %s", typeName)
 }
 
-type ClientManager struct{}
+type Manager struct{}
 
-var ClientManagerDefault = &ClientManager{}
+var ManagerDefault = &Manager{}

@@ -16,7 +16,7 @@ type AWSSSMConnection struct {
 	instanceID           string
 	region               string
 	client               *ssm.Client
-	sessionId            *string
+	sessionID            *string
 	context              context.Context
 	commandOutputTimeout time.Duration
 	commandWaitMax       time.Duration
@@ -68,13 +68,13 @@ func (a *AWSSSMConnection) Connect() error {
 	}
 
 	a.client = client
-	a.sessionId = sessionOut.SessionId
+	a.sessionID = sessionOut.SessionId
 
 	return nil
 }
 
 func (a *AWSSSMConnection) Disconnect() error {
-	sessionIn := &ssm.TerminateSessionInput{SessionId: a.sessionId}
+	sessionIn := &ssm.TerminateSessionInput{SessionId: a.sessionID}
 	_, err := a.client.TerminateSession(a.context, sessionIn)
 	if err != nil {
 		return fmt.Errorf("ssm: error terminating session: %v", err)
@@ -97,9 +97,9 @@ func (a *AWSSSMConnection) Command(cmdLine []string) ([]byte, error) {
 		return nil, fmt.Errorf("ssm: error executing command: %v", err)
 	}
 
-	commandId := runOut.Command.CommandId
+	commandID := runOut.Command.CommandId
 	invocationIn := &ssm.GetCommandInvocationInput{
-		CommandId:  commandId,
+		CommandId:  commandID,
 		InstanceId: aws.String(a.instanceID),
 	}
 	var optFns []func(opt *ssm.CommandExecutedWaiterOptions)

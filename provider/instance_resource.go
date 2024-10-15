@@ -11,12 +11,12 @@ import (
 
 func NewInstanceResource() *InstanceResource {
 	return &InstanceResource{
-		clientManager: client.ClientManagerDefault,
+		clientManager: client.ManagerDefault,
 	}
 }
 
 type InstanceResource struct {
-	clientManager *client.ClientManager
+	clientManager *client.Manager
 }
 
 func (r *InstanceResource) Create(ctx p.Context, model InstanceArgs) (*InstanceStatus, error) {

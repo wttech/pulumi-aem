@@ -13,6 +13,7 @@ import (
 	"github.com/wttech/pulumi-aem/provider/instance"
 )
 
+// Version is initialized by the Go linker to contain the semver of this build.
 var Version string
 
 const Name string = "aem"
@@ -199,6 +200,7 @@ func (Instance) Create(ctx p.Context, name string, input InstanceArgs, preview b
 	return name, state, nil
 }
 
+//nolint:revive
 func (Instance) Update(ctx p.Context, id string, oldState InstanceState, input InstanceArgs, preview bool) (InstanceState, error) {
 	if preview {
 		return oldState, nil
@@ -227,6 +229,7 @@ func (Instance) Update(ctx p.Context, id string, oldState InstanceState, input I
 	return state, nil
 }
 
+//nolint:revive
 func (Instance) Delete(ctx p.Context, id string, props InstanceState) error {
 	instanceResource := NewInstanceResource()
 	if err := instanceResource.Delete(ctx, props.InstanceArgs); err != nil {
@@ -236,6 +239,7 @@ func (Instance) Delete(ctx p.Context, id string, props InstanceState) error {
 	return nil
 }
 
+//nolint:revive
 func (Instance) Check(ctx p.Context, name string, oldInputs, newInputs resource.PropertyMap) (InstanceArgs, []p.CheckFailure, error) {
 	inputs := determineInputs(newInputs, "client")
 	setDefaultValue(inputs, "credentials", resource.NewObjectProperty(resource.PropertyMap{}))
@@ -266,11 +270,10 @@ func (Instance) Check(ctx p.Context, name string, oldInputs, newInputs resource.
 func determineInputs(allInputs resource.PropertyMap, key resource.PropertyKey) resource.PropertyMap {
 	if inputs, ok := allInputs[key]; ok {
 		return inputs.V.(resource.PropertyMap)
-	} else {
-		inputs = resource.NewObjectProperty(resource.PropertyMap{})
-		allInputs[key] = inputs
-		return inputs.V.(resource.PropertyMap)
 	}
+	inputs := resource.NewObjectProperty(resource.PropertyMap{})
+	allInputs[key] = inputs
+	return inputs.V.(resource.PropertyMap)
 }
 
 func setDefaultValue(inputs resource.PropertyMap, key resource.PropertyKey, value resource.PropertyValue) {

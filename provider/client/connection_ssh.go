@@ -52,6 +52,7 @@ func (s *SSHConnection) Connect() error {
 	if s.secure {
 		callback = ssh.FixedHostKey(signer.PublicKey())
 	} else {
+		//nolint:gosec
 		callback = ssh.InsecureIgnoreHostKey()
 	}
 	client, err := goph.NewConn(&goph.Config{

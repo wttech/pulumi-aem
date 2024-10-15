@@ -7,4 +7,4 @@ import (
 )
 
 // Serve the provider against Pulumi's Provider protocol.
-func main() { p.RunProvider(aem.Name, aem.Version, aem.Provider()) }
+func main() { _ = p.RunProvider(aem.Name, aem.Version, aem.Provider()) }
