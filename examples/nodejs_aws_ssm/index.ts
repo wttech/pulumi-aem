@@ -111,6 +111,5 @@ const aemInstance = new aem.compose.Instance("aem_instance", {
 }, {dependsOn: [instance, volumeAttachment]});
 
 export const output = {
-    instanceIp: instance.publicIp,
     aemInstances: aemInstance.instances,
 };
