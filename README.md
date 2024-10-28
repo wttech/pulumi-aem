@@ -12,7 +12,7 @@ Published in [Pulumi Registry](https://www.pulumi.com/registry/packages/aem/).
 
 # References
 
-* Talk at AdaptTo 2024 Conference - [First-ever IaC Providers for AEM](https://adapt.to/2024/schedule/lightning-talks/first-ever-iaac-providers-for-aem) by [Krystian Panek](mailto:krystian.panek@wundermanthompson.com)
+* Talk at AdaptTo 2024 Conference - [First-ever IaC Providers for AEM](https://adapt.to/2024/schedule/lightning-talks/first-ever-iaac-providers-for-aem) by [Krystian Panek](mailto:krystian.panek@vml.com)
 
 ## Purpose
 
