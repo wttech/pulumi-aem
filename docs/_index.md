@@ -1,12 +1,12 @@
 ---
-title: AEM
-meta_desc: Provides an overview of the AEM Provider for Pulumi.
+title: Adobe Experience Manager Provider
+meta_desc: Provides an overview of the Adobe Experience Manager Provider for Pulumi.
 layout: package
 ---
 
-## AEM Provider for Pulumi
+## Adobe Experience Manager Provider for Pulumi
 
-This provider allows development teams to easily set up [Adobe Experience Manager (AEM)](https://business.adobe.com/products/experience-manager/adobe-experience-manager.html) instances on virtual machines in the cloud (AWS, Azure, GCP, etc.) or bare metal machines.
+This provider allows development teams to easily set up [Adobe Experience Manager](https://business.adobe.com/products/experience-manager/adobe-experience-manager.html) instances on virtual machines in the cloud (AWS, Azure, GCP, etc.) or bare metal machines.
 It's based on the [AEM Compose](https://github.com/wttech/aemc) tool and aims to simplify the process of creating AEM environments without requiring deep DevOps knowledge.
 
 ## Example

@@ -4,7 +4,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Pulumi Corp.</Authors>
     <Company>Pulumi Corp.</Company>
-    <Description>Easily manage AEM instances in the cloud without a deep dev-ops knowledge</Description>
+    <Description>Easily manage Adobe Experience Manager instances in the cloud without a deep dev-ops knowledge</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wttech/pulumi-aem</PackageProjectUrl>
     <RepositoryUrl>https://github.com/wttech/pulumi-aem</RepositoryUrl>

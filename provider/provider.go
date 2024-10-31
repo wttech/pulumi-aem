@@ -31,8 +31,9 @@ func Provider() p.Provider {
 			Repository:        "https://github.com/wttech/pulumi-aem",
 			License:           "Apache-2.0",
 			LogoURL:           "https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/logo.175.png",
-			Description:       "Easily manage AEM instances in the cloud without a deep dev-ops knowledge",
-			Keywords:          []string{"pulumi", "aem", "aemc", "cloud"},
+			Description:       "Easily manage Adobe Experience Manager instances in the cloud without a deep dev-ops knowledge",
+			DisplayName:       "Adobe Experience Manager",
+			Keywords:          []string{"pulumi", "aem", "aemc", "category/cloud"},
 			LanguageMap: map[string]any{
 				"nodejs": nodejsGen.NodePackageInfo{
 					PackageName: "@wttech/aem",

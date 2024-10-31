@@ -1,10 +1,10 @@
 module github.com/wttech/pulumi-aem/examples/go_aws_ssh
 
-go 1.21
+go 1.20
 
 require (
 	github.com/pulumi/pulumi/sdk/v3 v3.104.2
-	github.com/wttech/pulumi-aem/sdk v0.1.1
+	github.com/wttech/pulumi-aem/sdk v0.1.3
 )
 
 require (

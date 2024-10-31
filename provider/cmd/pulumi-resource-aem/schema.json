@@ -1,12 +1,13 @@
 {
   "name": "aem",
-  "version": "0.1.2-alpha.1718453293+5c68305a.dirty",
-  "description": "Easily manage AEM instances in the cloud without a deep dev-ops knowledge",
+  "displayName": "Adobe Experience Manager",
+  "version": "0.1.2-alpha.1718635808+2feb6b9e",
+  "description": "Easily manage Adobe Experience Manager instances in the cloud without a deep dev-ops knowledge",
   "keywords": [
     "pulumi",
     "aem",
     "aemc",
-    "cloud"
+    "category/cloud"
   ],
   "homepage": "https://github.com/wttech/pulumi-aem",
   "license": "Apache-2.0",

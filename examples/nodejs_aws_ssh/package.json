@@ -8,6 +8,6 @@
     "fs": "0.0.1-security",
     "@pulumi/aws": "^3.0.0",
     "@pulumi/pulumi": "^3.0.0",
-    "@wttech/aem": "0.1.1"
+    "@wttech/aem": "0.1.3"
   }
 }

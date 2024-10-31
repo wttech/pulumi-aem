@@ -5,10 +5,14 @@
 
 # AEM Compose - Pulumi Native Provider
 
-This provider allows development teams to easily set up [Adobe Experience Manager (AEM)](https://business.adobe.com/products/experience-manager/adobe-experience-manager.html) instances on virtual machines in the cloud (AWS, Azure, GCP, etc.) or bare metal machines.
+This provider allows development teams to easily set up [Adobe Experience Manager](https://business.adobe.com/products/experience-manager/adobe-experience-manager.html) instances on virtual machines in the cloud (AWS, Azure, GCP, etc.) or bare metal machines.
 It's based on the [AEM Compose](https://github.com/wttech/aemc) tool and aims to simplify the process of creating AEM environments without requiring deep DevOps knowledge.
 
 Published in [Pulumi Registry](https://www.pulumi.com/registry/packages/aem/).
+
+# References
+
+* Talk at AdaptTo 2024 Conference - [First-ever IaC Providers for AEM](https://adapt.to/2024/schedule/lightning-talks/first-ever-iaac-providers-for-aem) by [Krystian Panek](mailto:krystian.panek@vml.com)
 
 ## Purpose
 
@@ -73,7 +77,7 @@ If you are not using VSCode, you will need to ensure the following tools are ins
 * [.NET](https://dotnet.microsoft.com/download)
 
 
-#### Build & test the AEM provider
+#### Build & test the Adobe Experience Manager provider
 
 1. Create a new Github CodeSpaces environment using this repository.
 1. Open a terminal in the CodeSpaces environment.

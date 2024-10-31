@@ -1,6 +1,6 @@
 module github.com/wttech/pulumi-aem/sdk
 
-go 1.21
+go 1.20
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
@@ -8,7 +8,8 @@ require (
 )
 
 retract (
-	[v0.9.0,v0.9.99]
+	[v0.9.0, v0.9.99]
+	v0.0.1
 )
 
 require (
