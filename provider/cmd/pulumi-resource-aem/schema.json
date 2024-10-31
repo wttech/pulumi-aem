@@ -192,6 +192,14 @@
           "type": "string",
           "description": "Contents of the AEM system service definition file (systemd)."
         },
+        "service_enabled": {
+          "type": "boolean",
+          "description": "Enabled the AEM system service (systemd)."
+        },
+        "service_name": {
+          "type": "string",
+          "description": "Name of the AEM system service (systemd)."
+        },
         "user": {
           "type": "string",
           "description": "System user under which AEM instance will be running. By default, the same as the user used to connect to the machine."

@@ -24,19 +24,6 @@ func (c Client) TypeName() string {
 	return c.typeName
 }
 
-func (c Client) Use(callback func(c Client) error) error {
-	if err := c.Connect(); err != nil {
-		return err
-	}
-	if err := callback(c); err != nil {
-		return err
-	}
-	if err := c.Disconnect(); err != nil {
-		return err
-	}
-	return nil
-}
-
 func (c Client) Connect() error {
 	return c.connection.Connect()
 }

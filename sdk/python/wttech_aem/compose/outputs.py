@@ -273,6 +273,8 @@ class System(dict):
                  data_dir: Optional[str] = None,
                  env: Optional[Mapping[str, str]] = None,
                  service_config: Optional[str] = None,
+                 service_enabled: Optional[bool] = None,
+                 service_name: Optional[str] = None,
                  user: Optional[str] = None,
                  work_dir: Optional[str] = None):
         """
@@ -280,6 +282,8 @@ class System(dict):
         :param str data_dir: Remote root path in which AEM Compose files and unpacked AEM instances will be stored.
         :param Mapping[str, str] env: Environment variables for AEM instances.
         :param str service_config: Contents of the AEM system service definition file (systemd).
+        :param bool service_enabled: Enabled the AEM system service (systemd).
+        :param str service_name: Name of the AEM system service (systemd).
         :param str user: System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
         :param str work_dir: Remote root path where provider-related files will be stored.
         """
@@ -291,6 +295,10 @@ class System(dict):
             pulumi.set(__self__, "env", env)
         if service_config is not None:
             pulumi.set(__self__, "service_config", service_config)
+        if service_enabled is not None:
+            pulumi.set(__self__, "service_enabled", service_enabled)
+        if service_name is not None:
+            pulumi.set(__self__, "service_name", service_name)
         if user is not None:
             pulumi.set(__self__, "user", user)
         if work_dir is not None:
@@ -327,6 +335,22 @@ class System(dict):
         Contents of the AEM system service definition file (systemd).
         """
         return pulumi.get(self, "service_config")
+
+    @property
+    @pulumi.getter
+    def service_enabled(self) -> Optional[bool]:
+        """
+        Enabled the AEM system service (systemd).
+        """
+        return pulumi.get(self, "service_enabled")
+
+    @property
+    @pulumi.getter
+    def service_name(self) -> Optional[str]:
+        """
+        Name of the AEM system service (systemd).
+        """
+        return pulumi.get(self, "service_name")
 
     @property
     @pulumi.getter

@@ -85,6 +85,14 @@ export namespace compose {
          */
         service_config?: pulumi.Input<string>;
         /**
+         * Enabled the AEM system service (systemd).
+         */
+        service_enabled?: pulumi.Input<boolean>;
+        /**
+         * Name of the AEM system service (systemd).
+         */
+        service_name?: pulumi.Input<string>;
+        /**
          * System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
          */
         user?: pulumi.Input<string>;

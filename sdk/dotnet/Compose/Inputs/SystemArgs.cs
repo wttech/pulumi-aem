@@ -44,6 +44,18 @@ namespace WTTech.Aem.Compose.Inputs
         public Input<string>? Service_config { get; set; }
 
         /// <summary>
+        /// Enabled the AEM system service (systemd).
+        /// </summary>
+        [Input("service_enabled")]
+        public Input<bool>? Service_enabled { get; set; }
+
+        /// <summary>
+        /// Name of the AEM system service (systemd).
+        /// </summary>
+        [Input("service_name")]
+        public Input<string>? Service_name { get; set; }
+
+        /// <summary>
         /// System user under which AEM instance will be running. By default, the same as the user used to connect to the machine.
         /// </summary>
         [Input("user")]
