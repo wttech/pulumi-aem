@@ -1,5 +1,5 @@
 <p align="center">
-<a href="https://github.com/wttech/aemc"><picture><source srcset="docs/logo-with-text-white.png" media="(prefers-color-scheme: dark)"><img src="docs/logo-with-text.png" alt="AEM Compose Logo" height="80"></picture></a>
+<a href="https://github.com/wttech/aemc"><picture><source srcset="docs/logo-with-text-white.png" media="(prefers-color-scheme: dark)"><img src="docs/logo-with-text.png" alt="AEM Compose Logo" height="100"></picture></a>
 </p>
 
 <p align="center">
