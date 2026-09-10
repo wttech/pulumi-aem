@@ -4,7 +4,7 @@ subcategory: ""
 ---
 
 [![AEM Compose Logo](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/logo-with-text.png)](https://github.com/wttech/aemc)
-[![WTT Logo](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/wtt-logo.png)](https://www.wundermanthompson.com/service/technology)
+<a href="https://enterprisesolutions.wpp.com/" target="_blank"><picture><source srcset="https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/wpp-es-primary-white.svg" media="(prefers-color-scheme: dark)"><img src="https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/wpp-es-primary-navy.svg" alt="WPP Enterprise Solutions" height="100"></picture></a>
 
 # Adobe Experience Manager Provider
 
