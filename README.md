@@ -1,8 +1,10 @@
-<a href="https://github.com/wttech/aemc"><picture><source srcset="https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/logo-with-text-white.png" media="(prefers-color-scheme: dark)"><img src="https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/logo-with-text.png" alt="AEM Compose Logo" height="48"></picture></a>
-&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://enterprisesolutions.wpp.com/" target="_blank"><picture><source srcset="https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/wpp-es-primary-white.svg" media="(prefers-color-scheme: dark)"><img src="https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/wpp-es-primary-navy.svg" alt="WPP Enterprise Solutions" height="48"></picture></a>
+<a href="https://github.com/wttech/aemc"><picture><source srcset="docs/logo-with-text-white.png" media="(prefers-color-scheme: dark)"><img src="docs/logo-with-text.png" alt="AEM Compose Logo" height="64"></picture></a>
+<br>
+<a href="https://enterprisesolutions.wpp.com/" target="_blank"><picture><source srcset="docs/wpp-es-primary-white.svg" media="(prefers-color-scheme: dark)"><img src="docs/wpp-es-primary-navy.svg" alt="WPP Enterprise Solutions" height="40"></picture></a>
 
-[![Apache License, Version 2.0, January 2004](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/apache-license-badge.svg)](http://www.apache.org/licenses/)
+<br>
+
+[![Apache License, Version 2.0, January 2004](docs/apache-license-badge.svg)](http://www.apache.org/licenses/)
 
 # AEM Compose - Pulumi Native Provider
 
