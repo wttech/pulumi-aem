@@ -1,7 +1,23 @@
-[![AEM Compose Logo](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/logo-with-text.png)](https://github.com/wttech/aemc)
-[![WTT Logo](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/wtt-logo.png)](https://www.wundermanthompson.com/service/technology)
+<p align="center">
+<a href="https://github.com/wttech/aemc"><picture><source srcset="docs/logo-with-text-white.png" media="(prefers-color-scheme: dark)"><img src="docs/logo-with-text.png" alt="AEM Compose Logo" height="100"></picture></a>
+</p>
 
-[![Apache License, Version 2.0, January 2004](https://raw.githubusercontent.com/wttech/pulumi-aem/main/docs/apache-license-badge.svg)](http://www.apache.org/licenses/)
+<p align="center">
+<strong>Set up AEM environments in the cloud.</strong><br>
+Pulumi Provider · AWS · Azure · GCP
+</p>
+
+<p align="center">
+<a href="http://www.apache.org/licenses/"><img src="docs/apache-license-badge.svg" alt="Apache License, Version 2.0, January 2004"></a>
+<br>
+<sub>Proudly sponsored by:</sub>
+<br><br>
+<a href="https://enterprisesolutions.wpp.com/" target="_blank">
+<picture><source srcset="docs/wpp-es-primary-white.svg" media="(prefers-color-scheme: dark)"><img src="docs/wpp-es-primary-navy.svg" alt="WPP Enterprise Solutions" height="20"></picture>
+</a>
+</p>
+
+---
 
 # AEM Compose - Pulumi Native Provider
 
